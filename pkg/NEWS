@@ -1,3 +1,8 @@
+1.5-7 (2011-10-05)
+  * Changed the maintainer to "Charles Roosen".
+  * Created an "xtable" project on R-Forge.
+  * This release is primarily checking the R-Forge build/release process.
+
 1.5-6 (2009-10-30)
   * Support caption at the top in the LaTeX longtable.
   * Use options()$OutDec for decimal mark.
