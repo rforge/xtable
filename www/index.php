@@ -33,6 +33,8 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 <!-- get project title  -->
 <!-- own website starts here, the following may be changed as you like -->
 
+<H1>Overview</H1>
+
 <?php if ($handle=fopen('http://'.$domain.'/export/projtitl.php?group_name='.$group_name,'r')){
 $contents = '';
 while (!feof($handle)) {
@@ -41,12 +43,31 @@ while (!feof($handle)) {
 fclose($handle);
 echo $contents; } ?>
 
-<!-- end of project description -->
-<!--
-<p> No content added. </p>
--->
+<p> The <strong>project summary page</strong> is <a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/"><strong>here</strong></a>. </p>
 
-<p> The <strong>project summary page</strong> you can find <a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/"><strong>here</strong></a>. </p>
+<P> The <strong>CRAN package page</strong> is <a href="http://cran.r-project.org/web/packages/xtable/index.html"><strong>here</strong></a>.
+
+<!-- end of project description -->
+
+<H1>Feature Requests, Bugs, and Support</H1>
+
+The <bd>xtable</bd> project is hosted on <a href="http://r-forge.r-project.org/projects/xtable/">R-Forge</a>.
+
+The project web site includes a <a href="https://r-forge.r-project.org/tracker/?group_id=1228">Tracker</a>
+issue tracking system with sections for:
+
+<ul>
+	<li><a href="https://r-forge.r-project.org/tracker/?atid=4862&group_id=1228&func=browse">Support</a></li>
+	<li><a href="https://r-forge.r-project.org/tracker/?atid=4864&group_id=1228&func=browse">Feature Requests</a></li>
+	<li><a href="https://r-forge.r-project.org/tracker/?atid=4861&group_id=1228&func=browse">Bugs</a></li>
+	<li><a href="https://r-forge.r-project.org/tracker/?atid=4863&group_id=1228&func=browse">Patches</a></li>
+</ul>
+
+If you are logged into R-Forge you will be able to create new items.
+
+<H2>Change Policy</H2>
+
+The <bd>xtable</bd> package is a dependency of other packages, and is also used in clinical reporting scenarios where reproducibility is necessary.  Hence stability and backwards compatibility are key criteria when assessing changes.  Changes that break backwards compatibility will not be considered for inclusion.
 
 </body>
 </html>
