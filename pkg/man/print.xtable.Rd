@@ -14,7 +14,7 @@
                 Default value is \code{FALSE}.}
   \item{floating}{If \code{TRUE} and \code{type="latex"}, the resulting table will be a floating table (using, for example, \code{\\begin\{table\}} and \code{\\end\{table\}}).  See \code{floating.environment} below. Default value is \code{TRUE}.}
   \item{floating.environment}{If \code{floating=TRUE} and \code{type="latex"}, the resulting table uses the specified floating environment.
-  Possible values are \code{"table"} or \code{"sidewaystable"} (defined in the LaTeX package 'rotating').
+  Possible values are \code{"table"}, \code{"table*"}, or \code{"sidewaystable"} (defined in the LaTeX package 'rotating').
                 Default value is \code{"table"}.}
   \item{table.placement}{If \code{floating=TRUE} and \code{type="latex"}, the floating table will have placement given by \code{table.placement} where \code{table.placement} must be \code{NULL} or contain only elements of \{"h","t","b","p","!","H"\}.
                 Default value is \code{"ht"}.}
