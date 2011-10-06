@@ -51,10 +51,14 @@ echo $contents; } ?>
 
 <H1>Feature Requests, Bugs, and Support</H1>
 
-The <bd>xtable</bd> project is hosted on <a href="http://r-forge.r-project.org/projects/xtable/">R-Forge</a>.
+<P>
+The <b>xtable</b> project is hosted on <a href="http://r-forge.r-project.org/projects/xtable/">R-Forge</a>.
+</P>
 
+<P>
 The project web site includes a <a href="https://r-forge.r-project.org/tracker/?group_id=1228">Tracker</a>
 issue tracking system with sections for:
+</P>
 
 <ul>
 	<li><a href="https://r-forge.r-project.org/tracker/?atid=4862&group_id=1228&func=browse">Support</a></li>
@@ -63,11 +67,15 @@ issue tracking system with sections for:
 	<li><a href="https://r-forge.r-project.org/tracker/?atid=4863&group_id=1228&func=browse">Patches</a></li>
 </ul>
 
+<P>
 If you are logged into R-Forge you will be able to create new items.
+</P>
 
 <H2>Change Policy</H2>
 
-The <bd>xtable</bd> package is a dependency of other packages, and is also used in clinical reporting scenarios where reproducibility is necessary.  Hence stability and backwards compatibility are key criteria when assessing changes.  Changes that break backwards compatibility will not be considered for inclusion.
+<P>
+The <b>xtable</b> package is a dependency of other packages, and is also used in clinical reporting scenarios where reproducibility is necessary.  Hence stability and backwards compatibility are key criteria when assessing changes.  Changes that break backwards compatibility will not be considered for inclusion.
+</P>
 
 </body>
 </html>
