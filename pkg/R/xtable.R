@@ -31,7 +31,7 @@ xtable <- function(x,caption=NULL,label=NULL,align=NULL,
 xtable.data.frame <- function(x,caption=NULL,label=NULL,align=NULL,
                               digits=NULL,display=NULL,...) {
   logicals <- unlist(lapply(x,is.logical))
-  x[,logicals] <- as.character(x[,logicals])
+  x[,logicals] <- lapply(x[,logicals], as.character)
   characters <- unlist(lapply(x,is.character))
   factors <- unlist(lapply(x,is.factor))
   ints <- sapply(x, is.integer)
