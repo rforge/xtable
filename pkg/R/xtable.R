@@ -68,7 +68,7 @@ xtable.table<-function(x,caption=NULL,label=NULL,align=NULL, digits=NULL,display
   } else if (length(dim(x))==2) {
     return(xtable.matrix(matrix(x,ncol=dim(x)[2],nrow=dim(x)[1],dimnames=list(rownames(x),colnames(x))),caption=caption,label=label,align=align,digits=digits,display=display))
   } else {
-    else stop("xtable.table is not implemented for tables of > 2 dimensions")
+    stop("xtable.table is not implemented for tables of > 2 dimensions")
   }
 }
 
