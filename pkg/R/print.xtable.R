@@ -2,7 +2,9 @@
 ###
 ### Produce LaTeX and HTML tables from R objects.
 ###
-### Copyright 2000-2007 David B. Dahl <dahl@stat.tamu.edu>
+### Copyright 2000-2012 David B. Dahl <dahl@stat.tamu.edu>
+###
+### Maintained by Charles Roosen <croosen@mango-solutions.com>
 ###
 ### This file is part of the `xtable' library for R and related languages.
 ### It is made available under the terms of the GNU General Public
@@ -324,30 +326,53 @@ print.xtable <- function(
     }
   }
 
-  disp <- function(y) {
-    if (is.factor(y)) {
-      y <- levels(y)[y]
-    }
-    if (is.list(y)) {
-      y <- unlist(y)
-    }
-    return(y)
-  }
+## Begin vectorizing the formatting code by Ian Fellows [ian@fellstat.com]
+## 06 Dec 2011
+##
+#  disp <- function(y) {
+#    if (is.factor(y)) {
+#      y <- levels(y)[y]
+#    }
+#    if (is.list(y)) {
+#      y <- unlist(y)
+#    }
+#    return(y)
+#  }
+  varying.digits <- is.matrix( attr( x, "digits",exact=TRUE ) )
   # Code for letting "digits" be a matrix was provided by Arne Henningsen <ahenningsen@agric-econ.uni-kiel.de> in e-mail dated 2005-06-04.
-  if( !is.matrix( attr( x, "digits",exact=TRUE ) ) ) {
+  #if( !varying.digits ) {
     # modified Claudio Agostinelli <claudio@unive.it> dated 2006-07-28
-    attr(x,"digits") <- matrix( attr( x, "digits",exact=TRUE ), nrow = nrow(x), ncol = ncol(x)+1, byrow = TRUE )
-  }
+  #  attr(x,"digits") <- matrix( attr( x, "digits",exact=TRUE ), nrow = nrow(x), ncol = ncol(x)+1, byrow = TRUE )
+  #}
   for(i in 1:ncol(x)) {
-    ina <- is.na(x[,i])
-    is.numeric.column <- is.numeric(x[,i])
-    for( j in 1:nrow( cols ) ) {
-      ### modified Claudio Agostinelli <claudio@unive.it> dated 2009-09-14
-      ### add decimal.mark=options()$OutDec
-      cols[j,i+pos] <-
-        formatC( disp( x[j,i] ),
-          format = ifelse( attr( x, "digits",exact=TRUE )[j,i+1] < 0, "E", attr( x, "display",exact=TRUE )[i+1] ), digits = abs( attr( x, "digits",exact=TRUE )[j,i+1] ), decimal.mark=options()$OutDec)
-    }
+ 	xcol <- x[,i]
+	if(is.factor(xcol))
+		xcol <- as.character(xcol)
+	if(is.list(xcol))
+		xcol <- sapply(xcol,unlist)
+    ina <- is.na(xcol)
+    is.numeric.column <- is.numeric(xcol)
+
+	if(is.character(xcol))
+		cols[,i+pos] <- xcol
+	else if(!varying.digits){
+		cols[,i+pos] <-
+			formatC( xcol,
+			format = ifelse( attr( x, "digits",exact=TRUE )[i+1] < 0, "E", 
+			attr( x, "display",exact=TRUE )[i+1] ), 
+			digits = abs( attr( x, "digits",exact=TRUE )[i+1] ), 
+			decimal.mark=options()$OutDec)
+    }else{
+		for( j in 1:nrow( cols ) ) {
+		### modified Claudio Agostinelli <claudio@unive.it> dated 2009-09-14
+		### add decimal.mark=options()$OutDec
+		cols[j,i+pos] <-
+			formatC( xcol[j],
+			format = ifelse( attr( x, "digits",exact=TRUE )[j,i+1] < 0, "E", attr( x, "display",exact=TRUE )[i+1] ), digits = abs( attr( x, "digits",exact=TRUE )[j,i+1] ), decimal.mark=options()$OutDec)
+		}
+	}
+	## End Ian Fellows changes
+	
     if ( any(ina) ) cols[ina,i+pos] <- NA.string
     # Based on contribution from Jonathan Swinton <jonathan@swintons.net> in e-mail dated Wednesday, January 17, 2007
     if ( is.numeric.column ) {
