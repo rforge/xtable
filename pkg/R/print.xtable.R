@@ -93,6 +93,11 @@ print.xtable <- function(
   # Add further commands at the end of rows
   if (type=="latex") {
      PHEADER <- "\\hline\n"
+	 # John Leonard <jleonard99@gmail.com> October 21, 2011
+	 # The extra \hline gets in the way when using longtable and add.to.row
+	 if(tabular.environment=="longtable" && !is.null(add.to.row) ) {
+	   PHEADER <- ""
+     }	   
   } else {
      PHEADER <- ""
   }
@@ -418,6 +423,14 @@ print.xtable <- function(
   full[,multiplier*(0:(ncol(x)+pos-1))+6] <- ETD
 
   full[,multiplier*(ncol(x)+pos)+2] <- paste(EROW, lastcol[-(1:2)], sep=" ")
+  
+  # John Leonard <jleonard99@gmail.com> October 21, 2011
+  # Removes the "\\" from the last row of the contents so that 
+  # booktabs (\bottomline) appears in the correct position.
+  if(tabular.environment=="longtable" & !is.null(add.to.row)) {
+    full[dim(full)[1],multiplier*(ncol(x)+pos)+2] <- "%\n" 
+  }
+  
   if (type=="latex") full[,2] <- ""
   result <- result + lastcol[2] + paste(t(full),collapse="")
   if (!only.contents) {

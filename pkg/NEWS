@@ -8,6 +8,8 @@
   * Added "short.caption" argument to "print" to let the user 
     specify a Latex short caption used when creating a list of tables. 
   * Added an "is.null()" check on the "table.placement" argument.
+  * Put in some changes from John Leonard regarding the placement
+    of newlines when "longtable" and "add.to.row" are used together.
   * Included "print.xtable" in the exported methods in the NAMESPACE file.
   * Added an example of header and footer specification with longtable
     to the vignette.  
