@@ -414,6 +414,31 @@ x.big <- xtable(x,label='tabbig',
 print(x.big,tabular.environment='longtable',floating=FALSE)
 @
 
+\subsubsection{Long tables with headers on each page}
+
+The {\tt add.to.row} argument can be used to display the header 
+for a long table on each page, and to add a "continued" footer
+on all pages except the last page.
+
+<<results=tex>>=
+library(xtable)
+x<-matrix(rnorm(1000), ncol = 10)
+
+addtorow<-list()
+addtorow$pos<-list()
+addtorow$pos[[1]]<-c(0)
+addtorow$command<-c(paste(
+    "\\hline \n",
+    "  \\endhead \n",
+    "  \\hline \n",
+    "  {\\footnotesize Continued on next page} \n",
+    "  \\endfoot \n",
+    "  \\endlastfoot \n",sep=""))
+x.big <- xtable(x, label = "tabbig", 
+    caption = "Example of longtable spanning several pages")
+print(x.big, tabular.environment = "longtable", floating = FALSE,
+include.rownames=FALSE,add.to.row=addtorow,hline.after=c(-1) )
+@
 
 \subsection{Sideways tables} 
 Remember to insert \verb|\usepackage{rotating}| in your LaTeX preamble.
@@ -434,7 +459,7 @@ print(x.small,floating.environment='sidewaystable')
 \section{Suppressing Printing}
 By default the {\tt print} method will print the LaTeX or HTML to standard
 output and also return the character strings invisibly.  The printing to
-standard output can be supproessed by specifying {\tt print.result = FALSE}.
+standard output can be suppressed by specifying {\tt print.results = FALSE}.
 
 <<>>=
 # This will print the output and store it.
@@ -444,8 +469,9 @@ x.out <- print(tli.table)
 x.out2 <- print(tli.table, print.results = FALSE)
 @
 
-Formatted output can also be captured without the printing with the
-{\tt toLatex} method.
+Formatted output can also be captured without printing with the
+{\tt toLatex} method.  This function returns an object of class
+{\tt "Latex"}.
 
 <<>>=
 x.ltx <- toLatex(tli.table)

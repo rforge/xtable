@@ -11,7 +11,7 @@
 		sanitize.text.function=NULL, sanitize.rownames.function=sanitize.text.function,
 		sanitize.colnames.function=sanitize.text.function, math.style.negative=FALSE, 
 		html.table.attributes="border=1", 
-		print.result=TRUE, ...)}
+		print.results=TRUE, ...)}
 \arguments{
   \item{x}{An object of class \code{"xtable"}.}
   \item{type}{Type of table to produce.  Possible values for \code{type} are \code{"latex"} or \code{"html"}.
@@ -44,7 +44,7 @@
   \item{sanitize.colnames.function}{Like the \code{sanitize.text.function}, but applicable to column names.  The default uses the \code{sanitize.text.function}.}
   \item{math.style.negative}{In a LaTeX table, if \code{TRUE}, then use $-$ for the negative sign (as was the behavior prior to version 1.5-3).  Default value is \code{FALSE}.}
   \item{html.table.attributes}{In an HTML table, attributes associated with the \code{<TABLE>} tag.  Default value is \code{border=1}.}
-  \item{print.result}{If \code{TRUE}, the generated table is printed to standard output.  Set this to \code{FALSE} if you will just be using the character vector that is returned invisibly.}
+  \item{print.results}{If \code{TRUE}, the generated table is printed to standard output.  Set this to \code{FALSE} if you will just be using the character vector that is returned invisibly.}
   \item{...}{Additional arguments.  (Currently ignored.)}
 }
 \details{

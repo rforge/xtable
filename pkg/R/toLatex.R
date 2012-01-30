@@ -31,7 +31,7 @@ toLatex.xtable <- function(object, ...){
   dotArgs <- list(...)
   dotArgs$x <- object
   dotArgs$type <- "latex"
-  dotArgs$print.result <- FALSE
+  dotArgs$print.results <- FALSE
   z <- do.call("print.xtable", dotArgs)
 
   z <- strsplit(z, split="\n")[[1]]

@@ -44,7 +44,7 @@ print.xtable <- function(
   sanitize.colnames.function=sanitize.text.function,
   math.style.negative=FALSE,
   html.table.attributes="border=1",
-  print.result=TRUE,
+  print.results=TRUE,
   ...) {
   # Claudio Agostinelli <claudio@unive.it> dated 2006-07-28 hline.after
   # By default it print an \hline before and after the columns names independently they are printed or not and at the end of the table
@@ -420,7 +420,7 @@ print.xtable <- function(
     result <- result + ETABLE
   }   
   result <- sanitize.final(result)
-  if (print.result){
+  if (print.results){
 	print(result)
   }
   

@@ -3,8 +3,11 @@
   * Added some vectorization code to improve performance.
   * Added "toLatex" method.
   * Included "print" in the exported methods in the NAMESPACE file.
-  * Added "print.result" argument to "print" that can be used to
+  * Added "print.results" argument to "print" that can be used to
     suppress the printing.
+  * Added an "is.null()" check on the "table.placement" argument.
+  * Added an example of header and footer specification with longtable
+    to the vignette.  
 
 1.6-0 (2011-10-07)
   * Allow "table*" as a value for "floating.environment" in print.xtable().
