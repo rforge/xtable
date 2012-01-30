@@ -388,6 +388,14 @@ print(tli.table,include.colnames=FALSE,floating=FALSE,hline.after=c(0,nrow(tli.t
 print((tli.table),include.colnames=FALSE,include.rownames=FALSE,floating=FALSE)
 @
 
+\subsection{Rotate row and column names}
+The {\tt rotate.rownames } and {\tt rotate.colnames} arguments can be
+used to rotate the row and/or column names.
+
+<<results=tex>>=
+print((tli.table),rotate.rownames=TRUE,rotate.colnames=TRUE)
+@
+
 \subsection{Horizontal lines}
 <<results=tex>>=
 print(xtable(anova(glm.D93)),hline.after=c(1),floating=FALSE)

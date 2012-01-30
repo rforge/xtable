@@ -7,6 +7,8 @@
     pass additional arguments such as "big.marks" to "formatC()".
   * Added "short.caption" argument to "print" to let the user 
     specify a Latex short caption used when creating a list of tables. 
+  * Added "rotate.colnames" and "rotate.rownames" arguments to
+    "print.xtable".  
   * Added an "is.null()" check on the "table.placement" argument.
   * Put in some changes from John Leonard regarding the placement
     of newlines when "longtable" and "add.to.row" are used together.

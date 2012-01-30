@@ -47,6 +47,8 @@ print.xtable <- function(
   print.results=TRUE,
   format.args=NULL,
   short.caption=NULL,
+  rotate.rownames=FALSE,
+  rotate.colnames=FALSE,
   ...) {
   # Claudio Agostinelli <claudio@unive.it> dated 2006-07-28 hline.after
   # By default it print an \hline before and after the columns names independently they are printed or not and at the end of the table
@@ -324,22 +326,37 @@ print.xtable <- function(
   # Claudio Agostinelli <claudio@unive.it> dated 2006-07-28 include.colnames, include.rownames 
   if (include.colnames) {
     result <- result + BROW + BTH
-    if (include.rownames) result <- result + STH
-    if (is.null(sanitize.colnames.function)) {                                     # David G. Whiting in e-mail 2007-10-09
-      result <- result + paste(sanitize(names(x)),collapse=STH)
-    } else {
-      result <- result + paste(sanitize.colnames.function(names(x)), collapse=STH) # David G. Whiting in e-mail 2007-10-09
-    }
+    if (include.rownames) {
+	  result <- result + STH
+	}  
+    # David G. Whiting in e-mail 2007-10-09
+    if (is.null(sanitize.colnames.function)) {                                     
+	  CNAMES <- sanitize(names(x))
+	} else {
+      CNAMES <- sanitize.colnames.function(names(x))
+	}
+    if (rotate.colnames) {
+  	  #added by Markus Loecher, 2009-11-16
+      CNAMES <- paste("\\begin{sideways}", CNAMES, "\\end{sideways}")
+	}	
+    result <- result + paste(CNAMES, collapse=STH)
+
     result <- result + ETH + EROW
   }
 
   cols <- matrix("",nrow=nrow(x),ncol=ncol(x)+pos)
   if (include.rownames) {
-    if (is.null(sanitize.rownames.function)) {                                     # David G. Whiting in e-mail 2007-10-09
-      cols[,1] <- sanitize(row.names(x))
+    # David G. Whiting in e-mail 2007-10-09
+    if (is.null(sanitize.rownames.function)) {                                     
+      RNAMES <- sanitize(row.names(x))
     } else {
-      cols[,1] <- sanitize.rownames.function(row.names(x))                         # David G. Whiting in e-mail 2007-10-09
+      RNAMES <- sanitize.rownames.function(row.names(x))                         
     }
+    if (rotate.rownames) {
+  	  #added by Markus Loecher, 2009-11-16
+      RNAMES <- paste("\\begin{sideways}", RNAMES, "\\end{sideways}")
+	}	
+	cols[,1] <- RNAMES
   }
 
 ## Begin vectorizing the formatting code by Ian Fellows [ian@fellstat.com]
