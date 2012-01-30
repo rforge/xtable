@@ -1,3 +1,11 @@
+1.6-1 (NOT YET RELEASED)
+
+  * Added some vectorization code to improve performance.
+  * Added "toLatex" method.
+  * Included "print" in the exported methods in the NAMESPACE file.
+  * Added "print.result" argument to "print" that can be used to
+    suppress the printing.
+
 1.6-0 (2011-10-07)
   * Allow "table*" as a value for "floating.environment" in print.xtable().
   * Fix bug under which multiple logical columns were formatted incorrectly.

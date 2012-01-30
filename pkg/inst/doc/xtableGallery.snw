@@ -431,6 +431,28 @@ print(x.small,floating.environment='sidewaystable')
 @
 \clearpage
 
+\section{Suppressing Printing}
+By default the {\tt print} method will print the LaTeX or HTML to standard
+output and also return the character strings invisibly.  The printing to
+standard output can be supproessed by specifying {\tt print.result = FALSE}.
+
+<<>>=
+# This will print the output and store it.
+x.out <- print(tli.table)
+
+# This will just store the value.
+x.out2 <- print(tli.table, print.results = FALSE)
+@
+
+Formatted output can also be captured without the printing with the
+{\tt toLatex} method.
+
+<<>>=
+x.ltx <- toLatex(tli.table)
+class(x.ltx)
+x.ltx
+@
+
 \section{Acknowledgements}
 Most of the examples in this gallery are taken from the {\tt xtable} documentation.
 \section{R Session information}
