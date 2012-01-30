@@ -12,7 +12,8 @@
 		sanitize.colnames.function=sanitize.text.function, math.style.negative=FALSE, 
 		html.table.attributes="border=1", 
 		print.results=TRUE, 
-        format.args=NULL, ...)}
+        format.args=NULL, 
+		short.caption=NULL, ...)}
 \arguments{
   \item{x}{An object of class \code{"xtable"}.}
   \item{type}{Type of table to produce.  Possible values for \code{type} are \code{"latex"} or \code{"html"}.
@@ -47,6 +48,7 @@
   \item{html.table.attributes}{In an HTML table, attributes associated with the \code{<TABLE>} tag.  Default value is \code{border=1}.}
   \item{print.results}{If \code{TRUE}, the generated table is printed to standard output.  Set this to \code{FALSE} if you will just be using the character vector that is returned invisibly.}
   \item{format.args}{List of arguments for the \code{formatC} function.  For example, standard German number separators can be specified as \code{format.args=list(big.mark = "'", decimal.mark = ","))}.}
+  \item{short.caption}{A "short caption" can be specified that gets used as the table descriptor when LaTeX generates a "List of Tables".}
   \item{...}{Additional arguments.  (Currently ignored.)}
 }
 \details{

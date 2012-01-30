@@ -46,6 +46,7 @@ print.xtable <- function(
   html.table.attributes="border=1",
   print.results=TRUE,
   format.args=NULL,
+  short.caption=NULL,
   ...) {
   # Claudio Agostinelli <claudio@unive.it> dated 2006-07-28 hline.after
   # By default it print an \hline before and after the columns names independently they are printed or not and at the end of the table
@@ -171,7 +172,11 @@ print.xtable <- function(
     ## fix 10-26-09 (robert.castelo@upf.edu) the following 'if' condition is added here to support
     ## a caption on the top of a longtable
     if (tabular.environment == "longtable" && caption.placement=="top") {
-        BCAPTION <- "\\caption{"
+		if (is.null(short.caption)){
+			BCAPTION <- "\\caption{"
+		} else {
+			BCAPTION <- paste("\\caption[", short.caption, "]{", sep="")
+		}	
         ECAPTION <- "} \\\\ \n"
         if ((!is.null(attr(x,"caption",exact=TRUE))) && (type=="latex")) BTABULAR <- paste(BTABULAR,  BCAPTION, attr(x,"caption",exact=TRUE), ECAPTION, sep="")
     }
@@ -193,7 +198,11 @@ print.xtable <- function(
     }
     BLABEL <- "\\label{"
     ELABEL <- "}\n"
-    BCAPTION <- "\\caption{"
+	if (is.null(short.caption)){
+		BCAPTION <- "\\caption{"
+	} else {
+		BCAPTION <- paste("\\caption[", short.caption, "]{", sep="")
+	}	
     ECAPTION <- "}\n"
     BROW <- ""
     EROW <- " \\\\ \n"

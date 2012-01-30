@@ -196,6 +196,13 @@ print(xtable(anova(glm.D93)),hline.after=c(1),size="small")
 ## Demonstration of additional formatC() arguments.
 print(fm1.table, format.args=list(big.mark = "'", decimal.mark = ","))
 
+## Demonstration of short caption support.
+fm1sc <- aov(tlimth ~ sex + ethnicty + grade, data=tli)
+fm1sc.table <- xtable(fm1sc, 
+  caption="ANOVA Model with Predictors Sex, Ethnicity, and Grade")
+print(fm1sc.table,
+  short.caption="ANOVA: Sex, Ethnicity, Grade")
+
 ## Demonstration of longtable support.
 ## Remember to insert \usepackage{longtable} on your LaTeX preamble
 x <- matrix(rnorm(1000), ncol = 10)

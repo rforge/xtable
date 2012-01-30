@@ -1,16 +1,17 @@
 1.6-1 (NOT YET RELEASED)
-
   * Added some vectorization code to improve performance.
   * Added "toLatex" method.
-  * Included "print" in the exported methods in the NAMESPACE file.
   * Added "print.results" argument to "print" that can be used to
     suppress the printing.
-  * Added an "is.null()" check on the "table.placement" argument.
-  * Added an example of header and footer specification with longtable
-    to the vignette.  
   * Added "format.args" argument to "print" that can be used to
     pass additional arguments such as "big.marks" to "formatC()".
-
+  * Added "short.caption" argument to "print" to let the user 
+    specify a Latex short caption used when creating a list of tables. 
+  * Added an "is.null()" check on the "table.placement" argument.
+  * Included "print.xtable" in the exported methods in the NAMESPACE file.
+  * Added an example of header and footer specification with longtable
+    to the vignette.  
+	
 1.6-0 (2011-10-07)
   * Allow "table*" as a value for "floating.environment" in print.xtable().
   * Fix bug under which multiple logical columns were formatted incorrectly.
@@ -30,4 +31,3 @@
   * Accommodated logicals by converting to characters.
   * Add an extra space at end of each line for LaTeX tables.
   * Fixed typographical error in documentation.
-
