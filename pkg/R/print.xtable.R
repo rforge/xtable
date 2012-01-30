@@ -45,6 +45,7 @@ print.xtable <- function(
   math.style.negative=FALSE,
   html.table.attributes="border=1",
   print.results=TRUE,
+  format.args=NULL,
   ...) {
   # Claudio Agostinelli <claudio@unive.it> dated 2006-07-28 hline.after
   # By default it print an \hline before and after the columns names independently they are printed or not and at the end of the table
@@ -354,23 +355,34 @@ print.xtable <- function(
     ina <- is.na(xcol)
     is.numeric.column <- is.numeric(xcol)
 
-	if(is.character(xcol))
+	if(is.character(xcol)) {
 		cols[,i+pos] <- xcol
-	else if(!varying.digits){
-		cols[,i+pos] <-
-			formatC( xcol,
+	} else {
+	  if (is.null(format.args)){
+	    format.args <- list()
+	  }
+	  if (is.null(format.args$decimal.mark)){
+	    format.args$decimal.mark <- options()$OutDec
+	  }
+	  if(!varying.digits){
+		curFormatArgs <- c(list( 
+		    x = xcol,
 			format = ifelse( attr( x, "digits",exact=TRUE )[i+1] < 0, "E", 
-			attr( x, "display",exact=TRUE )[i+1] ), 
-			digits = abs( attr( x, "digits",exact=TRUE )[i+1] ), 
-			decimal.mark=options()$OutDec)
-    }else{
+			  attr( x, "display",exact=TRUE )[i+1] ), 
+			digits = abs( attr( x, "digits",exact=TRUE )[i+1] )),
+			format.args)
+	    cols[,i+pos] <- do.call("formatC", curFormatArgs)
+      }else{
 		for( j in 1:nrow( cols ) ) {
-		### modified Claudio Agostinelli <claudio@unive.it> dated 2009-09-14
-		### add decimal.mark=options()$OutDec
-		cols[j,i+pos] <-
-			formatC( xcol[j],
-			format = ifelse( attr( x, "digits",exact=TRUE )[j,i+1] < 0, "E", attr( x, "display",exact=TRUE )[i+1] ), digits = abs( attr( x, "digits",exact=TRUE )[j,i+1] ), decimal.mark=options()$OutDec)
+		  curFormatArgs <- c(list( 
+            x = xcol[j],
+			format = ifelse( attr( x, "digits",exact=TRUE )[j,i+1] < 0, "E", 
+              attr( x, "display",exact=TRUE )[i+1] ), 
+            digits = abs( attr( x, "digits",exact=TRUE )[j,i+1] )),
+			format.args)
+		  cols[j,i+pos] <- do.call("formatC", curFormatArgs)			
 		}
+      }	
 	}
 	## End Ian Fellows changes
 	

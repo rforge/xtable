@@ -8,6 +8,8 @@
   * Added an "is.null()" check on the "table.placement" argument.
   * Added an example of header and footer specification with longtable
     to the vignette.  
+  * Added "format.args" argument to "print" that can be used to
+    pass additional arguments such as "big.marks" to "formatC()".
 
 1.6-0 (2011-10-07)
   * Allow "table*" as a value for "floating.environment" in print.xtable().
