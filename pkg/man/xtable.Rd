@@ -283,6 +283,20 @@ rownames(mat) <- "$y_{t-1}$"
 colnames(mat) <- c("$R^2$", "$\\\bar{R}^2$", "F-stat", "S.E.E", "DW")
 print(xtable(mat), type="latex", sanitize.text.function = function(x){x})
 
+## Demonstrate booktabs
+print(tli.table)
+print(tli.table , hline.after=c(-1,0))
+print(tli.table , hline.after=NULL)
+print(tli.table ,  add.to.row=list(pos=list(2), command=c("\\vspace{2mm} \n")))
+
+print(tli.table , booktabs=TRUE)
+print(tli.table , booktabs=TRUE, hline.after=c(-1,0))
+print(tli.table , booktabs=TRUE, hline.after=NULL)
+print(tli.table , booktabs=TRUE, 
+  add.to.row=list(pos=list(2), command=c("\\vspace{2mm} \n")))
+print(tli.table , booktabs=TRUE, add.to.row=list(pos=list(2), 
+  command=c("youhou\n")),tabular.environment = "longtable")
+
 \testonly{
   for(i in c("latex","html")) {
     outFileName <- paste("xtable.",ifelse(i=="latex","tex",i),sep="")

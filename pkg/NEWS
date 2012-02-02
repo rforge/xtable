@@ -1,20 +1,29 @@
-1.6-1 (NOT YET RELEASED)
+1.7-0 (NOT YET RELEASED)
   * Added some vectorization code to improve performance.
   * Added "toLatex" method.
+  * Included "print.xtable" in the exported methods in the NAMESPACE file.
   * Added "print.results" argument to "print" that can be used to
     suppress the printing.
   * Added "format.args" argument to "print" that can be used to
     pass additional arguments such as "big.marks" to "formatC()".
   * Added "short.caption" argument to "print" to let the user 
-    specify a Latex short caption used when creating a list of tables. 
+    specify a Latex short caption used when creating a list of tables.
+    Conceptually this should really be an argument to "xtable()", but
+    it was added to "print()" so authors of other packages don't need
+    to change their "xtable" methods.	
   * Added "rotate.colnames" and "rotate.rownames" arguments to
     "print.xtable".  
+  * Added "booktabs" argument to use the "\toprule", "\midrule", and  
+    "\bottomrule" tags from the Latex "booktabs" package rather than
+	using "\hline" for all horizontal lines.
+  * Changed the "print.xtable()" arguments to use "getOption()"
+    to check the options for a default value.  This was suggested
+	since "print.xtable()" has a lot of arguments that the user
+	will typically leave unchanged between tables.
   * Added an "is.null()" check on the "table.placement" argument.
-  * Put in some changes from John Leonard regarding the placement
-    of newlines when "longtable" and "add.to.row" are used together.
-  * Included "print.xtable" in the exported methods in the NAMESPACE file.
   * Added an example of header and footer specification with longtable
     to the vignette.  
+  * Added examples using the new arguments to the vignette.
 	
 1.6-0 (2011-10-07)
   * Allow "table*" as a value for "floating.environment" in print.xtable().

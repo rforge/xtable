@@ -31,6 +31,7 @@ The xtable gallery
 \SweaveOpts{prefix.string=figdir/fig,debug=TRUE,eps=FALSE,echo=TRUE}
 \usepackage{rotating} 
 \usepackage{longtable} 
+\usepackage{booktabs}
 %\usepackage{hyperref}
 \begin{document}
 
@@ -397,8 +398,28 @@ print((tli.table),rotate.rownames=TRUE,rotate.colnames=TRUE)
 @
 
 \subsection{Horizontal lines}
+
+\subsubsection{Line locations}
+
+Use the {\tt hline.after} argument to specify the position of the horizontal lines.
+
 <<results=tex>>=
 print(xtable(anova(glm.D93)),hline.after=c(1),floating=FALSE)
+@
+
+\subsubsection{Line styles}
+
+The \LaTeX package {\tt booktabs} can be used to specify different 
+line style tags for top, middle, and bottom lines.  Specifying
+{\tt booktabs = TRUE} will lead to separate tags being generated
+for the three line types.
+
+Insert \verb|\usepackage{booktabs}| in your \LaTeX preamble and
+define the {\tt toprule}, {\tt midrule}, and {\tt bottomrule}
+tags to specify the line styles.
+
+<<results=tex>>=
+print(tli.table , booktabs=TRUE)
 @
 
 \subsection{Table-level \LaTeX}
@@ -408,7 +429,7 @@ print(xtable(anova(glm.D93)),size="small",floating=FALSE)
 
 
 \subsection{Long tables}
-Remember to insert \verb|\usepackage{longtable}| in your LaTeX preamble.
+Remember to insert \verb|\usepackage{longtable}| in your \LaTeX preamble.
 See Table \ref{tabbig}.
 
 <<longtable>>=
@@ -422,11 +443,11 @@ x.big <- xtable(x,label='tabbig',
 print(x.big,tabular.environment='longtable',floating=FALSE)
 @
 
-\subsubsection{Long tables with headers on each page}
+\subsubsection{Long tables with the header on each page}
 
 The {\tt add.to.row} argument can be used to display the header 
 for a long table on each page, and to add a "continued" footer
-on all pages except the last page.
+on all pages except the last page.  See Table \ref{tabbig2}.
 
 <<results=tex>>=
 library(xtable)
@@ -442,9 +463,9 @@ addtorow$command<-c(paste(
     "  {\\footnotesize Continued on next page} \n",
     "  \\endfoot \n",
     "  \\endlastfoot \n",sep=""))
-x.big <- xtable(x, label = "tabbig", 
-    caption = "Example of longtable spanning several pages")
-print(x.big, tabular.environment = "longtable", floating = FALSE,
+x.big2 <- xtable(x, label = "tabbig2", 
+    caption = "Example of longtable with the header on each page")
+print(x.big2, tabular.environment = "longtable", floating = FALSE,
 include.rownames=FALSE,add.to.row=addtorow,hline.after=c(-1) )
 @
 
@@ -470,11 +491,7 @@ output and also return the character strings invisibly.  The printing to
 standard output can be suppressed by specifying {\tt print.results = FALSE}.
 
 <<>>=
-# This will print the output and store it.
-x.out <- print(tli.table)
-
-# This will just store the value.
-x.out2 <- print(tli.table, print.results = FALSE)
+x.out <- print(tli.table, print.results = FALSE)
 @
 
 Formatted output can also be captured without printing with the
