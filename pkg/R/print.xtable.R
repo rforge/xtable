@@ -48,11 +48,18 @@ print.xtable <- function(
   html.table.attributes=getOption("xtable.html.table.attributes", "border=1"),
   print.results=getOption("xtable.print.results", TRUE),
   format.args=getOption("xtable.format.args", NULL),
-  short.caption=getOption("xtable.short.caption", NULL),
   rotate.rownames=getOption("xtable.rotate.rownames", FALSE),
   rotate.colnames=getOption("xtable.rotate.colnames", FALSE),
   booktabs = getOption("xtable.booktabs", FALSE),
   ...) {
+  # If caption is length 2, treat the second value as the "short caption"
+  caption <- attr(x,"caption",exact=TRUE)
+  short.caption <- NULL
+  if (!is.null(caption) && length(caption) > 1){
+    short.caption <- caption[2]
+	caption <- caption[1]
+  }
+  
   # Claudio Agostinelli <claudio@unive.it> dated 2006-07-28 hline.after
   # By default it print an \hline before and after the columns names independently they are printed or not and at the end of the table
   # Old code that set hline.after should include c(-1, 0, nrow(x)) in the hline.after vector
@@ -209,7 +216,7 @@ print.xtable <- function(
 			BCAPTION <- paste("\\caption[", short.caption, "]{", sep="")
 		}	
         ECAPTION <- "} \\\\ \n"
-        if ((!is.null(attr(x,"caption",exact=TRUE))) && (type=="latex")) BTABULAR <- paste(BTABULAR,  BCAPTION, attr(x,"caption",exact=TRUE), ECAPTION, sep="")
+        if ((!is.null(caption)) && (type=="latex")) BTABULAR <- paste(BTABULAR,  BCAPTION, caption, ECAPTION, sep="")
     }
     # Claudio Agostinelli <claudio@unive.it> dated 2006-07-28 add.to.row position -1
     BTABULAR <- paste(BTABULAR,lastcol[1], sep="")
@@ -341,7 +348,7 @@ print.xtable <- function(
     result <- result + BTABLE
     result <- result + BENVIRONMENT
     if ( floating == TRUE ) {
-      if ((!is.null(attr(x,"caption",exact=TRUE))) && (type=="html" || caption.placement=="top")) result <- result + BCAPTION + attr(x,"caption",exact=TRUE) + ECAPTION
+      if ((!is.null(caption)) && (type=="html" || caption.placement=="top")) result <- result + BCAPTION + caption + ECAPTION
       if (!is.null(attr(x,"label",exact=TRUE)) && (type=="latex" && caption.placement=="top")) result <- result + BLABEL + attr(x,"label",exact=TRUE) + ELABEL  
     }
     result <- result + BSIZE
@@ -477,7 +484,7 @@ print.xtable <- function(
       ## fix 10-27-09 Liviu Andronic (landronimirc@gmail.com) the following 'if' condition is inserted in order to avoid
       ## that bottom caption interferes with a top caption of a longtable
       if(caption.placement=="bottom"){
-        if ((!is.null(attr(x,"caption",exact=TRUE))) && (type=="latex")) result <- result + BCAPTION + attr(x,"caption",exact=TRUE) + ECAPTION
+        if ((!is.null(caption)) && (type=="latex")) result <- result + BCAPTION + caption + ECAPTION
       }
       if (!is.null(attr(x,"label",exact=TRUE))) result <- result + BLABEL + attr(x,"label",exact=TRUE) + ELABEL
       ETABULAR <- "\\end{longtable}\n"
@@ -485,7 +492,7 @@ print.xtable <- function(
     result <- result + ETABULAR
     result <- result + ESIZE
     if ( floating == TRUE ) {
-      if ((!is.null(attr(x,"caption",exact=TRUE))) && (type=="latex" && caption.placement=="bottom")) result <- result + BCAPTION + attr(x,"caption",exact=TRUE) + ECAPTION
+      if ((!is.null(caption)) && (type=="latex" && caption.placement=="bottom")) result <- result + BCAPTION + caption + ECAPTION
       if (!is.null(attr(x,"label",exact=TRUE)) && caption.placement=="bottom") result <- result + BLABEL + attr(x,"label",exact=TRUE) + ELABEL  
     }
     result <- result + EENVIRONMENT

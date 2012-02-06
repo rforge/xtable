@@ -22,8 +22,8 @@
 
 "caption<-" <- function(x,value) UseMethod("caption<-")
 "caption<-.xtable" <- function(x,value) {
-  if (length(value)>1)
-    stop("\"caption\" must have length 1")
+  if (length(value)>2)
+    stop("\"caption\" must have length 1 or 2")
   attr(x,"caption") <- value
   return(x)
 }

@@ -26,7 +26,8 @@ xtable(x, caption=NULL, label=NULL, align=NULL, digits=NULL,
 \arguments{
   \item{x}{An R object of class found among \code{methods(xtable)}.  See below on how to write additional method functions
            for \code{xtable}.}
-  \item{caption}{Character vector of length 1 containing the table's caption or title.
+  \item{caption}{Character vector of length 1 or 2 containing the table's caption or title.  If length 2, the second item 
+               is the "short caption" used when LaTeX generates a "List of Tables".
                  Set to \code{NULL} to suppress the caption.  Default value is \code{NULL}.}
   \item{label}{Character vector of length 1 containing the LaTeX label or HTML anchor.
                Set to \code{NULL} to suppress the label.  Default value is \code{NULL}.}
@@ -196,12 +197,12 @@ print(xtable(anova(glm.D93)),hline.after=c(1),size="small")
 ## Demonstration of additional formatC() arguments.
 print(fm1.table, format.args=list(big.mark = "'", decimal.mark = ","))
 
-## Demonstration of short caption support.
+## Demonstration of "short caption" support.
 fm1sc <- aov(tlimth ~ sex + ethnicty + grade, data=tli)
 fm1sc.table <- xtable(fm1sc, 
-  caption="ANOVA Model with Predictors Sex, Ethnicity, and Grade")
-print(fm1sc.table,
-  short.caption="ANOVA: Sex, Ethnicity, Grade")
+  caption=c("ANOVA Model with Predictors Sex, Ethnicity, and Grade",
+    "ANOVA: Sex, Ethnicity, Grade"))
+print(fm1sc.table)
 
 ## Demonstration of longtable support.
 ## Remember to insert \usepackage{longtable} on your LaTeX preamble

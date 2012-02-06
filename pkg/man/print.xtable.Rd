@@ -29,7 +29,6 @@
   html.table.attributes=getOption("xtable.html.table.attributes", "border=1"),
   print.results=getOption("xtable.print.results", TRUE),
   format.args=getOption("xtable.format.args", NULL),
-  short.caption=getOption("xtable.short.caption", NULL),
   rotate.rownames=getOption("xtable.rotate.rownames", FALSE),
   rotate.colnames=getOption("xtable.rotate.colnames", FALSE),
   booktabs = getOption("xtable.booktabs", FALSE),
@@ -68,7 +67,6 @@
   \item{html.table.attributes}{In an HTML table, attributes associated with the \code{<TABLE>} tag.  Default value is \code{border=1}.}
   \item{print.results}{If \code{TRUE}, the generated table is printed to standard output.  Set this to \code{FALSE} if you will just be using the character vector that is returned invisibly.}
   \item{format.args}{List of arguments for the \code{formatC} function.  For example, standard German number separators can be specified as \code{format.args=list(big.mark = "'", decimal.mark = ","))}.}
-  \item{short.caption}{A "short caption" can be specified that gets used as the table descriptor when LaTeX generates a "List of Tables".}
   \item{rotate.rownames}{If \code{TRUE}, the row names are displayed vertically in LaTeX.}
   \item{rotate.colnames}{If \code{TRUE}, the column names are displayed vertically in LaTeX.}
   \item{booktabs}{If \code{TRUE}, the \code{toprule}, \code{midrule} and \code{bottomrule} tags from the LaTex "booktabs" package are used rather than \code{hline} for the horizontal line tags.}

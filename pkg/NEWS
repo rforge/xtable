@@ -1,16 +1,13 @@
 1.7-0 (NOT YET RELEASED)
   * Added some vectorization code to improve performance.
+  * Let "caption" be length 2, in which case the second value is 
+    the short caption used when creating a list of tables.
   * Added "toLatex" method.
   * Included "print.xtable" in the exported methods in the NAMESPACE file.
   * Added "print.results" argument to "print" that can be used to
     suppress the printing.
   * Added "format.args" argument to "print" that can be used to
     pass additional arguments such as "big.marks" to "formatC()".
-  * Added "short.caption" argument to "print" to let the user 
-    specify a Latex short caption used when creating a list of tables.
-    Conceptually this should really be an argument to "xtable()", but
-    it was added to "print()" so authors of other packages don't need
-    to change their "xtable" methods.	
   * Added "rotate.colnames" and "rotate.rownames" arguments to
     "print.xtable".  
   * Added "booktabs" argument to use the "\toprule", "\midrule", and  
