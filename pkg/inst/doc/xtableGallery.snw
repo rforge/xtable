@@ -430,7 +430,6 @@ print(xtable(anova(glm.D93)),size="small",floating=FALSE)
 
 \subsection{Long tables}
 Remember to insert \verb|\usepackage{longtable}| in your \LaTeX preamble.
-See Table \ref{tabbig}.
 
 <<longtable>>=
 
@@ -443,37 +442,40 @@ x.big <- xtable(x,label='tabbig',
 print(x.big,tabular.environment='longtable',floating=FALSE)
 @
 
-\subsubsection{Long tables with the header on each page}
-
-The {\tt add.to.row} argument can be used to display the header 
-for a long table on each page, and to add a "continued" footer
-on all pages except the last page.  See Table \ref{tabbig2}.
-
-<<results=tex>>=
-library(xtable)
-x<-matrix(rnorm(1000), ncol = 10)
-
-addtorow<-list()
-addtorow$pos<-list()
-addtorow$pos[[1]]<-c(0)
-addtorow$command<-c(paste(
-    "\\hline \n",
-    "  \\endhead \n",
-    "  \\hline \n",
-    "  {\\footnotesize Continued on next page} \n",
-    "  \\endfoot \n",
-    "  \\endlastfoot \n",sep=""))
-x.big2 <- xtable(x, label = "tabbig2", 
-    caption = "Example of longtable with the header on each page")
-print(x.big2, tabular.environment = "longtable", floating = FALSE,
-include.rownames=FALSE,add.to.row=addtorow,hline.after=c(-1) )
-@
+%%
+%% The column name alignment is off in the following example.
+%% It needs some revision before exposing it. - CR, 7/2/2012
+%%
+%
+%\subsubsection{Long tables with the header on each page}
+%
+%The {\tt add.to.row} argument can be used to display the header 
+%for a long table on each page, and to add a "continued" footer
+%on all pages except the last page. 
+%
+%<<results=tex>>=
+%library(xtable)
+%x<-matrix(rnorm(1000), ncol = 10)
+%addtorow<-list()
+%addtorow$pos<-list()
+%addtorow$pos[[1]]<-c(0)
+%addtorow$command<-c(paste(
+%    "\\hline \n",
+%    "  \\endhead \n",
+%    "  \\hline \n",
+%    "  {\\footnotesize Continued on next page} \n",
+%    "  \\endfoot \n",
+%    "  \\endlastfoot \n",sep=""))
+%x.big2 <- xtable(x, label = "tabbig2", 
+%    caption = "Example of longtable with the header on each page")
+%print(x.big2, tabular.environment = "longtable", floating = FALSE,
+%include.rownames=FALSE, add.to.row=addtorow, hline.after=c(-1) )
+%@
 
 \subsection{Sideways tables} 
 Remember to insert \verb|\usepackage{rotating}| in your LaTeX preamble.
 Sideways tables can't be forced in place with the `H' specifier, but you can 
 use the \verb|\clearpage| command to get them fairly nearby.
-See Table \ref{tabsmall}.
 
 <<>>=
 x <- x[1:30,]
@@ -484,6 +486,18 @@ x.small <- xtable(x,label='tabsmall',caption='A sideways table')
 print(x.small,floating.environment='sidewaystable')
 @
 \clearpage
+
+\subsection{Rescaled tables} 
+Specify a \code{scalebox} value to rescale the table.
+
+<<>>=
+x <- x[1:20,]
+x.rescale <- xtable(x,label='tabrescaled',caption='A rescaled table')
+@
+
+<<results=tex>>=
+print(x.rescale, scalebox=0.7)
+@
 
 \section{Suppressing Printing}
 By default the {\tt print} method will print the LaTeX or HTML to standard

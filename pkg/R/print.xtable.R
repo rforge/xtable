@@ -51,6 +51,7 @@ print.xtable <- function(
   rotate.rownames=getOption("xtable.rotate.rownames", FALSE),
   rotate.colnames=getOption("xtable.rotate.colnames", FALSE),
   booktabs = getOption("xtable.booktabs", FALSE),
+  scalebox = getOption("xtable.scalebox", NULL),
   ...) {
   # If caption is length 2, treat the second value as the "short caption"
   caption <- attr(x,"caption",exact=TRUE)
@@ -206,7 +207,7 @@ print.xtable <- function(
                       paste(c(attr(x, "align",exact=TRUE)[tmp.index.start:length(attr(x,"align",exact=TRUE))], "}\n"),
                             sep="", collapse=""),
                       sep="")
-    
+
     ## fix 10-26-09 (robert.castelo@upf.edu) the following 'if' condition is added here to support
     ## a caption on the top of a longtable
     if (tabular.environment == "longtable" && caption.placement=="top") {
@@ -222,6 +223,12 @@ print.xtable <- function(
     BTABULAR <- paste(BTABULAR,lastcol[1], sep="")
     # the \hline at the end, if present, is set in full matrix    
     ETABULAR <- paste("\\end{",tabular.environment,"}\n",sep="")
+
+	## Add scalebox - CR, 7/2/12
+	if (!is.null(scalebox)){
+	  BTABULAR <- paste("\\scalebox{", scalebox, "}{\n", BTABULAR, sep="")
+	  ETABULAR <- paste(ETABULAR, "}\n", sep="")
+	}
     
     # BSIZE contributed by Benno <puetz@mpipsykl.mpg.de> in e-mail dated Wednesday, December 01, 2004
     if (is.null(size) || !is.character(size)) {
