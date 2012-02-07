@@ -17,7 +17,9 @@
     the tabular environment with the specified value used as the
     scaling factor.	
   * Added "width" argument to allow specification of the width
-    value in tabular environments such as "tabularx".  
+    value in tabular environments such as "tabularx".
+  * Added "X" as an allowed alignment value in the "align()"
+    replacement function.  
   * Changed the "print.xtable()" arguments to use "getOption()"
     to check the options for a default value.  This was suggested
 	since "print.xtable()" has a lot of arguments that the user
