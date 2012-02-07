@@ -52,6 +52,7 @@ print.xtable <- function(
   rotate.colnames=getOption("xtable.rotate.colnames", FALSE),
   booktabs = getOption("xtable.booktabs", FALSE),
   scalebox = getOption("xtable.scalebox", NULL),
+  width = getOption("xtable.width", NULL),
   ...) {
   # If caption is length 2, treat the second value as the "short caption"
   caption <- attr(x,"caption",exact=TRUE)
@@ -203,10 +204,20 @@ print.xtable <- function(
       while ( attr(x,"align",exact=TRUE)[tmp.index.start] == '|' ) tmp.index.start <- tmp.index.start + 1
       tmp.index.start <- tmp.index.start + 1
     }
-    BTABULAR <- paste("\\begin{",tabular.environment,"}{",
-                      paste(c(attr(x, "align",exact=TRUE)[tmp.index.start:length(attr(x,"align",exact=TRUE))], "}\n"),
-                            sep="", collapse=""),
-                      sep="")
+	# Added "width" argument for use with "tabular*" or "tabularx" environments - CR, 7/2/12
+	if (is.null(width)){
+	  WIDTH <-""
+	} else if (is.element(tabular.environment, c("tabular", "longtable"))){
+	  warning("Ignoring 'width' argument.  The 'tabular' and 'longtable' environments do not support a width specification.  Use another environment such as 'tabular*' or 'tabularx' to specify the width.")
+	  WIDTH <- ""
+	} else {
+	  WIDTH <- paste("{", width, "}", sep="")
+	}
+	
+    BTABULAR <- paste("\\begin{",tabular.environment,"}", WIDTH, "{",
+        paste(c(attr(x, "align",exact=TRUE)[tmp.index.start:length(attr(x,"align",
+		    exact=TRUE))], "}\n"), sep="", collapse=""),
+        sep="")
 
     ## fix 10-26-09 (robert.castelo@upf.edu) the following 'if' condition is added here to support
     ## a caption on the top of a longtable

@@ -72,7 +72,7 @@ label.xtable <- function(x,...) {
     aString.Width <- c(aString.Width,thisWidth)
   }
 
-  alignAllowed <- c("l","r","p","c","|") 
+  alignAllowed <- c("l","r","p","c","|","X") 
   
   if (any( !(aString.Align %in% alignAllowed))) {
     warning("Nonstandard alignments in align string")

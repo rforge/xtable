@@ -33,6 +33,7 @@
   rotate.colnames=getOption("xtable.rotate.colnames", FALSE),
   booktabs = getOption("xtable.booktabs", FALSE),
   scalebox = getOption("xtable.scalebox", NULL),
+  width = getOption("xtable.width", NULL),
   ...)}
 \arguments{
   \item{x}{An object of class \code{"xtable"}.}
@@ -72,6 +73,7 @@
   \item{rotate.colnames}{If \code{TRUE}, the column names are displayed vertically in LaTeX.}
   \item{booktabs}{If \code{TRUE}, the \code{toprule}, \code{midrule} and \code{bottomrule} tags from the LaTex "booktabs" package are used rather than \code{hline} for the horizontal line tags.}
   \item{scalebox}{If not \code{NULL}, a \code{scalebox} clause will be added around the tabular environment with the specified value used as the scaling factor.}
+  \item{width}{If not \code{NULL}, the specified value is included in parenthesis between the tabular environment \code{begin} tag and the alignment specification.  This allows specification of the table width when using tabular environments such as \code{tabular*} and \code{tabularx}.  Note that table width specification is not supported with the \code{tabular} or \code{longtable} environments.}
   \item{...}{Additional arguments.  (Currently ignored.)}
 }
 \details{

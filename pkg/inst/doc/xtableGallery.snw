@@ -32,6 +32,7 @@ The xtable gallery
 \usepackage{rotating} 
 \usepackage{longtable} 
 \usepackage{booktabs}
+\usepackage{tabularx}
 %\usepackage{hyperref}
 \begin{document}
 
@@ -497,6 +498,30 @@ x.rescale <- xtable(x,label='tabrescaled',caption='A rescaled table')
 
 <<results=tex>>=
 print(x.rescale, scalebox=0.7)
+@
+
+\subsection{Table Width} 
+The {\tt tabularx} tabular environment provides more alignment options,
+and has a \code{width} argument to specify the table width.
+ 
+Remember to insert \verb|\usepackage{tabularx}| in your \LaTeX preamble.
+
+<<>>=
+df.width <- data.frame(
+  "label 1 with much more text than is needed" = c("item 1", "A"), 
+  "label 2 is also very long" = c("item 2","B"),
+  "label 3" = c("item 3","C"), 
+  "label 4" = c("item 4 but again with too much text","D"),
+  check.names = FALSE)
+
+x.width <- xtable(df.width, 
+  caption="Using the 'tabularx' environment")
+align(x.width) <- "|l|X|X|l|X|"  
+@
+
+<<results=tex>>=
+print(x.width, tabular.environment="tabularx", 
+  width="\\textwidth")
 @
 
 \section{Suppressing Printing}
