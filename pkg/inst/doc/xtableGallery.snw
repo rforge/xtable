@@ -489,7 +489,7 @@ print(x.small,floating.environment='sidewaystable')
 \clearpage
 
 \subsection{Rescaled tables} 
-Specify a \code{scalebox} value to rescale the table.
+Specify a {\tt scalebox} value to rescale the table.
 
 <<>>=
 x <- x[1:20,]
@@ -502,7 +502,7 @@ print(x.rescale, scalebox=0.7)
 
 \subsection{Table Width} 
 The {\tt tabularx} tabular environment provides more alignment options,
-and has a \code{width} argument to specify the table width.
+and has a {\tt width} argument to specify the table width.
  
 Remember to insert \verb|\usepackage{tabularx}| in your \LaTeX preamble.
 
