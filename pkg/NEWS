@@ -1,4 +1,7 @@
-1.7-0 (NOT YET RELEASED)
+1.7-1 (NOT YET RELEASED)
+  * Fixed logicals bug (number 1911)
+
+1.7-0
   * Added some vectorization code to improve performance.
   * Let "caption" be length 2, in which case the second value is 
     the short caption used when creating a list of tables.

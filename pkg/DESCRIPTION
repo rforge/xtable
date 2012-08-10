@@ -1,6 +1,6 @@
 Package: xtable
-Version: 1.7-0
-Date: 2012/02/06
+Version: 1.7-1
+Date: 2012/08/10
 Title: Export tables to LaTeX or HTML
 Author: David B. Dahl <dahl@stat.tamu.edu>
 Maintainer: Charles Roosen <statsci@gmail.com>
