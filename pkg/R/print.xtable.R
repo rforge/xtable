@@ -180,9 +180,8 @@ print.xtable <- function(x,
                             "margintable"))))) {
         stop("\"type\" must be in {\"table\", \"table*\", \"sidewaystable\", \"margintable\"}")
     }
-    if ((match(floating.environment,
-              c("table","table*","sidewaystable","margintable"))
-        == "margintable") & (!is.null(table.placement))) {
+    if (("margintable" %in% floating.environment)
+        & (!is.null(table.placement))) {
         warning("margintable does not allow for table placement; setting table.placement to NULL")
         table.placement <- NULL
     }
