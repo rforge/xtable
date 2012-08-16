@@ -1,5 +1,8 @@
 1.7-1 (NOT YET RELEASED)
   * Fixed logicals bug (number 1911)
+  * Changed implementation of centering of tables. Instead of
+    inserting a centred environment, now a \centering command is
+    inserted. Response to request #2104.
 
 1.7-0
   * Added some vectorization code to improve performance.

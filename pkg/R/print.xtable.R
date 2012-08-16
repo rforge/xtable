@@ -63,23 +63,28 @@ print.xtable <- function(x,
     }
 
     ## Claudio Agostinelli <claudio@unive.it> dated 2006-07-28 hline.after
-    ## By default it print an \hline before and after the columns names independently they are printed or not and at the end of the table
-    ## Old code that set hline.after should include c(-1, 0, nrow(x)) in the hline.after vector
+    ## By default it print an \hline before and after the columns names
+    ## independently they are printed or not and at the end of the table
+    ## Old code that set hline.after should include c(-1, 0, nrow(x)) in the
+    ## hline.after vector
     ## If you do not want any \hline inside the data, set hline.after to NULL
     ## PHEADER instead the string '\\hline\n' is used in the code
     ## Now hline.after counts how many time a position appear
     ## I left an automatic PHEADER in the longtable is this correct?
 
-    ## Claudio Agostinelli <claudio@unive.it> dated 2006-07-28 include.rownames, include.colnames
+    ## Claudio Agostinelli <claudio@unive.it> dated 2006-07-28 include.rownames,
+    ## include.colnames
     pos <- 0
     if (include.rownames) pos <- 1
 
-    ## Claudio Agostinelli <claudio@unive.it> dated 2006-07-28 hline.after checks
+    ## Claudio Agostinelli <claudio@unive.it> dated 2006-07-28
+    ## hline.after checks
     if (any(hline.after < -1) | any(hline.after > nrow(x))) {
         stop("'hline.after' must be inside [-1, nrow(x)]")
     }
 
-    ## Claudio Agostinelli <claudio@unive.it> dated 2006-07-28 add.to.row checks
+    ## Claudio Agostinelli <claudio@unive.it> dated 2006-07-28
+    ## add.to.row checks
     if (!is.null(add.to.row)) {
         if (is.list(add.to.row) && length(add.to.row) == 2) {
             if (is.null(names(add.to.row))) {
@@ -115,7 +120,8 @@ print.xtable <- function(x,
         ## Original code before changes in version 1.6-1
         ## PHEADER <- "\\hline\n"
 
-	## booktabs code from Matthieu Stigler <matthieu.stigler@gmail.com>, 1 Feb 2012
+	## booktabs code from Matthieu Stigler <matthieu.stigler@gmail.com>,
+        ## 1 Feb 2012
         if(!booktabs){
             PHEADER <- "\\hline\n"
 	} else {
@@ -133,7 +139,8 @@ print.xtable <- function(x,
 
     lastcol <- rep(" ", nrow(x)+2)
     if (!is.null(hline.after)) {
-        ## booktabs change - Matthieu Stigler: fill the hline arguments separately, 1 Feb 2012
+        ## booktabs change - Matthieu Stigler: fill the hline arguments
+        ## separately, 1 Feb 2012
 	##
         ## Code before booktabs change was:
 	##    add.to.row$pos[[npos+1]] <- hline.after
@@ -184,16 +191,24 @@ print.xtable <- function(x,
     if (type == "latex") {
         BCOMMENT <- "% "
         ECOMMENT <- "\n"
-        ## See e-mail from "John S. Walker <jsw9c@uic.edu>" dated 5-19-2003 regarding "texfloat"
-        ## See e-mail form "Fernando Henrique Ferraz P. da Rosa" <academic@feferraz.net>" dated 10-28-2005 regarding "longtable"
+        ## See e-mail from "John S. Walker <jsw9c@uic.edu>" dated 5-19-2003
+        ## regarding "texfloat"
+        ## See e-mail form "Fernando Henrique Ferraz P. da Rosa"
+        ## <academic@feferraz.net>" dated 10-28-2005 regarding "longtable"
         if ( tabular.environment == "longtable" & floating == TRUE ) {
             warning("Attempt to use \"longtable\" with floating = TRUE. Changing to FALSE.")
             floating <- FALSE
         }
         if ( floating == TRUE ) {
-            ## See e-mail from "Pfaff, Bernhard <Bernhard.Pfaff@drkw.com>" dated 7-09-2003 regarding "suggestion for an amendment of the source"
-            ## See e-mail from "Mitchell, David" <David.Mitchell@dotars.gov.au>" dated 2003-07-09 regarding "Additions to R xtable package"
-            ## See e-mail from "Garbade, Sven" <Sven.Garbade@med.uni-heidelberg.de> dated 2006-05-22 regarding the floating environment.
+            ## See e-mail from "Pfaff, Bernhard <Bernhard.Pfaff@drkw.com>"
+            ## dated 7-09-2003 regarding "suggestion for an amendment of
+            ## the source"
+            ## See e-mail from "Mitchell, David"
+            ## <David.Mitchell@dotars.gov.au>" dated 2003-07-09 regarding
+            ## "Additions to R xtable package"
+            ## See e-mail from "Garbade, Sven"
+            ## <Sven.Garbade@med.uni-heidelberg.de> dated 2006-05-22
+            ## regarding the floating environment.
             BTABLE <- paste("\\begin{", floating.environment, "}",
                             ifelse(!is.null(table.placement),
                                    paste("[", table.placement, "]", sep = ""),
@@ -205,13 +220,19 @@ print.xtable <- function(x,
             } else {
                 BENVIRONMENT <- ""
                 EENVIRONMENT <- ""
-                for ( i in 1:length(latex.environments) ) {
-                    if ( latex.environments[i] == "" ) next
-                    BENVIRONMENT <- paste(BENVIRONMENT,
-                                          "\\begin{", latex.environments[i],
-                                          "}\n", sep = "")
-                    EENVIRONMENT <- paste("\\end{", latex.environments[i],
-                                          "}\n", EENVIRONMENT, sep = "")
+                if ("center" %in% latex.environments){
+                    BENVIRONMENT <- paste(BENVIRONMENT, "\\centering\n",
+                                          sep = "")
+                }
+                for (i in 1:length(latex.environments)) {
+                    if (latex.environments[i] == "") next
+                    if (latex.environments[i] != "center"){
+                        BENVIRONMENT <- paste(BENVIRONMENT,
+                                              "\\begin{", latex.environments[i],
+                                              "}\n", sep = "")
+                        EENVIRONMENT <- paste("\\end{", latex.environments[i],
+                                              "}\n", EENVIRONMENT, sep = "")
+                    }
                 }
             }
             ETABLE <- paste("\\end{", floating.environment, "}\n", sep = "")
@@ -228,7 +249,8 @@ print.xtable <- function(x,
                 tmp.index.start <- tmp.index.start + 1
             tmp.index.start <- tmp.index.start + 1
         }
-	## Added "width" argument for use with "tabular*" or "tabularx" environments - CR, 7/2/12
+	## Added "width" argument for use with "tabular*" or
+        ## "tabularx" environments - CR, 7/2/12
 	if (is.null(width)){
             WIDTH <-""
 	} else if (is.element(tabular.environment,
@@ -250,7 +272,8 @@ print.xtable <- function(x,
                         sep = "", collapse = ""),
                   sep = "")
 
-        ## fix 10-26-09 (robert.castelo@upf.edu) the following 'if' condition is added here to support
+        ## fix 10-26-09 (robert.castelo@upf.edu) the following
+        ## 'if' condition is added here to support
         ## a caption on the top of a longtable
         if (tabular.environment == "longtable" && caption.placement == "top") {
             if (is.null(short.caption)){
@@ -264,7 +287,8 @@ print.xtable <- function(x,
                                   sep = "")
             }
         }
-        ## Claudio Agostinelli <claudio@unive.it> dated 2006-07-28 add.to.row position -1
+        ## Claudio Agostinelli <claudio@unive.it> dated 2006-07-28
+        ## add.to.row position -1
         BTABULAR <- paste(BTABULAR, lastcol[1], sep = "")
         ## the \hline at the end, if present, is set in full matrix
         ETABULAR <- paste("\\end{", tabular.environment, "}\n", sep = "")
@@ -276,7 +300,8 @@ print.xtable <- function(x,
             ETABULAR <- paste(ETABULAR, "}\n", sep = "")
 	}
 
-        ## BSIZE contributed by Benno <puetz@mpipsykl.mpg.de> in e-mail dated Wednesday, December 01, 2004
+        ## BSIZE contributed by Benno <puetz@mpipsykl.mpg.de> in e-mail
+        ## dated Wednesday, December 01, 2004
         if (is.null(size) || !is.character(size)) {
             BSIZE <- ""
             ESIZE <- ""
@@ -304,7 +329,8 @@ print.xtable <- function(x,
         BTD2 <- ""
         BTD3 <- ""
         ETD  <- ""
-        ## Based on contribution from Jonathan Swinton <jonathan@swintons.net> in e-mail dated Wednesday, January 17, 2007
+        ## Based on contribution from Jonathan Swinton
+        ## <jonathan@swintons.net> in e-mail dated Wednesday, January 17, 2007
         sanitize <- function(str) {
             result <- str
             result <- gsub("\\\\", "SANITIZE.BACKSLASH", result)
@@ -327,10 +353,12 @@ print.xtable <- function(x,
         sanitize.numbers <- function(x) {
             result <- x
             if ( math.style.negative ) {
-                ## Jake Bowers <jwbowers@illinois.edu> in e-mail from 2008-08-20 suggested
-                ## disabling this feature to avoid problems with LaTeX's dcolumn package.
-                ## by Florian Wickelmaier <florian.wickelmaier@uni-tuebingen.de> in e-mail
-                ## from 2008-10-03 requested the ability to use the old behavior.
+                ## Jake Bowers <jwbowers@illinois.edu> in e-mail
+                ## from 2008-08-20 suggested disabling this feature to avoid
+                ## problems with LaTeX's dcolumn package.
+                ## by Florian Wickelmaier <florian.wickelmaier@uni-tuebingen.de>
+                ## in e-mail from 2008-10-03 requested the ability to use the
+                ## old behavior.
                 for(i in 1:length(x)) {
                     result[i] <- gsub("-", "$-$", result[i], fixed = TRUE)
                 }
@@ -366,7 +394,8 @@ print.xtable <- function(x,
         align.tmp <- align.tmp[align.tmp!="|"]
         BTD2 <- matrix(align.tmp[(2-pos):(ncol(x)+1)],
                        nrow = nrow(x), ncol = ncol(x)+pos, byrow = TRUE)
-        ## Based on contribution from Jonathan Swinton <jonathan@swintons.net> in e-mail dated Wednesday, January 17, 2007
+        ## Based on contribution from Jonathan Swinton <jonathan@swintons.net>
+        ## in e-mail dated Wednesday, January 17, 2007
         BTD2[regexpr("^p", BTD2)>0] <- "left"
         BTD2[BTD2 == "r"] <- "right"
         BTD2[BTD2 == "l"] <- "left"
@@ -378,7 +407,8 @@ print.xtable <- function(x,
             result <- gsub("&", "&amp ", result, fixed = TRUE)
             result <- gsub(">", "&gt ", result, fixed = TRUE)
             result <- gsub("<", "&lt ", result, fixed = TRUE)
-            ## Kurt Hornik <Kurt.Hornik@wu-wien.ac.at> on 2006/10/05 recommended not escaping underscores.
+            ## Kurt Hornik <Kurt.Hornik@wu-wien.ac.at> on 2006/10/05
+            ## recommended not escaping underscores.
             ## result <- gsub("_", "\\_", result, fixed=TRUE)
             return(result)
         }
@@ -386,7 +416,8 @@ print.xtable <- function(x,
             return(x)
         }
         sanitize.final <- function(result) {
-            ## Suggested by Uwe Ligges <ligges@statistik.uni-dortmund.de> in e-mail dated 2005-07-30.
+            ## Suggested by Uwe Ligges <ligges@statistik.uni-dortmund.de>
+            ## in e-mail dated 2005-07-30.
             result$text <- gsub("  *", " ",  result$text, fixed = TRUE)
             result$text <- gsub(' align="left"',  "", result$text,
                                 fixed = TRUE)
@@ -396,11 +427,14 @@ print.xtable <- function(x,
 
     result <- string("", file = file, append = append)
     info <- R.Version()
-    ## modified Claudio Agostinelli <claudio@unive.it> dated 2006-07-28 to set automatically the package version
+    ## modified Claudio Agostinelli <claudio@unive.it> dated 2006-07-28
+    ## to set automatically the package version
     result <- result + BCOMMENT + type + " table generated in " +
-        info$language + " " + info$major + "." + info$minor + " by xtable " + packageDescription('xtable')$Version + " package" + ECOMMENT
+              info$language + " " + info$major + "." + info$minor +
+              " by xtable " +  packageDescription('xtable')$Version +
+              " package" + ECOMMENT
     result <- result + BCOMMENT + date() + ECOMMENT
-  ## Claudio Agostinelli <claudio@unive.it> dated 2006-07-28 only.contents
+    ## Claudio Agostinelli <claudio@unive.it> dated 2006-07-28 only.contents
     if (!only.contents) {
         result <- result + BTABLE
         result <- result + BENVIRONMENT
@@ -418,7 +452,8 @@ print.xtable <- function(x,
         result <- result + BSIZE
         result <- result + BTABULAR
     }
-    ## Claudio Agostinelli <claudio@unive.it> dated 2006-07-28 include.colnames, include.rownames
+    ## Claudio Agostinelli <claudio@unive.it> dated 2006-07-28
+    ## include.colnames, include.rownames
     if (include.colnames) {
         result <- result + BROW + BTH
         if (include.rownames) {
@@ -467,11 +502,14 @@ print.xtable <- function(x,
 ##    return(y)
 ##  }
     varying.digits <- is.matrix( attr( x, "digits", exact = TRUE ) )
-    ## Code for letting "digits" be a matrix was provided by Arne Henningsen <ahenningsen@agric-econ.uni-kiel.de> in e-mail dated 2005-06-04.
+    ## Code for letting "digits" be a matrix was provided by
+    ## Arne Henningsen <ahenningsen@agric-econ.uni-kiel.de>
+    ## in e-mail dated 2005-06-04.
     ##if( !varying.digits ) {
     ## modified Claudio Agostinelli <claudio@unive.it> dated 2006-07-28
-    ##  attr(x,"digits") <- matrix( attr( x, "digits",exact=TRUE ), nrow = nrow(x), ncol = ncol(x)+1, byrow = TRUE )
-  ##}
+    ##  attr(x,"digits") <- matrix( attr( x, "digits",exact=TRUE ),
+    ## nrow = nrow(x), ncol = ncol(x)+1, byrow = TRUE )
+    ##}
     for(i in 1:ncol(x)) {
  	xcol <- x[, i]
 	if(is.factor(xcol))
@@ -518,7 +556,8 @@ print.xtable <- function(x,
 	## End Ian Fellows changes
 
         if ( any(ina) ) cols[ina, i+pos] <- NA.string
-        ## Based on contribution from Jonathan Swinton <jonathan@swintons.net> in e-mail dated Wednesday, January 17, 2007
+        ## Based on contribution from Jonathan Swinton <jonathan@swintons.net>
+        ## in e-mail dated Wednesday, January 17, 2007
         if ( is.numeric.column ) {
             cols[, i+pos] <- sanitize.numbers(cols[, i+pos])
         } else {
@@ -551,7 +590,8 @@ print.xtable <- function(x,
                 result <- result + PHEADER
             }
 
-            ## fix 10-27-09 Liviu Andronic (landronimirc@gmail.com) the following 'if' condition is inserted in order to avoid
+            ## fix 10-27-09 Liviu Andronic (landronimirc@gmail.com) the
+            ## following 'if' condition is inserted in order to avoid
             ## that bottom caption interferes with a top caption of a longtable
             if(caption.placement == "bottom"){
                 if ((!is.null(caption)) && (type == "latex")) {
