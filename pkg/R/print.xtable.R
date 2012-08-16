@@ -176,8 +176,15 @@ print.xtable <- function(x,
         stop("\"type\" must be in {\"latex\", \"html\"}")
     }
     if (!all(!is.na(match(floating.environment,
-                          c("table","table*","sidewaystable"))))) {
-        stop("\"type\" must be in {\"table\", \"table*\", \"sidewaystable\"}")
+                          c("table","table*","sidewaystable",
+                            "margintable"))))) {
+        stop("\"type\" must be in {\"table\", \"table*\", \"sidewaystable\", \"margintable\"}")
+    }
+    if ((match(floating.environment,
+              c("table","table*","sidewaystable","margintable"))
+        == "margintable") & (!is.null(table.placement))) {
+        warning("margintable does not allow for table placement; setting table.placement to NULL")
+        table.placement <- NULL
     }
     if (!is.null(table.placement) &&
         !all(!is.na(match(unlist(strsplit(table.placement,  split = "")),

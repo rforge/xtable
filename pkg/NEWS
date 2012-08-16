@@ -3,6 +3,10 @@
   * Changed implementation of centering of tables. Instead of
     inserting a centred environment, now a \centering command is
     inserted. Response to request #2104.
+  * Implemented request #2168 which allows for margin tables as
+    possible with document class tufte-handout. An example of usage is
+    found in the vignette produced by margintable.Rnw which is in
+    inst/doc.
 
 1.7-0
   * Added some vectorization code to improve performance.
