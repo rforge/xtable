@@ -52,6 +52,7 @@ print.xtable <- function(x,
   booktabs = getOption("xtable.booktabs", FALSE),
   scalebox = getOption("xtable.scalebox", NULL),
   width = getOption("xtable.width", NULL),
+  timestamp = date(),
   ...)
 {
     ## If caption is length 2, treat the second value as the "short caption"
@@ -439,7 +440,9 @@ print.xtable <- function(x,
               info$language + " " + info$major + "." + info$minor +
               " by xtable " +  packageDescription('xtable')$Version +
               " package" + ECOMMENT
-    result <- result + BCOMMENT + date() + ECOMMENT
+    if (!is.null(timestamp)){		  
+        result <- result + BCOMMENT + timestamp + ECOMMENT
+    }		
     ## Claudio Agostinelli <claudio@unive.it> dated 2006-07-28 only.contents
     if (!only.contents) {
         result <- result + BTABLE

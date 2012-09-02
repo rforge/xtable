@@ -38,6 +38,7 @@
   booktabs = getOption("xtable.booktabs", FALSE),
   scalebox = getOption("xtable.scalebox", NULL),
   width = getOption("xtable.width", NULL),
+  timestamp = date(),
   ...)}
 \arguments{
   \item{x}{An object of class \code{"xtable"}.}
@@ -157,6 +158,8 @@
     width when using tabular environments such as \code{tabular*} and
     \code{tabularx}.  Note that table width specification is not
     supported with the \code{tabular} or \code{longtable} environments. }
+  \item{timestamp}{Timestamp to include in LaTeX comment.  Set this
+    to \code{NULL} to exclude the timestamp.}  
   \item{...}{Additional arguments.  (Currently ignored.)}
 }
 \details{
