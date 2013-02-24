@@ -14,6 +14,7 @@
   floating.environment = getOption("xtable.floating.environment", "table"),
   table.placement = getOption("xtable.table.placement", "ht"),
   caption.placement = getOption("xtable.caption.placement", "bottom"),
+  caption.width = getOption("xtable.caption.width", NULL),
   latex.environments = getOption("xtable.latex.environments", c("center")),
   tabular.environment = getOption("xtable.tabular.environment", "tabular"),
   size = getOption("xtable.size", NULL),
@@ -38,7 +39,8 @@
   booktabs = getOption("xtable.booktabs", FALSE),
   scalebox = getOption("xtable.scalebox", NULL),
   width = getOption("xtable.width", NULL),
-  timestamp = date(),
+  comment = getOption("xtable.comment", TRUE),
+  timestamp = getOption("xtable.timestamp", date()),
   ...)}
 \arguments{
   \item{x}{An object of class \code{"xtable"}.}
@@ -60,9 +62,8 @@
     Default value is \code{TRUE}. }
   \item{floating.environment}{If \code{floating=TRUE} and
     \code{type="latex"}, the resulting table uses the specified floating
-    environment. Possible values are \code{"table"}, \code{"table*"}, or
-    \code{"sidewaystable"} (defined in the LaTeX package
-    'rotating').
+    environment. Possible values include \code{"table"}, \code{"table*"}, 
+    and other floating environments defined in LaTeX packages.
     Default value is \code{"table"}.}
   \item{table.placement}{If \code{floating=TRUE} and
     \code{type="latex"}, the floating table will have placement given by
@@ -74,6 +75,9 @@
     of the table if \code{caption.placement} is \code{"bottom"} and at
     the top of the table if it equals \code{"top"}.
     Default value is \code{"bottom"}.}
+  \item{caption.width}{The caption will be placed in a \code{"parbox"}
+    of the specified width if \code{caption.width} is not \code{NULL} and
+	\code{type="latex"}. Default value is \code{NULL}.}
   \item{latex.environments}{If \code{floating=TRUE} and
     \code{type="latex"}, the specificed latex environments (provided as
     a character vector) will enclose the tabular environment.
@@ -158,9 +162,11 @@
     width when using tabular environments such as \code{tabular*} and
     \code{tabularx}.  Note that table width specification is not
     supported with the \code{tabular} or \code{longtable} environments. }
+  \item{comment}{If \code{TRUE}, the version and timestamp comment is
+    included.  Default value is \code{TRUE}. }  
   \item{timestamp}{Timestamp to include in LaTeX comment.  Set this
-    to \code{NULL} to exclude the timestamp.}  
-  \item{...}{Additional arguments.  (Currently ignored.)}
+    to \code{NULL} to exclude the timestamp. Default value is \code{date()}. }  
+  \item{...}{Additional arguments.  (Currently ignored.) }
 }
 \details{
   This function displays or writes to disk the code to produce a table

@@ -2,7 +2,7 @@
 ###
 ### Produce LaTeX and HTML tables from R objects.
 ###
-### Copyright 2000-2012 David B. Dahl <dahl@stat.tamu.edu>
+### Copyright 2000-2013 David B. Dahl <dahl@stat.tamu.edu>
 ###
 ### Maintained by Charles Roosen <croosen@mango-solutions.com>
 ###
@@ -29,6 +29,7 @@ print.xtable <- function(x,
   floating.environment = getOption("xtable.floating.environment", "table"),
   table.placement = getOption("xtable.table.placement", "ht"),
   caption.placement = getOption("xtable.caption.placement", "bottom"),
+  caption.width = getOption("xtable.caption.width", NULL),
   latex.environments = getOption("xtable.latex.environments", c("center")),
   tabular.environment = getOption("xtable.tabular.environment", "tabular"),
   size = getOption("xtable.size", NULL),
@@ -52,7 +53,8 @@ print.xtable <- function(x,
   booktabs = getOption("xtable.booktabs", FALSE),
   scalebox = getOption("xtable.scalebox", NULL),
   width = getOption("xtable.width", NULL),
-  timestamp = date(),
+  comment = getOption("xtable.comment", TRUE),
+  timestamp = getOption("xtable.timestamp", date()),
   ...)
 {
     ## If caption is length 2, treat the second value as the "short caption"
@@ -121,11 +123,11 @@ print.xtable <- function(x,
         ## Original code before changes in version 1.6-1
         ## PHEADER <- "\\hline\n"
 
-	## booktabs code from Matthieu Stigler <matthieu.stigler@gmail.com>,
+	    ## booktabs code from Matthieu Stigler <matthieu.stigler@gmail.com>,
         ## 1 Feb 2012
         if(!booktabs){
             PHEADER <- "\\hline\n"
-	} else {
+	    } else {
             PHEADER <- ifelse(-1%in%hline.after, "\\toprule\n", "")
             if(0%in%hline.after) {
                 PHEADER <- c(PHEADER, "\\midrule\n")
@@ -142,13 +144,13 @@ print.xtable <- function(x,
     if (!is.null(hline.after)) {
         ## booktabs change - Matthieu Stigler: fill the hline arguments
         ## separately, 1 Feb 2012
-	##
+	    ##
         ## Code before booktabs change was:
-	##    add.to.row$pos[[npos+1]] <- hline.after
+	    ##    add.to.row$pos[[npos+1]] <- hline.after
 
         if (!booktabs){
             add.to.row$pos[[npos+1]] <- hline.after
-	} else {
+	    } else {
             for(i in 1:length(hline.after)) {
                 add.to.row$pos[[npos+i]] <- hline.after[i]
             }
@@ -165,7 +167,7 @@ print.xtable <- function(x,
                 lastcol[addpos[j]+2] <- paste(lastcol[addpos[j]+2],
                                               paste(rep(add.to.row$command[i],
                                                         freq[j]),
-                                                    sep = "", collapse = ""),
+                                                sep = "", collapse = ""),
                                               sep = " ")
             }
         }
@@ -176,11 +178,13 @@ print.xtable <- function(x,
     if (!all(!is.na(match(type, c("latex","html"))))) {
         stop("\"type\" must be in {\"latex\", \"html\"}")
     }
-    if (!all(!is.na(match(floating.environment,
-                          c("table","table*","sidewaystable",
-                            "margintable"))))) {
-        stop("\"type\" must be in {\"table\", \"table*\", \"sidewaystable\", \"margintable\"}")
-    }
+    ## Disabling the check on known floating environments as many users 
+    ## want to use additional environments. 	
+    #    if (!all(!is.na(match(floating.environment,
+    #                          c("table","table*","sidewaystable",
+    #                            "margintable"))))) {
+    #        stop("\"type\" must be in {\"table\", \"table*\", \"sidewaystable\", \"margintable\"}")
+    #    }
     if (("margintable" %in% floating.environment)
         & (!is.null(table.placement))) {
         warning("margintable does not allow for table placement; setting table.placement to NULL")
@@ -256,17 +260,17 @@ print.xtable <- function(x,
                 tmp.index.start <- tmp.index.start + 1
             tmp.index.start <- tmp.index.start + 1
         }
-	## Added "width" argument for use with "tabular*" or
+        ## Added "width" argument for use with "tabular*" or
         ## "tabularx" environments - CR, 7/2/12
-	if (is.null(width)){
+        if (is.null(width)){
             WIDTH <-""
-	} else if (is.element(tabular.environment,
+        } else if (is.element(tabular.environment,
                               c("tabular", "longtable"))){
             warning("Ignoring 'width' argument.  The 'tabular' and 'longtable' environments do not support a width specification.  Use another environment such as 'tabular*' or 'tabularx' to specify the width.")
             WIDTH <- ""
-	} else {
+        } else {
             WIDTH <- paste("{", width, "}", sep = "")
-	}
+        }
 
         BTABULAR <-
             paste("\\begin{", tabular.environment, "}",
@@ -300,12 +304,12 @@ print.xtable <- function(x,
         ## the \hline at the end, if present, is set in full matrix
         ETABULAR <- paste("\\end{", tabular.environment, "}\n", sep = "")
 
-	## Add scalebox - CR, 7/2/12
-	if (!is.null(scalebox)){
+        ## Add scalebox - CR, 7/2/12
+        if (!is.null(scalebox)){
             BTABULAR <- paste("\\scalebox{", scalebox, "}{\n", BTABULAR,
                               sep = "")
             ETABULAR <- paste(ETABULAR, "}\n", sep = "")
-	}
+        }
 
         ## BSIZE contributed by Benno <puetz@mpipsykl.mpg.de> in e-mail
         ## dated Wednesday, December 01, 2004
@@ -320,13 +324,21 @@ print.xtable <- function(x,
             ESIZE <- "}\n"
         }
         BLABEL <- "\\label{"
-        ELABEL <- "}\n"
-        if (is.null(short.caption)){
-        BCAPTION <- "\\caption{"
-    } else {
-        BCAPTION <- paste("\\caption[", short.caption, "]{", sep = "")
-    }
-        ECAPTION <- "}\n"
+        ELABEL <- "}\n"		
+        ## Added caption width (jeff.laake@nooa.gov)
+	    if(!is.null(caption.width)){
+	        BCAPTION <- paste("\\parbox{",caption.width,"}{",sep="")
+	        ECAPTION <- "}"
+	    } else {
+	        BCAPTION <- NULL
+	        ECAPTION <- NULL
+	    }		  
+	    if (is.null(short.caption)){
+		   BCAPTION <- paste(BCAPTION,"\\caption{",sep="")
+	    } else {
+		   BCAPTION <- paste(BCAPTION,"\\caption[", short.caption, "]{", sep="")
+	    }	
+        ECAPTION <- paste(ECAPTION,"} \n",sep="")				
         BROW <- ""
         EROW <- " \\\\ \n"
         BTH <- ""
@@ -436,12 +448,14 @@ print.xtable <- function(x,
     info <- R.Version()
     ## modified Claudio Agostinelli <claudio@unive.it> dated 2006-07-28
     ## to set automatically the package version
-    result <- result + BCOMMENT + type + " table generated in " +
+	if (comment){
+        result <- result + BCOMMENT + type + " table generated in " +
               info$language + " " + info$major + "." + info$minor +
               " by xtable " +  packageDescription('xtable')$Version +
               " package" + ECOMMENT
-    if (!is.null(timestamp)){		  
-        result <- result + BCOMMENT + timestamp + ECOMMENT
+        if (!is.null(timestamp)){		  
+            result <- result + BCOMMENT + timestamp + ECOMMENT
+        }
     }		
     ## Claudio Agostinelli <claudio@unive.it> dated 2006-07-28 only.contents
     if (!only.contents) {
