@@ -1,3 +1,6 @@
+1.7-2 (NOT YET RELEASED)
+  * Fixed HTML gsub bug (#2795)
+
 1.7-1 (2013-02-24)
   * Fixed logicals bug (Req #1911)
   * Changed implementation of centering of tables. Instead of

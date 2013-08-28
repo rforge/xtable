@@ -423,9 +423,15 @@ print.xtable <- function(x,
         ETD  <- " </TD>"
         sanitize <- function(str) {
             result <- str
-            result <- gsub("&", "&amp ", result, fixed = TRUE)
-            result <- gsub(">", "&gt ", result, fixed = TRUE)
-            result <- gsub("<", "&lt ", result, fixed = TRUE)
+            ## Changed as suggested in bug report #2795
+            ## That is replacement of "&" is "&amp;"
+            ## instead of previous "&amp" etc
+            ## result <- gsub("&", "&amp ", result, fixed = TRUE)
+            ## result <- gsub(">", "&gt ", result, fixed = TRUE)
+            ## result <- gsub("<", "&lt ", result, fixed = TRUE)
+            result <- gsub("&", "&amp;", result, fixed = TRUE)
+            result <- gsub(">", "&gt;", result, fixed = TRUE)
+            result <- gsub("<", "&lt;", result, fixed = TRUE)
             ## Kurt Hornik <Kurt.Hornik@wu-wien.ac.at> on 2006/10/05
             ## recommended not escaping underscores.
             ## result <- gsub("_", "\\_", result, fixed=TRUE)
