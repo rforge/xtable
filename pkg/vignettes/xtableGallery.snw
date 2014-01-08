@@ -29,8 +29,8 @@ The xtable gallery
 
 \usepackage{Sweave}
 \SweaveOpts{prefix.string=figdir/fig,debug=TRUE,eps=FALSE,echo=TRUE}
-\usepackage{rotating} 
-\usepackage{longtable} 
+\usepackage{rotating}
+\usepackage{longtable}
 \usepackage{booktabs}
 \usepackage{tabularx}
 %\usepackage{hyperref}
@@ -38,7 +38,7 @@ The xtable gallery
 
 \maketitle
 \section{Summary}
-This document gives a gallery of tables which can be made 
+This document gives a gallery of tables which can be made
 by using the {\tt xtable} package to create \LaTeX\ output.
 It doubles as a regression check for the package.
 
@@ -251,7 +251,7 @@ if (FALSE) {
     print(xtable(anova(glm.D93)),hline.after=c(1),size="small",type=i,file=outFileName,append=TRUE)
       # print(xtable(pr2),type=i,file=outFileName,append=TRUE)
          }
-} 
+}
 @
 
 \section{Sanitization}
@@ -331,7 +331,7 @@ print(tli.table,floating=FALSE)
 \subsection{Significant digits}
 
 
-Specify with a single argument 
+Specify with a single argument
 <<>>=
 digits(tli.table) <- 3
 @
@@ -410,18 +410,51 @@ print(xtable(anova(glm.D93)),hline.after=c(1),floating=FALSE)
 
 \subsubsection{Line styles}
 
-The \LaTeX package {\tt booktabs} can be used to specify different 
+The \LaTeX package {\tt booktabs} can be used to specify different
 line style tags for top, middle, and bottom lines.  Specifying
 {\tt booktabs = TRUE} will lead to separate tags being generated
 for the three line types.
 
-Insert \verb|\usepackage{booktabs}| in your \LaTeX preamble and
-define the {\tt toprule}, {\tt midrule}, and {\tt bottomrule}
-tags to specify the line styles.
+Insert \verb|\usepackage{booktabs}| in your \LaTeX preamble and define
+the {\tt toprule}, {\tt midrule}, and {\tt bottomrule} tags to specify
+the line styles. By default, when no value is given for
+\texttt{hline.after}, a \texttt{toprule} will be drawn above the
+table, a \texttt{midrule} after the table headings and a
+\texttt{bottomrule} below the table. The width of the top and bottom
+rules can be set by supplying a value to \verb+\heavyrulewidth+. The
+width of the midrules can be set by supplying a value to
+\verb+\lightrulewidth+. The following tables have
+\verb+\heavyrulewidth = 2pt+ and \verb+\lightrulewidth = 0.5pt+, to
+ensure the difference in weight is noticeable.
+
+There is no support for \verb+\cmidrule+ or \verb+\specialrule+
+although they are part of the \texttt{booktabs} package.
+
+\heavyrulewidth = 2pt
+\lightrulewidth = 0.5pt
 
 <<results=tex>>=
-print(tli.table , booktabs=TRUE)
+print(tli.table, booktabs=TRUE, floating = FALSE)
 @
+
+\vspace{12pt}
+If \texttt{hline.after} includes $-1$, a \texttt{toprule} will be
+drawn above the table. If \texttt{hline.after} includes the number of
+rows in the table, a \texttt{bottomrule} will be drawn below the
+table. For any other values specified in \texttt{hline.after}, a
+\texttt{midrule} will be drawn after that line of the table.
+
+The next table has more than one \texttt{midrule}.
+
+<<>>=
+bktbs <- xtable(matrix(1:10, ncol = 2))
+hlines <- c(-1,0,1,nrow(bktbs))
+@
+This command produces the required table.
+<<results=tex>>=
+print(bktbs, booktabs = TRUE, hline.after = hlines, floating = FALSE)
+@
+
 
 \subsection{Table-level \LaTeX}
 <<results=tex>>=
@@ -450,9 +483,9 @@ print(x.big,tabular.environment='longtable',floating=FALSE)
 %
 %\subsubsection{Long tables with the header on each page}
 %
-%The {\tt add.to.row} argument can be used to display the header 
+%The {\tt add.to.row} argument can be used to display the header
 %for a long table on each page, and to add a "continued" footer
-%on all pages except the last page. 
+%on all pages except the last page.
 %
 %<<results=tex>>=
 %library(xtable)
@@ -467,15 +500,15 @@ print(x.big,tabular.environment='longtable',floating=FALSE)
 %    "  {\\footnotesize Continued on next page} \n",
 %    "  \\endfoot \n",
 %    "  \\endlastfoot \n",sep=""))
-%x.big2 <- xtable(x, label = "tabbig2", 
+%x.big2 <- xtable(x, label = "tabbig2",
 %    caption = "Example of longtable with the header on each page")
 %print(x.big2, tabular.environment = "longtable", floating = FALSE,
 %include.rownames=FALSE, add.to.row=addtorow, hline.after=c(-1) )
 %@
 
-\subsection{Sideways tables} 
+\subsection{Sideways tables}
 Remember to insert \verb|\usepackage{rotating}| in your LaTeX preamble.
-Sideways tables can't be forced in place with the `H' specifier, but you can 
+Sideways tables can't be forced in place with the `H' specifier, but you can
 use the \verb|\clearpage| command to get them fairly nearby.
 
 <<>>=
@@ -488,7 +521,7 @@ print(x.small,floating.environment='sidewaystable')
 @
 \clearpage
 
-\subsection{Rescaled tables} 
+\subsection{Rescaled tables}
 Specify a {\tt scalebox} value to rescale the table.
 
 <<>>=
@@ -500,27 +533,27 @@ x.rescale <- xtable(x,label='tabrescaled',caption='A rescaled table')
 print(x.rescale, scalebox=0.7)
 @
 
-\subsection{Table Width} 
+\subsection{Table Width}
 The {\tt tabularx} tabular environment provides more alignment options,
 and has a {\tt width} argument to specify the table width.
- 
+
 Remember to insert \verb|\usepackage{tabularx}| in your \LaTeX preamble.
 
 <<>>=
 df.width <- data.frame(
-  "label 1 with much more text than is needed" = c("item 1", "A"), 
+  "label 1 with much more text than is needed" = c("item 1", "A"),
   "label 2 is also very long" = c("item 2","B"),
-  "label 3" = c("item 3","C"), 
+  "label 3" = c("item 3","C"),
   "label 4" = c("item 4 but again with too much text","D"),
   check.names = FALSE)
 
-x.width <- xtable(df.width, 
+x.width <- xtable(df.width,
   caption="Using the 'tabularx' environment")
-align(x.width) <- "|l|X|X|l|X|"  
+align(x.width) <- "|l|X|X|l|X|"
 @
 
 <<results=tex>>=
-print(x.width, tabular.environment="tabularx", 
+print(x.width, tabular.environment="tabularx",
   width="\\textwidth")
 @
 

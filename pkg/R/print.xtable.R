@@ -127,20 +127,33 @@ print.xtable <- function(x,
         ## 1 Feb 2012
         if(!booktabs){
             PHEADER <- "\\hline\n"
-	    } else {
-            PHEADER <- ifelse(-1%in%hline.after, "\\toprule\n", "")
-            if(0%in%hline.after) {
-                PHEADER <- c(PHEADER, "\\midrule\n")
-            }
-            if(nrow(x)%in%hline.after) {
-                PHEADER <- c(PHEADER, "\\bottomrule\n")
+        } else {
+            ## This code replaced to fix bug #2309, David Scott, 8 Jan 2014
+            ## PHEADER <- ifelse(-1%in%hline.after, "\\toprule\n", "")
+            ## if(0%in%hline.after) {
+            ##     PHEADER <- c(PHEADER, "\\midrule\n")
+            ## }
+            ## if(nrow(x)%in%hline.after) {
+            ##     PHEADER <- c(PHEADER, "\\bottomrule\n")
+            ## }
+            if (is.null(hline.after)){
+                PHEADER <- ""
+            } else {
+                hline.after <- sort(hline.after)
+                PHEADER <- rep("\\midrule\n", length(hline.after))
+                if (hline.after[1] == -1) {
+                    PHEADER[1] <- "\\toprule\n"
+                }
+                if (hline.after[length(hline.after)] == nrow(x)) {
+                    PHEADER[length(hline.after)] <- "\\bottomrule\n"
+                }
             }
         }
     } else {
         PHEADER <- ""
     }
 
-    lastcol <- rep(" ", nrow(x)+2)
+        lastcol <- rep(" ", nrow(x)+2)
     if (!is.null(hline.after)) {
         ## booktabs change - Matthieu Stigler: fill the hline arguments
         ## separately, 1 Feb 2012
