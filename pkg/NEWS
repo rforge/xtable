@@ -1,9 +1,9 @@
-1.7-3 (NOT YET RELEASED)
+1.7-3 (2014-01-08)
   * Fixed booktabs bug (#2309), more of an enhancement really. Updated
     xtableGallery.snw to illustrate the change.
   * Moved vignettes from inst/doc to vignettes as now required by CRAN
 
-1.7-2 (NOT YET RELEASED)
+1.7-2 (2013-08-28, Not Released to CRAN)
   * Fixed HTML gsub bug (#2795)
   * Dealt with format.args bug (#4770). No code changes, but the
     documentation of print.xtable was changed to warn of the problem
