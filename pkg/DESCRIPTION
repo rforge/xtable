@@ -2,7 +2,7 @@ Package: xtable
 Version: 1.7-4
 Date: 2014/08/17
 Title: Export tables to LaTeX or HTML
-Author: David B. Dahl <dahl@stat.tamu.edu>
+Author: David B. Dahl <dahl@stat.byu.edu>
 Maintainer: David Scott <d.scott@auckland.ac.nz>
 Description: Coerce data to LaTeX and HTML tables
 URL: http://xtable.r-forge.r-project.org/
