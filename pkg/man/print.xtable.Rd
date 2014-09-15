@@ -90,10 +90,10 @@
     uniformly. Note that \code{floating} should be set to
     \code{FALSE} when using the \code{longtable} environment.
     Default value is \code{"tabular"}.}
-  \item{size}{A character vector to set
-    the font size in a LaTeX table.  The supplied value (if not
-    \code{NULL}) is inserted just before the tabular environment
-    starts.
+  \item{size}{A character vector that is inserted just before the
+    tabular environment starts. This can be used to set the font size
+    and a variety of other table settings. Initial backslashes are
+    automatically prefixed, if not supplied by user.
     Default value is \code{NULL}. }
   \item{hline.after}{When \code{type="latex"}, a vector of numbers
     between -1 and \code{nrow(x)}, inclusive, indicating the rows
