@@ -4,6 +4,11 @@
     added along with help file. Feature request #5686. R code for
     these functions is in formatHelpers.R and man page is called
     formatHelpers.Rd.
+  * xtableGallery.snw removed and replaced with
+    xtableGallery.Rnw. Both vignettes now use knitr instead of Sweave.
+  * Section added to xtableGallery showing use of xalign, xdigits, and
+    xdisplay
+
 
 1.7-4 (2014-09-11)
   * Released to CRAN
