@@ -1,3 +1,10 @@
+1.7-5 (26-09-2015 NOT YET RELEASED TO CRAN)
+
+  * xalign, xdigits, xdisplay from Arni Magnusson (arnima@hafro.is)
+    added along with help file. Feature request #5686. R code for
+    these functions is in formatHelpers.R and man page is called
+    formatHelpers.Rd.
+
 1.7-4 (2014-09-11)
   * Released to CRAN
   * Changed tags in HTML to be all lower case, to be compatible with

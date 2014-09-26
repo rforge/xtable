@@ -25,7 +25,8 @@ makeme()
 \title{
 The xtable gallery
 }
-\author{Jonathan Swinton <jonathan@swintons.net>\\ with small contributions from others}
+\author{Jonathan Swinton <jonathan@swintons.net>\\
+  with small contributions from others}
 
 \usepackage{Sweave}
 \SweaveOpts{prefix.string=figdir/fig,debug=TRUE,eps=FALSE,echo=TRUE}
@@ -129,7 +130,8 @@ P <- c(1,1,0,0,0,1,0,1,1,1,0,0,0,1,0,1,1,0,0,1,0,1,1,0)
 K <- c(1,0,0,1,0,1,1,0,0,1,0,1,0,1,1,0,0,0,1,1,1,0,1,0)
 yield <- c(49.5,62.8,46.8,57.0,59.8,58.5,55.5,56.0,62.8,55.8,69.5,55.0,
            62.0,48.8,45.5,44.2,52.0,51.5,49.8,48.8,57.2,59.0,53.2,56.0)
-npk <- data.frame(block=gl(6,4), N=factor(N), P=factor(P), K=factor(K), yield=yield)
+npk <- data.frame(block=gl(6,4), N=factor(N), P=factor(P), K=factor(K),
+                  yield=yield)
 npk.aov <- aov(yield ~ block + N*P*K, npk)
 op <- options(contrasts=c("contr.helmert", "contr.treatment"))
 npk.aovE <- aov(yield ~  N*P*K + Error(block), npk)
@@ -244,11 +246,16 @@ temp.ts <- ts(cumsum(1+round(rnorm(100), 0)), start = c(1954, 7), frequency=12)
 if (FALSE) {
   for(i in c("latex","html")) {
     outFileName <- paste("xtable.",ifelse(i=="latex","tex",i),sep="")
-    print(xtable(lm.D9),type=i,file=outFileName,append=TRUE,latex.environments=NULL)
-    print(xtable(lm.D9),type=i,file=outFileName,append=TRUE,latex.environments="")
-    print(xtable(lm.D9),type=i,file=outFileName,append=TRUE,latex.environments="center")
-    print(xtable(anova(glm.D93,test="Chisq")),type=i,file=outFileName,append=TRUE)
-    print(xtable(anova(glm.D93)),hline.after=c(1),size="small",type=i,file=outFileName,append=TRUE)
+    print(xtable(lm.D9),type=i,file=outFileName,append=TRUE,
+          latex.environments=NULL)
+    print(xtable(lm.D9),type=i,file=outFileName,append=TRUE,
+          latex.environments="")
+    print(xtable(lm.D9),type=i,file=outFileName,append=TRUE,
+          latex.environments="center")
+    print(xtable(anova(glm.D93,test="Chisq")),type=i,file=outFileName,
+          append=TRUE)
+    print(xtable(anova(glm.D93)),hline.after=c(1),size="small",type=i,
+          file=outFileName,append=TRUE)
       # print(xtable(pr2),type=i,file=outFileName,append=TRUE)
          }
 }
@@ -269,12 +276,14 @@ Sometimes you might want to have your own sanitization function
 wanttex <- xtable(data.frame( label=paste("Value_is $10^{-",1:3,"}$",sep="")))
 @
 <<results=tex>>=
-print(wanttex,sanitize.text.function=function(str)gsub("_","\\_",str,fixed=TRUE))
+print(wanttex,
+      sanitize.text.function=function(str)gsub("_","\\_",str,fixed=TRUE))
 @
 
 \subsection{Markup in tables}
 
-Markup can be kept in tables, including column and row names, by using a custom sanitize.text.function:
+Markup can be kept in tables, including column and row names, by using
+a custom sanitize.text.function:
 
 <<>>=
 mat <- round(matrix(c(0.9, 0.89, 200, 0.045, 2.0), c(1, 5)), 4)
@@ -287,9 +296,14 @@ print(mat, sanitize.text.function = function(x){x})
 @
 
 % By David Dahl to demonstrate contribution from David Whitting, 2007-10-09.
-You can also have sanitize functions that are specific to column or row names.  In the table below, the row name is not sanitized but column names and table elements are:
+You can also have sanitize functions that are specific to column or
+row names.  In the table below, the row name is not sanitized but
+column names and table elements are:
 <<>>=
-money <- matrix(c("$1,000","$900","$100"),ncol=3,dimnames=list("$\\alpha$",c("Income (US$)","Expenses (US$)","Profit (US$)")))
+money <- matrix(c("$1,000","$900","$100"),ncol=3,
+                dimnames=list("$\\alpha$",
+                              c("Income (US$)","Expenses (US$)",
+                                "Profit (US$)")))
 @
 <<results=tex>>=
 print(xtable(money),sanitize.rownames.function=function(x) {x})
@@ -298,9 +312,12 @@ print(xtable(money),sanitize.rownames.function=function(x) {x})
 \section{Format examples}
 \subsection{Adding a centering environment }
 <<results=tex>>=
-   print(xtable(lm.D9,caption="\\tt latex.environments=NULL"),latex.environments=NULL)
-    print(xtable(lm.D9,caption="\\tt latex.environments=\"\""),latex.environments="")
-    print(xtable(lm.D9,caption="\\tt latex.environments=\"center\""),latex.environments="center")
+   print(xtable(lm.D9,caption="\\tt latex.environments=NULL"),
+         latex.environments=NULL)
+    print(xtable(lm.D9,caption="\\tt latex.environments=\"\""),
+          latex.environments="")
+    print(xtable(lm.D9,caption="\\tt latex.environments=\"center\""),
+          latex.environments="center")
 @
 \subsection{Column alignment}
 
@@ -382,12 +399,14 @@ print((tli.table),include.colnames=FALSE,floating=FALSE)
 \\
 Note the doubled header lines which can be suppressed with, eg,
 <<results=tex>>=
-print(tli.table,include.colnames=FALSE,floating=FALSE,hline.after=c(0,nrow(tli.table)))
+print(tli.table,include.colnames=FALSE,floating=FALSE,
+      hline.after=c(0,nrow(tli.table)))
 @
 
 \subsection{Suppress row and column names}
 <<results=tex>>=
-print((tli.table),include.colnames=FALSE,include.rownames=FALSE,floating=FALSE)
+print((tli.table),include.colnames=FALSE,include.rownames=FALSE,
+      floating=FALSE)
 @
 
 \subsection{Rotate row and column names}
@@ -402,7 +421,8 @@ print((tli.table),rotate.rownames=TRUE,rotate.colnames=TRUE)
 
 \subsubsection{Line locations}
 
-Use the {\tt hline.after} argument to specify the position of the horizontal lines.
+Use the {\tt hline.after} argument to specify the position of the
+horizontal lines.
 
 <<results=tex>>=
 print(xtable(anova(glm.D93)),hline.after=c(1),floating=FALSE)
@@ -507,9 +527,10 @@ print(x.big,tabular.environment='longtable',floating=FALSE)
 %@
 
 \subsection{Sideways tables}
-Remember to insert \verb|\usepackage{rotating}| in your LaTeX preamble.
-Sideways tables can't be forced in place with the `H' specifier, but you can
-use the \verb|\clearpage| command to get them fairly nearby.
+Remember to insert \verb|\usepackage{rotating}| in your LaTeX
+preamble.  Sideways tables can't be forced in place with the `H'
+specifier, but you can use the \verb|\clearpage| command to get them
+fairly nearby.
 
 <<>>=
 x <- x[1:30,]
@@ -577,7 +598,8 @@ x.ltx
 @
 
 \section{Acknowledgements}
-Most of the examples in this gallery are taken from the {\tt xtable} documentation.
+Most of the examples in this gallery are taken from the {\tt xtable}
+documentation.
 \section{R Session information}
 <<results=tex>>=
 toLatex(sessionInfo())

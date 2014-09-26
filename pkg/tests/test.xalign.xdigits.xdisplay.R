@@ -25,7 +25,7 @@ x
 ### Hmm, inappropriate alignment and digits.
 ### Now try suggestions from xalign, xdigits, and xdisplay:
 
-source("http://www.hafro.is/~arnima/r/xtable_5686.R")
+### source("http://www.hafro.is/~arnima/r/xtable_5686.R")
 align(x) <- xalign(x)
 digits(x) <- xdigits(x)
 display(x) <- xdisplay(x)
