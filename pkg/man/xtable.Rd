@@ -19,7 +19,7 @@
 \alias{xtable.zoo}
 \title{Create Export Tables}
 \description{
-  Function converting an R object to an \code{xtable} object, which can
+  Convert an R object to an \code{xtable} object, which can
   then be printed as a LaTeX or HTML table.
 }
 \usage{
@@ -88,7 +88,7 @@ xtable(x, caption = NULL, label = NULL, align = NULL, digits = NULL,
   depends on the class of \code{x}.  For example, \code{aov} objects
   produce ANOVA tables while \code{data.frame} objects produce a table
   of the entire data frame.  One can optionally provide a caption
-  (called a title in HTML) or label (called an anchor in HTML), as well
+  or label (called an anchor in HTML), as well
   as formatting specifications.  Default values for \code{align},
   \code{digits}, and \code{display} are class dependent.
 
@@ -105,17 +105,20 @@ xtable(x, caption = NULL, label = NULL, align = NULL, digits = NULL,
   attributes \code{align}, \code{digits}, and \code{display}.  It is
   strongly recommened that you set these attributes through the provided
   replacement functions as they perform validity checks.
-  }
-  \value{An object of class \code{"xtable"} which inherits the
+}
+\value{An object of class \code{"xtable"} which inherits the
   \code{data.frame} class and contains several additional attributes
   specifying the table formatting options.
 }
 \author{David Dahl \email{dahl@stat.byu.edu} with contributions and
   suggestions from many others (see source code).
 }
-\seealso{\code{\link{print.xtable}}, \code{\link{caption}},
+\seealso{
+  \code{\link{print.xtable}}, \code{\link{caption}},
   \code{\link{label}}, \code{\link{align}}, \code{\link{digits}},
-  \code{\link{display}}, \code{\link{formatC}}, \code{\link{methods}}
+  \code{\link{display}}
+
+  \code{\link{xalign}}, \code{\link{xdigits}}, \code{\link{xdisplay}}
 }
 \examples{
 
@@ -124,13 +127,13 @@ data(tli)
 
 ## Demonstrate data.frame
 tli.table <- xtable(tli[1:20, ])
-digits(tli.table)[c(2, 6)] <- 0
 print(tli.table)
 print(tli.table, type = "html")
 
 ## Demonstrate data.frame with different digits in cells
 tli.table <- xtable(tli[1:20, ])
-digits(tli.table) <- matrix( 0:4, nrow = 20, ncol = ncol(tli)+1 )
+display(tli.table)[c(2,6)] <- "f"
+digits(tli.table) <- matrix(0:4, nrow = 20, ncol = ncol(tli)+1)
 print(tli.table)
 print(tli.table, type = "html")
 

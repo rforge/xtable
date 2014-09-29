@@ -4,9 +4,8 @@
 \alias{xdisplay}
 \title{Suggest Appropriate Formatting}
 \description{
-  Suggest an appropriate \code{xtable} alignment, appropriate number of
-  digits, or display type for a vector, or each column of a matrix or
-  data frame.
+  Suggest an appropriate alignment, number of digits, and display type
+  for \code{xtable}.
 }
 \usage{
 xalign(x, pad = TRUE)
@@ -15,18 +14,23 @@ xdisplay(x, pad = TRUE)
 }
 \arguments{
   \item{x}{a vector, matrix, or data frame.}
-  \item{pad}{when \code{x} is two-dimensional, \code{pad = TRUE} inserts
-    an extra code for the row names: \code{"l"} alignment , \code{0}
-    digits, and \code{"s"} display.}
+  \item{pad}{whether to format row names, when \code{x} is
+    two-dimensional.}
   \item{zap}{the number of digits passed to \code{zapsmall}.}
 }
 \value{
-  A character or a vector of characters, specifying the suggested
-  alignment, number of digits, or display type.
+  \code{xalign} returns a character vector consisting of \code{"l"} and
+  \code{"r"} elements, for left/right alignment.
+
+  \code{xdigits} returns an integer vector.
+
+  \code{xdisplay} returns a character vector of \code{"d"}, \code{"f"},
+  and \code{"s"} elements, for integer/double/string display.
 }
 \author{Arni Magnusson.}
 \seealso{
-  \code{\link{xtable}}.
+  \code{\link{xtable}}, \code{\link{align}}, \code{\link{digits}},
+  \code{\link{display}}
 }
 \examples{
 ## Vector
@@ -36,23 +40,20 @@ xdisplay(precip)
 
 ## Data frame
 head(mtcars)
-xalign(mtcars, pad = FALSE)
-xalign(mtcars, pad = TRUE)
-xtable(mtcars, align = xalign(mtcars))
-
 xdigits(mtcars, pad = FALSE)
 xdigits(mtcars, pad = TRUE)
-xtable(mtcars, digits = xdigits(mtcars))
+xalign(mtcars)
+xdisplay(mtcars)
 
-xdisplay(mtcars, pad = FALSE)
-xdisplay(mtcars, pad = TRUE)
-xtable(mtcars, display = xdisplay(mtcars))
+## Autoformat when xtable is created
+xtable(mtcars, align = xalign(mtcars), digits = xdigits(mtcars),
+       display = xdisplay(mtcars))
 
-## Postprocessing an xtable
-state <- xtable(state.x77)
-align(state) <- xalign(state)
-digits(state) <- xdigits(state)
-display(state) <- xdisplay(state)
+## Autoformat existing xtable
+mt <- xtable(mtcars)
+align(mt) <- xalign(mt)
+digits(mt) <- xdigits(mt)
+display(mt) <- xdisplay(mt)
 }
 \keyword{array}
 \keyword{print}
