@@ -74,6 +74,7 @@ options(replace.assign = TRUE, width = 60,
 Load example dataset
 <<>>=
 library(xtable)
+options(xtable.floating = FALSE)
 data(tli)
 
 ## Demonstrate data.frame
@@ -81,7 +82,7 @@ tli.table <- xtable(tli[1:10, ])
 digits(tli.table)[c(2,6)] <- 0
 @
 <<results='asis'>>=
-print(tli.table, floating = FALSE)
+tli.table
 @
 
 \newpage
@@ -92,7 +93,7 @@ design.matrix <- model.matrix(~ sex*grade, data = tli[1:10, ])
 design.table <- xtable(design.matrix)
 @
 <<results='asis'>>=
-print(design.table, floating = FALSE)
+design.table
 @
 
 \subsection{aov}
@@ -101,7 +102,7 @@ fm1 <- aov(tlimth ~ sex + ethnicty + grade + disadvg, data = tli)
 fm1.table <- xtable(fm1)
 @
 <<results='asis'>>=
-print(fm1.table, floating = FALSE)
+fm1.table
 @
 \subsection{lm}
 <<>>=
@@ -109,20 +110,20 @@ fm2 <- lm(tlimth ~ sex*ethnicty, data = tli)
 fm2.table <- xtable(fm2)
 @
 <<results='asis'>>=
-print(fm2.table, floating = FALSE)
+fm2.table
 @
 
 \vspace{12pt}\textbf{\itshape An anova object}
 
 <<results='asis'>>=
-print(xtable(anova(fm2)), floating = FALSE)
+xtable(anova(fm2))
 @
 \vspace{12pt}\textbf{\itshape Another anova object}
 <<>>=
 fm2b <- lm(tlimth ~ ethnicty, data = tli)
 @
 <<results='asis'>>=
-print(xtable(anova(fm2b, fm2)), floating = FALSE)
+xtable(anova(fm2b, fm2))
 @
 
 
@@ -135,12 +136,12 @@ fm3 <- glm(disadvg ~ ethnicty*grade, data = tli, family = binomial())
 fm3.table <- xtable(fm3)
 @
 <<results='asis'>>=
-print(fm3.table, floating = FALSE)
+fm3.table
 @
 
 \vspace{12pt}\textbf{\itshape An anova object}
 <<results='asis'>>=
-print(xtable(anova(fm3)), floating = FALSE)
+xtable(anova(fm3))
 @
 
 
@@ -163,26 +164,26 @@ npk.aovE <- aov(yield ~  N*P*K + Error(block), npk)
 options(op)
 @
 <<results='asis'>>=
-print(xtable(npk.aov), floating = FALSE)
+xtable(npk.aov)
 @
 
 \vspace{12pt}\textbf{\itshape An anova object}
 <<results='asis'>>=
-print(xtable(anova(npk.aov)), floating = FALSE)
+xtable(anova(npk.aov))
 @
 
 \vspace{12pt}\textbf{\itshape Another anova object}
 <<results='asis'>>=
-print(xtable(summary(npk.aov)), floating = FALSE)
+xtable(summary(npk.aov))
 @
 
 <<results='asis'>>=
-print(xtable(npk.aovE), floating = FALSE)
+xtable(npk.aovE)
 @
 
 
 <<results='asis'>>=
-print(xtable(summary(npk.aovE)), floating = FALSE)
+xtable(summary(npk.aovE))
 @
 
 \subsection{More lm}
@@ -199,12 +200,12 @@ weight <- c(ctl, trt)
 lm.D9 <- lm(weight ~ group)
 @
 <<results='asis'>>=
-print(xtable(lm.D9), floating = FALSE)
+xtable(lm.D9)
 @
 
 
 <<results='asis'>>=
-print(xtable(anova(lm.D9)), floating = FALSE)
+xtable(anova(lm.D9))
 @
 
 \subsection{More glm}
@@ -221,7 +222,7 @@ d.AD <- data.frame(treatment, outcome, counts)
 glm.D93 <- glm(counts ~ outcome + treatment, family = poisson())
 @
 <<results='asis'>>=
-print(xtable(glm.D93, align = "r|llrc"), floating = FALSE)
+xtable(glm.D93, align = "r|llrc")
 @
 
 \subsection{prcomp}
@@ -234,14 +235,12 @@ if(require(stats, quietly = TRUE)) {
 }
 @
 <<results='asis'>>=
-if(require(stats, quietly = TRUE)) {
-  print(xtable(pr1), floating = FALSE)
-}
+xtable(pr1)
 @
 
 
 <<results='asis'>>=
-  print(xtable(summary(pr1)), floating = FALSE)
+xtable(summary(pr1))
 @
 
 
@@ -250,7 +249,7 @@ if(require(stats, quietly = TRUE)) {
 #  ## Demonstrate princomp
 #  ## Taken from help(princomp) in mva package of R 1.1.1
 #  pr2 <- princomp(USArrests)
-#  print(xtable(pr2))
+#  xtable(pr2)
 @
 
 \subsection{Time series}
@@ -262,7 +261,7 @@ temp.table <- xtable(temp.ts, digits = 0)
 caption(temp.table) <- "Time series example"
 @
 <<results='asis'>>=
-    print(temp.table, floating = FALSE)
+temp.table
 @
 <<savetofile,echo=FALSE>>=
 if (FALSE) {
@@ -338,7 +337,7 @@ colnames(insane)[2] <- paste(insane[, 2], collapse = "")
 @
 
 <<pxti,results='asis'>>=
-print( xtable(insane), floating = FALSE)
+xtable(insane)
 @
 
 \vspace{12pt}
@@ -401,7 +400,7 @@ tli.table <- xtable(tli[1:10, ])
 align(tli.table) <- rep("r", 6)
 @
 <<results='asis'>>=
-print(tli.table, floating = FALSE)
+tli.table
 @
 
 \vspace{12pt}
@@ -410,14 +409,14 @@ print(tli.table, floating = FALSE)
 align(tli.table) <- "|rrl|l|lr|"
 @
 <<results='asis'>>=
-print(tli.table, floating = FALSE)
+tli.table
 @
 \vspace{12pt}\textbf{\itshape Fixed width columns}
 <<>>=
 align(tli.table) <- "|rr|lp{3cm}l|r|"
 @
 <<results='asis'>>=
-print(tli.table, floating = FALSE)
+tli.table
 @
 
 \subsection{Significant digits}
@@ -428,7 +427,7 @@ Specify with a single argument
 digits(tli.table) <- 3
 @
 <<results='asis'>>=
-print(tli.table, floating = FALSE)
+tli.table
 @
 
 
@@ -438,7 +437,7 @@ or one for each column, counting the row names,
 digits(tli.table) <- 1:(ncol(tli)+1)
 @
 <<results='asis'>>=
-print(tli.table, floating = FALSE)
+tli.table
 @
 
 \vspace{12pt}
@@ -447,12 +446,12 @@ or as a full matrix
 digits(tli.table) <- matrix( 0:4, nrow = 10, ncol = ncol(tli)+1 )
 @
 <<results='asis'>>=
-print(tli.table, floating = FALSE)
+tli.table
 @
 
 \subsection{Suppress row names}
 <<results='asis'>>=
-print((tli.table), include.rownames = FALSE, floating = FALSE)
+print(tli.table, include.rownames = FALSE)
 @
 
 \vspace{12pt} If you want a vertical line on the left, you need to
@@ -461,7 +460,7 @@ change the \code{align} attribute.
 align(tli.table) <- "|r|r|lp{3cm}l|r|"
 @
 <<results='asis'>>=
-print((tli.table), include.rownames = FALSE, floating = FALSE)
+print(tli.table, include.rownames = FALSE)
 @
 
 \vspace{12pt} Revert the alignment to what is was before.
@@ -471,20 +470,19 @@ align(tli.table) <- "|rr|lp{3cm}l|r|"
 
 \subsection{Suppress column names}
 <<results='asis'>>=
-print((tli.table), include.colnames = FALSE, floating = FALSE)
+print(tli.table, include.colnames = FALSE)
 @
 
 \vspace{12pt}
 Note the doubled header lines which can be suppressed with, eg,
 <<results='asis'>>=
-print(tli.table, include.colnames = FALSE, floating = FALSE,
+print(tli.table, include.colnames = FALSE,
       hline.after = c(0,nrow(tli.table)))
 @
 
 \subsection{Suppress row and column names}
 <<results='asis'>>=
-print((tli.table), include.colnames = FALSE, include.rownames = FALSE,
-      floating = FALSE)
+print(tli.table, include.colnames = FALSE, include.rownames = FALSE)
 @
 
 \subsection{Rotate row and column names}
@@ -492,7 +490,7 @@ The \texttt{rotate.rownames } and \texttt{rotate.colnames} arguments can be
 used to rotate the row and/or column names.
 
 <<results='asis'>>=
-print((tli.table), rotate.rownames = TRUE, rotate.colnames = TRUE)
+print(tli.table, rotate.rownames = TRUE, rotate.colnames = TRUE)
 @
 
 \subsection{Horizontal lines}
@@ -503,7 +501,7 @@ Use the \texttt{hline.after} argument to specify the position of the
 horizontal lines.
 
 <<results='asis'>>=
-print(xtable(anova(glm.D93)), hline.after = c(1), floating = FALSE)
+print(xtable(anova(glm.D93)), hline.after = c(1))
 @
 
 \vspace{12pt}\textbf{\itshape Line styles}
@@ -532,7 +530,7 @@ although they are part of the \texttt{booktabs} package.
 \lightrulewidth = 0.5pt
 
 <<results='asis'>>=
-print(tli.table, booktabs = TRUE, floating = FALSE)
+print(tli.table, booktabs = TRUE)
 @
 
 \vspace{12pt}
@@ -550,13 +548,13 @@ hlines <- c(-1,0,1,nrow(bktbs))
 @
 This command produces the required table.
 <<results='asis'>>=
-print(bktbs, booktabs = TRUE, hline.after = hlines, floating = FALSE)
+print(bktbs, booktabs = TRUE, hline.after = hlines)
 @
 
 
 \subsection{Table-level LaTeX}
 <<results='asis'>>=
-print(xtable(anova(glm.D93)), size = "small", floating = FALSE)
+print(xtable(anova(glm.D93)), size = "small")
 @
 
 
@@ -571,7 +569,7 @@ x.big <- xtable(x, label = 'tabbig',
                 caption = 'Example of \\code{longtable} spanning several pages')
 @
 <<results='asis'>>=
-print(x.big, tabular.environment = 'longtable', floating = FALSE)
+print(x.big, tabular.environment = 'longtable')
 @
 
 %%
@@ -600,7 +598,7 @@ print(x.big, tabular.environment = 'longtable', floating = FALSE)
 %    "  \\endlastfoot \n", sep = ""))
 %x.big2 <- xtable(x, label = "tabbig2",
 %    caption = "Example of longtable with the header on each page")
-%print(x.big2, tabular.environment = "longtable", floating = FALSE,
+%print(x.big2, tabular.environment = "longtable",
 %include.rownames = FALSE, add.to.row = addtorow, hline.after = c(-1) )
 %@
 
@@ -616,7 +614,7 @@ x.small <- xtable(x, label = 'tabsmall', caption = 'A sideways table')
 @
 
 <<results='asis'>>=
-print(x.small, floating.environment = 'sidewaystable')
+print(x.small, floating = TRUE, floating.environment = 'sidewaystable')
 @
 \clearpage
 
