@@ -4,16 +4,7 @@
 %\VignettePackage{xtable}
 % !Rnw weave = knitr
 % \VignetteEngine{knitr::knitr}
-
 %**************************************************************************
-%
-% # $Id:$
-
-% $Revision:  $
-% $Author: $
-% $Date:  $
-
-
 \documentclass[article, nojss]{jss}
 \usepackage{amsthm}
 \usepackage{amsmath}
@@ -22,24 +13,15 @@
 \usepackage{afterpage}
 \usepackage{hyperref}
 
-\title{
-The \pkg{xtable} Gallery
-}
-\author{Jonathan Swinton and others\\
-  <jonathan@swintons.net>
-}
-
+\title{The \pkg{xtable} Gallery}
+\author{Jonathan Swinton and others\\<jonathan@swintons.net>}
 \Plainauthor{Jonathan Swinton, and others} %% comma-separated
-
 \Plaintitle{The xtable Gallery} %% without formatting
-
 \Shorttitle{\pkg{xtable} Gallery} %% a short title (if necessary)
 
 <<include=FALSE>>=
 library(knitr)
-opts_chunk$set(
-fig.path='figdir/fig', debug=TRUE, echo=TRUE
-)
+opts_chunk$set(fig.path='figdir/fig', debug=TRUE, echo=TRUE)
 options(replace.assign = TRUE, width = 60,
         tidy.opts = list(width.cutoff = 60))
 @
@@ -51,25 +33,18 @@ options(replace.assign = TRUE, width = 60,
 %\usepackage{hyperref}
 
 \Abstract{
-
   This document gives a gallery of tables which can be made by using
   the \texttt{xtable} package to create \LaTeX\ output.  It doubles as
   a regression check for the package.
-
 }
 
 \Keywords{Reproducible research, \LaTeX}
-
-\Address{
-  Jonathan Swinton\\
-  E-mail: \email{jonathan@swintons.net}
-}
+\Address{Jonathan Swinton\\E-mail: \email{jonathan@swintons.net}}
 
 \begin{document}
 
-
-
 \section{Gallery}
+
 \subsection{Data frame}
 Load example dataset
 <<>>=
@@ -104,6 +79,7 @@ fm1.table <- xtable(fm1)
 <<results='asis'>>=
 fm1.table
 @
+
 \subsection{lm}
 <<>>=
 fm2 <- lm(tlimth ~ sex*ethnicty, data = tli)
@@ -126,11 +102,8 @@ fm2b <- lm(tlimth ~ ethnicty, data = tli)
 xtable(anova(fm2b, fm2))
 @
 
-
 \subsection{glm}
-
 <<>>=
-
 ## Demonstrate glm
 fm3 <- glm(disadvg ~ ethnicty*grade, data = tli, family = binomial())
 fm3.table <- xtable(fm3)
@@ -144,10 +117,8 @@ fm3.table
 xtable(anova(fm3))
 @
 
-
 \subsection{More aov}
 <<>>=
-
 ## Demonstrate aov
 ## Taken from help(aov) in R 1.1.1
 ## From Venables and Ripley (1997) p.210.
@@ -181,14 +152,12 @@ xtable(summary(npk.aov))
 xtable(npk.aovE)
 @
 
-
 <<results='asis'>>=
 xtable(summary(npk.aovE))
 @
 
 \subsection{More lm}
 <<>>=
-
 ## Demonstrate lm
 ## Taken from help(lm) in R 1.1.1
 ## Annette Dobson (1990) "An Introduction to Generalized Linear Models".
@@ -203,14 +172,12 @@ lm.D9 <- lm(weight ~ group)
 xtable(lm.D9)
 @
 
-
 <<results='asis'>>=
 xtable(anova(lm.D9))
 @
 
 \subsection{More glm}
 <<>>=
-
 ## Demonstrate glm
 ## Taken from help(glm) in R 1.1.1
 ## Annette Dobson (1990) "An Introduction to Generalized Linear Models".
@@ -238,12 +205,9 @@ if(require(stats, quietly = TRUE)) {
 xtable(pr1)
 @
 
-
 <<results='asis'>>=
 xtable(summary(pr1))
 @
-
-
 
 <<echo = FALSE, results = 'Hide'>>=
 #  ## Demonstrate princomp
@@ -253,7 +217,6 @@ xtable(summary(pr1))
 @
 
 \subsection{Time series}
-
 <<>>=
 temp.ts <- ts(cumsum(1 + round(rnorm(100), 0)),
               start = c(1954, 7), frequency = 12)
@@ -309,7 +272,6 @@ x
 Now change the default alignment, digits and display using helper functions
 \texttt{xalign}, \texttt{xdigits}, and \texttt{xdisplay}.
 
-
 <<proposed>>=
 align(x) <- xalign(x)
 digits(x) <- xdigits(x)
@@ -322,8 +284,6 @@ This produces a better format as shown below.
 <<proposedresult, echo = FALSE, results = 'asis'>>=
 x
 @ %def
-
-
 
 \section{Sanitization}
 <<>>=
@@ -353,7 +313,6 @@ print(wanttex,
 @
 
 \subsection{Markup in tables}
-
 Markup can be included in tables, including in column and row names, by using
 a custom \code{sanitize.text.function()}:
 
@@ -382,6 +341,7 @@ print(xtable(money), sanitize.rownames.function = function(x) {x})
 @
 
 \section{Format examples}
+
 \subsection{Adding a centering environment }
 <<results='asis'>>=
    print(xtable(lm.D9, caption = "\\tt latex.environments = NULL"),
@@ -391,8 +351,8 @@ print(xtable(money), sanitize.rownames.function = function(x) {x})
     print(xtable(lm.D9, caption = "\\tt latex.environments = \"center\""),
           latex.environments = "center")
 @
-\subsection{Column alignment}
 
+\subsection{Column alignment}
 <<>>=
 tli.table <- xtable(tli[1:10, ])
 @
@@ -420,8 +380,6 @@ tli.table
 @
 
 \subsection{Significant digits}
-
-
 Specify with a single argument
 <<>>=
 digits(tli.table) <- 3
@@ -429,7 +387,6 @@ digits(tli.table) <- 3
 <<results='asis'>>=
 tli.table
 @
-
 
 \vspace{12pt}
 or one for each column, counting the row names,
@@ -494,7 +451,6 @@ print(tli.table, rotate.rownames = TRUE, rotate.colnames = TRUE)
 @
 
 \subsection{Horizontal lines}
-
 \vspace{12pt}\textbf{\itshape Line locations}
 
 Use the \texttt{hline.after} argument to specify the position of the
@@ -551,18 +507,15 @@ This command produces the required table.
 print(bktbs, booktabs = TRUE, hline.after = hlines)
 @
 
-
 \subsection{Table-level LaTeX}
 <<results='asis'>>=
 print(xtable(anova(glm.D93)), size = "small")
 @
 
-
 \subsection{Long tables}
 Remember to insert \verb|\usepackage{longtable}| in your \LaTeX preamble.
 
 <<longtable>>=
-
 ## Demonstration of longtable support.
 x <- matrix(rnorm(1000), ncol = 10)
 x.big <- xtable(x, label = 'tabbig',
@@ -676,8 +629,10 @@ x.ltx
 \section{Acknowledgements}
 Most of the examples in this gallery are taken from the \texttt{xtable}
 documentation.
+
 \section{R Session information}
 <<results='asis'>>=
 toLatex(sessionInfo())
 @
+
 \end{document}
