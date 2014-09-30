@@ -207,9 +207,9 @@ print(xtable(money), sanitize.rownames.function = function(x) {x})
 \section{Format examples}
 \subsection{Adding a centering environment}
 <<results='asis'>>=
-print(xtable(money, caption = "\\tt latex.environments = \"\""),
+print(xtable(anova(fm3), caption = "\\tt latex.environments = \"\""),
       floating = TRUE, latex.environments = "")
-print(xtable(money, caption = "\\tt latex.environments = \"center\""),
+print(xtable(anova(fm3), caption = "\\tt latex.environments = \"center\""),
       floating = TRUE, latex.environments = "center")
 @
 
