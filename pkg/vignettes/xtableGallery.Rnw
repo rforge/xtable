@@ -5,21 +5,27 @@
 % !Rnw weave = knitr
 % \VignetteEngine{knitr::knitr}
 %**************************************************************************
-\documentclass[article, nojss]{jss}
+\documentclass{article}
+\usepackage[a4paper,height=24cm]{geometry}
+\usepackage{parskip}
+\usepackage{titlesec}
+\titleformat\subsubsection{\bfseries\itshape}{}{0pt}{}
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{rotating}
 \usepackage{tabularx}
-\title{The xtable Gallery}
-\author{Jonathan Swinton and others\\<jonathan@swintons.net>}
-\Abstract{This document gives a gallery of tables which can be made by using the
-  \texttt{xtable} package to create \LaTeX\ output. It doubles as a regression
-  check for the package.}
-\Keywords{Reproducible research, \LaTeX}
-\Shorttitle{\pkg{xtable} Gallery} %% JSS header
-\Address{Jonathan Swinton\\E-mail: \email{jonathan@swintons.net}} %% JSS last pg
+\newcommand\code[1]{\texttt{#1}}
 \newcommand\p{\vspace{2ex}}
+\setcounter{tocdepth}{2}
 \begin{document}
+
+\title{The xtable Gallery}
+\author{Jonathan Swinton and others}
+\maketitle
+
+\tableofcontents
+
+\newpage
 
 <<include=FALSE>>=
 library(knitr)
@@ -35,8 +41,6 @@ data(tli)
 xtable(tli[1:10, ])
 @
 
-\newpage
-
 \subsection{Matrix}
 <<results='asis'>>=
 design.matrix <- model.matrix(~ sex*grade, data = tli[1:10, ])
@@ -49,18 +53,20 @@ fm1 <- aov(tlimth ~ sex + ethnicty + grade + disadvg, data = tli)
 xtable(fm1)
 @
 
+\newpage
+
 \subsection{lm}
 <<results='asis'>>=
 fm2 <- lm(tlimth ~ sex*ethnicty, data = tli)
 xtable(fm2)
 @
 
-\p\textbf{\itshape Anova table (one model)}
+\subsubsection{Anova table (one model)}
 <<results='asis'>>=
 xtable(anova(fm2))
 @
 
-\p\textbf{\itshape Anova table (two models)}
+\subsubsection{Anova table (two models)}
 <<results='asis'>>=
 fm2b <- lm(tlimth ~ ethnicty, data = tli)
 xtable(anova(fm2b, fm2))
@@ -72,7 +78,7 @@ fm3 <- glm(disadvg ~ ethnicty*grade, data = tli, family = binomial)
 xtable(fm3)
 @
 
-\p\textbf{\itshape Anova table}
+\p
 <<results='asis'>>=
 xtable(anova(fm3))
 @
@@ -101,6 +107,9 @@ xtable(anova(npk.aov))
 xtable(summary(npk.aov))
 @
 
+\newpage
+
+\p
 <<results='asis'>>=
 ## Alternative multistratum model
 op <- options(contrasts = c("contr.helmert", "contr.treatment"))
@@ -109,6 +118,7 @@ options(op)
 xtable(npk.aovE)
 @
 
+\p
 <<results='asis'>>=
 xtable(summary(npk.aovE))
 @
@@ -124,9 +134,12 @@ lm.D9 <- lm(weight ~ group)
 xtable(lm.D9)
 @
 
+\p
 <<results='asis'>>=
 xtable(anova(lm.D9))
 @
+
+\newpage
 
 \subsection{More glm}
 <<results='asis'>>=
@@ -145,6 +158,7 @@ pr1 <- prcomp(USArrests)
 xtable(pr1)
 @
 
+\p
 <<results='asis'>>=
 xtable(summary(pr1))
 @
@@ -206,6 +220,8 @@ display(x) <- xdisplay(x)
 x
 @
 
+\newpage
+
 \section{Sanitization}
 <<results='asis'>>=
 insane <- data.frame(Name = c("Ampersand","Greater than","Less than",
@@ -227,6 +243,8 @@ wanttex <- xtable(data.frame(label =
 print(wanttex, sanitize.text.function =
       function(str) gsub("_", "\\_", str, fixed = TRUE))
 @
+
+\newpage
 
 \subsection{Markup in tables}
 Markup can be included in tables, including in column and row names, by using
@@ -272,17 +290,19 @@ align(tli.table) <- rep("r", 6)
 tli.table
 @
 
-\p\textbf{\itshape Left aligned strings with column lines}
+\subsubsection{Left aligned strings with column lines}
 <<results='asis'>>=
 align(tli.table) <- "|rrl|l|lr|"
 tli.table
 @
 
-\p\textbf{\itshape Fixed width columns}
+\subsubsection{Fixed width columns}
 <<results='asis'>>=
 align(tli.table) <- "|rr|lp{3cm}l|r|"
 tli.table
 @
+
+\newpage
 
 \subsection{Number of digits}
 One number for all columns,
@@ -306,6 +326,8 @@ digits(tli.table) <- matrix(0:4, nrow = 10, ncol = ncol(tli)+1)
 tli.table
 @
 
+\newpage
+
 \subsection{Suppress row names}
 <<results='asis'>>=
 tli.table <- xtable(tli[1:10, ])
@@ -326,6 +348,8 @@ Revert the alignment to what is was before.
 align(tli.table) <- "|rr|lp{3cm}l|r|"
 @
 
+\newpage
+
 \subsection{Suppress column names}
 <<results='asis'>>=
 print(tli.table, include.colnames = FALSE)
@@ -343,6 +367,8 @@ print(tli.table, include.colnames = FALSE,
 print(tli.table, include.colnames = FALSE, include.rownames = FALSE)
 @
 
+\newpage
+
 \subsection{Rotate row and column names}
 The \code{rotate.rownames} and \code{rotate.colnames} arguments can be used to
 rotate the row and/or column names. This requires \verb|\usepackage{rotating}|
@@ -352,9 +378,10 @@ in the \LaTeX\ preamble.
 print(tli.table, rotate.rownames = TRUE, rotate.colnames = TRUE)
 @
 
-\subsection{Horizontal lines}
-\p\textbf{\itshape Line locations}
+\newpage
 
+\subsection{Horizontal lines}
+\subsubsection{Line locations}
 Use the \code{hline.after} argument to specify the position of the
 horizontal lines.
 
@@ -362,8 +389,7 @@ horizontal lines.
 print(xtable(anova(glm.D93)), hline.after = c(1))
 @
 
-\p\textbf{\itshape Line styles}
-
+\subsubsection{Line styles}
 Specifying \code{booktabs = TRUE} will generate three line types. By default,
 when no value is given for \code{hline.after}, a \verb|\toprule| will be drawn
 above the table, a \verb|\midrule| after the table headings and a
@@ -413,8 +439,7 @@ print(x.big, hline.after=c(-1, 0), tabular.environment = 'longtable')
 %% The column name alignment is off in the following example.
 %% It needs some revision before exposing it. - CR, 7/2/2012
 %
-%\p\textbf{\itshape Long tables with the header on each page}
-%
+%\subsubsection{Long tables with the header on each page}
 %The \code{add.to.row} argument can be used to display the header
 %for a long table on each page, and to add a "continued" footer
 %on all pages except the last page.
@@ -472,6 +497,8 @@ x.width <- xtable(df.width)
 align(x.width) <- "|l|X|l|l|l|"
 print(x.width, tabular.environment = "tabularx", width = "\\textwidth")
 @
+
+\newpage
 
 \section{Suppressing printing}
 By default the \code{print} method will print the \LaTeX\ or HTML to standard
