@@ -19,20 +19,11 @@
 \setcounter{tocdepth}{2}
 %% Define \code \proglang and \pkg commands
 \newcommand\code[1]{\texttt{#1}}
-\newcommand{\pkg}[1]{{\fontseries{b}\selectfont #1}}
-\newcommand\proglang[1]{\textsf{#1}}
+\newcommand\pkg[1]{\textbf{#1}}
+\newcommand\R{\textsf{R}}
 %% url and hyperref
 \usepackage[hyphens]{url}
 \usepackage{hyperref}
-
-\usepackage{listings}
-\lstset{language = TeX, basicstyle = \ttfamily,
-        keywordstyle = \ttfamily,
-        emphstyle = \itshape,
-        emph = {options},
-        lineskip = 0pt}
-
-
 \begin{document}
 
 \title{The \pkg{xtable} Gallery}
@@ -50,7 +41,6 @@ This document gives a gallery of tables which can be made using the
 \pkg{xtable} package to create \LaTeX\ output. It doubles as a
 regression check for the package.
 
-
 <<include=FALSE>>=
 library(knitr)
 opts_chunk$set(fig.path='figdir/fig', debug=TRUE, echo=TRUE)
@@ -61,7 +51,6 @@ The first step is to load the package and set an option for this document.
 library(xtable)
 options(xtable.floating = FALSE)
 @
-
 
 \section{Gallery}
 \subsection{Data frame}
@@ -82,7 +71,6 @@ xtable(design.matrix, digits = 0)
 fm1 <- aov(tlimth ~ sex + ethnicty + grade + disadvg, data = tli)
 xtable(fm1)
 @
-
 
 \subsection{lm}
 <<results='asis'>>=
@@ -108,7 +96,7 @@ fm3 <- glm(disadvg ~ ethnicty*grade, data = tli, family = binomial)
 xtable(fm3)
 @
 
-\p
+\subsubsection{Analysis of deviance}
 <<results='asis'>>=
 xtable(anova(fm3))
 @
@@ -129,7 +117,6 @@ xtable(summary(pr1))
 # xtable(pr2)
 @
 
-\newpage
 \subsection{Time series}
 <<results='asis'>>=
 temp.ts <- ts(cumsum(1 + round(rnorm(100), 0)),
@@ -137,6 +124,8 @@ temp.ts <- ts(cumsum(1 + round(rnorm(100), 0)),
 temp.table <- xtable(temp.ts, digits = 0)
 temp.table
 @
+
+\newpage
 
 <<include=FALSE>>=
 # ## Demonstrate saving to file
@@ -157,7 +146,6 @@ temp.table
 #   # print(xtable(pr2), type = i, file = outFileName, append = TRUE)
 # }
 @
-
 
 \section{Helper functions for formatting}
 The functions \code{xalign}, \code{xdigits}, and \code{xdisplay} are useful for
@@ -205,8 +193,6 @@ wanttex <- xtable(data.frame(Column =
 print(wanttex, sanitize.text.function =
       function(str) gsub("_", "\\_", str, fixed = TRUE))
 @
-
-
 
 \subsection{Markup in tables}
 Markup can be included in tables, including in column and row names, by using
@@ -401,8 +387,8 @@ Requires \verb|\usepackage{longtable}| in the \LaTeX\ preamble.
 
 <<results='asis'>>=
 x <- matrix(rnorm(1000), ncol = 10)
-x.big <- xtable(x, caption = 'A \\code{longtable} spanning several pages')
-print(x.big, hline.after=c(-1, 0), tabular.environment = 'longtable')
+x.big <- xtable(x, caption = "A \\code{longtable} spanning several pages")
+print(x.big, hline.after=c(-1, 0), tabular.environment = "longtable")
 @
 
 %% The column name alignment is off in the following example.
@@ -439,36 +425,39 @@ print(x.big, hline.after=c(-1, 0), tabular.environment = 'longtable')
 %%       add.to.row = addtorow)
 %% @
 
-\subsection{Use of \code{add.to.row} argument}
-Here is an example of the use of the \code{add.to.row} argument, taken
-from a question on Stack Exchange:
-\url{http://stackoverflow.com/questions/19846796/adding-titles-to-xtable}.
+\newpage
 
-<<addtorow>>=
+\subsection{Use of \code{add.to.row} argument}
+The following frequency table has outer dimnames: \code{Grade3} and
+\code{Grade6}.
+
+<<>>=
 Grade3 <- c("A","B","B","A","B","C","C","D","A","B",
             "C","C","C","D","B","B","D","C","C","D")
 Grade6 <- c("A","A","A","B","B","B","B","B","C","C",
             "A","C","C","C","D","D","D","D","D","D")
-Cohort <- table(Grade3,Grade6)
-rownames(Cohort) <- 1:4
-colnames(Cohort) <- 5:8
-addtorow <- list()
-addtorow$pos <- list()
-addtorow$pos[[1]] <- 0
-addtorow$pos[[2]] <- 0
-addtorow$command <- c('& \\multicolumn{4}{c}{Grade 6} \\\\\n',
-                      "Grade 3 & A & B & C & D \\\\\n")
-print(xtable(Cohort, caption = 'My Title'), caption.placement = 'bottom',
-      add.to.row = addtorow, include.colnames = FALSE,
-      floating = TRUE)
+Cohort <- table(Grade3, Grade6)
+Cohort
 @
 
+\p
+The default behavior of \code{print.xtable} is to strip outer dimnames.
+<<results='asis'>>=
+xtable(Cohort)
+@
 
-<<printaddtorow, echo = FALSE, results = 'asis'>>=
-print(xtable(Cohort, caption = 'My Title'), caption.placement = 'bottom',
-      add.to.row = addtorow, include.colnames = FALSE,
-      floating = TRUE)
-@ %def
+\p
+The desired column labels can be created using \code{add.to.row}, in this case
+applying two commands to ``row number zero'' while suppressing the basic column
+names.
+
+<<results='asis'>>=
+addtorow <- list()
+addtorow$pos <- list(0, 0)
+addtorow$command <- c("& \\multicolumn{4}{c}{Grade 6} \\\\\n",
+                      "Grade 3 & A & B & C & D \\\\\n")
+print(xtable(Cohort), add.to.row = addtorow, include.colnames = FALSE)
+@
 
 \subsection{Sideways tables}
 Requires \verb|\usepackage{rotating}| in the LaTeX
@@ -478,8 +467,8 @@ fairly nearby.
 
 <<results='asis'>>=
 x <- x[1:30, ]
-x.side <- xtable(x, caption = 'A sideways table')
-print(x.side, floating = TRUE, floating.environment = 'sidewaystable')
+x.side <- xtable(x, caption = "A sideways table")
+print(x.side, floating = TRUE, floating.environment = "sidewaystable")
 @
 \clearpage
 
@@ -491,9 +480,10 @@ x.rescale <- xtable(x)
 print(x.rescale, scalebox = 0.7)
 @
 
-\subsection{Aligning Fixed Width Columns}
+\newpage
 
-Note that using specifications such as \lstinline+p{2cm}+ always
+\subsection{Aligning fixed width columns}
+Note that using specifications such as \verb|p{2cm}| always
 produces a \textbf{left aligned} column. What if some other alignment
 is desired?
 
@@ -501,13 +491,10 @@ This is not really a problem with \pkg{xtable} but with the formatting
 of tables with fixed width columns and different alignments using
 standard \LaTeX.
 
-This question appears on Stack Exchange:\\
-\url{http://tex.stackexchange.com/questions/12703/how-to-create-fixed-width-table-columns-with-text-raggedright-centered-raggedlef}
-
-The response is to use the \lstinline+array+ package, defining new
+One solution is to use the \verb|array| package, defining new
 column formats.
 
-\begin{lstlisting}
+\begin{verbatim}
 \newcolumntype{L}[1]{>{\raggedright\let\newline\\
     \arraybackslash\hspace{0pt}}m{#1}}
 \newcolumntype{C}[1]{>{\centering\let\newline\\
@@ -515,12 +502,12 @@ column formats.
 \newcolumntype{R}[1]{>{\raggedleft\let\newline\\
     \arraybackslash\hspace{0pt}}m{#1}}
 \newcolumntype{P}[1]{>{\raggedright\tabularxbackslash}p{#1}}
-\end{lstlisting}
+\end{verbatim}
 
 These allow for very sophisticated cell formatting, namely
 left-aligned, centred, or right-aligned text, with recognition of line
 breaks for the first three new column types. If these lines are
-included along with \lstinline+\usepackage{array}+, then the following
+included along with \verb|\usepackage{array}|, then the following
 is possible.
 
 \newcolumntype{L}[1]{>{\raggedright\let\newline\\
@@ -531,31 +518,12 @@ is possible.
     \arraybackslash\hspace{0pt}}m{#1}}
 \newcolumntype{P}[1]{>{\raggedright\tabularxbackslash}p{#1}}
 
-<<arrayexample>>=
-df <- data.frame(name = c("A","B"),
-                 right = c(1.4, 34.6),
-                 left = c(1.4, 34.6),
-                 text = c("txt1","txt2"))
-@ %def
-
-Here is the output produced by printing an
-\lstinline+"xtable"+ object.
-
-<<arraytable>>=
-print(xtable(df, align = c("|l", "|c", "|R{3cm}","|L{3cm}","| p{3cm}|")),
+<<results='asis'>>=
+df <- data.frame(name = c("A","B"), right = c(1.4, 34.6),
+                 left = c(1.4, 34.6), text = c("txt1","txt2"))
+print(xtable(df, align = c("l", "|c", "|R{3cm}", "|L{3cm}", "| p{3cm}|")),
       floating = FALSE, include.rownames = FALSE)
-@ %def
-
-
-Using the \pkg{knitr} option \code{'asis'} we obtain the table.
-
-<<arrayprint, results = 'asis'>>=
-print(xtable(df, align = c("|l", "|c", "|R{3cm}","|L{3cm}","| p{3cm}|")),
-      floating = FALSE, include.rownames = FALSE)
-@ %def
-
-
-
+@
 
 \subsection{Table width}
 The \code{tabularx} environment is for typesetting tables whose overall width is
@@ -594,9 +562,10 @@ x.ltx
 
 \section{Acknowledgements}
 Most of the examples in this gallery are taken from the \pkg{xtable}
-documentation.
+documentation. Two examples (\code{add.to.row} and `Aligning fixed width
+columns') are from Stack Exchange.
 
-\section{\proglang{R} session information}
+\section{\R\ session information}
 <<results='asis'>>=
 toLatex(sessionInfo())
 @
