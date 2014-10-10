@@ -6,24 +6,20 @@
 % \VignetteEngine{knitr::knitr}
 %**************************************************************************
 \documentclass{article}
-\usepackage[a4paper,height=24cm]{geometry}
-\usepackage{parskip}
-\usepackage{titlesec}
-\titleformat\subsubsection{\bfseries\itshape}{}{0pt}{}
+\usepackage[a4paper,height=24cm]{geometry} % geometry first
+\usepackage{array}
 \usepackage{booktabs}
 \usepackage{longtable}
+\usepackage{parskip}
 \usepackage{rotating}
-\usepackage{array}
 \usepackage{tabularx}
+\usepackage{titlesec}
+\usepackage{hyperref} % hyperref last
+\titleformat\subsubsection{\bfseries\itshape}{}{0pt}{}
 \newcommand\p{\vspace{2ex}}
-\setcounter{tocdepth}{2}
-%% Define \code \proglang and \pkg commands
 \newcommand\code[1]{\texttt{#1}}
 \newcommand\pkg[1]{\textbf{#1}}
-\newcommand\R{\textsf{R}}
-%% url and hyperref
-\usepackage[hyphens]{url}
-\usepackage{hyperref}
+\setcounter{tocdepth}{2}
 \begin{document}
 
 \title{The \pkg{xtable} Gallery}
@@ -35,8 +31,6 @@
 \newpage
 
 \section{Introduction}
-\label{sec:introduction}
-
 This document gives a gallery of tables which can be made using the
 \pkg{xtable} package to create \LaTeX\ output. It doubles as a
 regression check for the package.
@@ -117,6 +111,8 @@ xtable(summary(pr1))
 # xtable(pr2)
 @
 
+\newpage
+
 \subsection{Time series}
 <<results='asis'>>=
 temp.ts <- ts(cumsum(1 + round(rnorm(100), 0)),
@@ -194,6 +190,8 @@ print(wanttex, sanitize.text.function =
       function(str) gsub("_", "\\_", str, fixed = TRUE))
 @
 
+\newpage
+
 \subsection{Markup in tables}
 Markup can be included in tables, including in column and row names, by using
 a custom \code{sanitize.text.function}.
@@ -206,9 +204,8 @@ mat <- xtable(mat)
 print(mat, sanitize.text.function = function(x) {x})
 @
 
-\newpage
 % By David Dahl to demonstrate contribution from David Whitting, 2007-10-09.
-
+\p
 You can also have sanitize functions that are specific to column or
 row names.  In the table below, the row name is not sanitized but
 column names and table elements are.
@@ -480,8 +477,6 @@ x.rescale <- xtable(x)
 print(x.rescale, scalebox = 0.7)
 @
 
-\newpage
-
 \subsection{Aligning fixed width columns}
 Note that using specifications such as \verb|p{2cm}| always
 produces a \textbf{left aligned} column. What if some other alignment
@@ -525,6 +520,8 @@ print(xtable(df, align = c("l", "|c", "|R{3cm}", "|L{3cm}", "| p{3cm}|")),
       floating = FALSE, include.rownames = FALSE)
 @
 
+\newpage
+
 \subsection{Table width}
 The \code{tabularx} environment is for typesetting tables whose overall width is
 fixed. The column alignment code \code{X} denotes columns that will be stretched
@@ -538,8 +535,6 @@ x.width <- xtable(df.width)
 align(x.width) <- "|l|X|l|l|l|"
 print(x.width, tabular.environment = "tabularx", width = "\\textwidth")
 @
-
-\newpage
 
 \section{Suppressing printing}
 By default the \code{print} method will print the \LaTeX\ or HTML to standard
@@ -560,12 +555,14 @@ class(x.ltx)
 x.ltx
 @
 
+\newpage
+
 \section{Acknowledgements}
 Most of the examples in this gallery are taken from the \pkg{xtable}
 documentation. Two examples (\code{add.to.row} and `Aligning fixed width
 columns') are from Stack Exchange.
 
-\section{\R\ session information}
+\section{Session information}
 <<results='asis'>>=
 toLatex(sessionInfo())
 @
