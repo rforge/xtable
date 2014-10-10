@@ -1,3 +1,10 @@
+autoformat <- function(xtab, zap = getOption("digits")) {
+  align(xtab) <- xalign(xtab)
+  digits(xtab) <- xdigits(xtab, zap = zap)
+  display(xtab) <- xdisplay(xtab)
+  return(xtab)
+}
+
 xalign <- function(x, pad = TRUE) {
   lr <- function(v) if(is.numeric(v)) "r" else "l"
 

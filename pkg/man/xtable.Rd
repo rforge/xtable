@@ -24,7 +24,7 @@
 }
 \usage{
 xtable(x, caption = NULL, label = NULL, align = NULL, digits = NULL,
-       display = NULL, ...)
+       display = NULL, auto = FALSE, ...)
 }
 \arguments{
   \item{x}{An R object of class found among \code{methods(xtable)}.  See
@@ -79,6 +79,12 @@ xtable(x, caption = NULL, label = NULL, align = NULL, digits = NULL,
     but \code{digits} as number of \emph{significant} digits.  Note that
     this can lead to quite long result strings.  Default depends on the
     class of \code{x}.}
+  \item{auto}{
+    Logical, indicating whether to apply automatic format when no value
+    is passed to \code{align}, \code{digits}, or \code{display}. This
+    \sQuote{autoformat} (based on \code{xalign}, \code{xdigits}, and
+    \code{xdisplay}) can be useful to quickly format a typical
+    \code{matrix} or \code{data.frame}. Default value is \code{FALSE}.}
   \item{...}{Additional arguments.  (Currently ignored.)}
 }
 \details{
@@ -102,9 +108,7 @@ xtable(x, caption = NULL, label = NULL, align = NULL, digits = NULL,
   manipulated.  All method functions should return an object whose class
   is \code{c("xtable","data.frame")}.  The resulting object can
   have attributes \code{caption} and \code{label}, but must have
-  attributes \code{align}, \code{digits}, and \code{display}.  It is
-  strongly recommened that you set these attributes through the provided
-  replacement functions as they perform validity checks.
+  attributes \code{align}, \code{digits}, and \code{display}.
 }
 \value{An object of class \code{"xtable"} which inherits the
   \code{data.frame} class and contains several additional attributes
@@ -118,7 +122,8 @@ xtable(x, caption = NULL, label = NULL, align = NULL, digits = NULL,
   \code{\link{label}}, \code{\link{align}}, \code{\link{digits}},
   \code{\link{display}}
 
-  \code{\link{xalign}}, \code{\link{xdigits}}, \code{\link{xdisplay}}
+  \code{\link{autoformat}}, \code{\link{xalign}}, \code{\link{xdigits}},
+  \code{\link{xdisplay}}
 }
 \examples{
 
@@ -129,6 +134,8 @@ data(tli)
 tli.table <- xtable(tli[1:20, ])
 print(tli.table)
 print(tli.table, type = "html")
+xtable(mtcars)
+xtable(mtcars, auto = TRUE)
 
 ## Demonstrate data.frame with different digits in cells
 tli.table <- xtable(tli[1:20, ])
@@ -139,7 +146,7 @@ print(tli.table, type = "html")
 
 ## Demonstrate matrix
 design.matrix <- model.matrix(~ sex*grade, data = tli[1:20, ])
-design.table <- xtable(design.matrix)
+design.table <- xtable(design.matrix, auto = TRUE)
 print(design.table)
 print(design.table, type = "html")
 

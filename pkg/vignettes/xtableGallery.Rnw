@@ -143,7 +143,8 @@ temp.table
 # }
 @
 
-\section{Helper functions for formatting}
+\section{Automatic formatting}
+\subsection{Suggest alignment, digits, and display}
 The functions \code{xalign}, \code{xdigits}, and \code{xdisplay} are useful for
 formatting tables in a sensible way. Consider the output produced by the default
 formatting.
@@ -164,6 +165,24 @@ align(x) <- xalign(x)
 digits(x) <- xdigits(x)
 display(x) <- xdisplay(x)
 x
+@
+
+\subsection{Shorthand notation}
+For convenience, the three `autoformat' functions (\code{xalign},
+\code{xdigits}, and \code{xdisplay}) can be applied together when an
+\code{xtable} is created, using the \code{auto} argument:
+
+<<results='asis'>>=
+xtable(dat, auto = TRUE)
+@
+
+\p
+Similarly, the \code{autoformat} function can be used to postprocess an
+existing \code{xtable}:
+
+<<results='asis'>>=
+x <- xtable(dat)
+autoformat(x)
 @
 
 \newpage

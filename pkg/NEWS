@@ -1,26 +1,17 @@
-1.7-5 (26-09-2015 NOT YET RELEASED TO CRAN)
-
-  * xalign, xdigits, xdisplay from Arni Magnusson (arnima@hafro.is)
-    added along with help file. Feature request #5686. R code for
-    these functions is in formatHelpers.R and man page is called
-    formatHelpers.Rd.
-  * xtableGallery.snw removed and replaced with
-    xtableGallery.Rnw. Both vignettes now use knitr instead of Sweave.
-  * Section added to xtableGallery showing use of xalign, xdigits, and
-    xdisplay
-
+1.8-0 (NOT YET RELEASED TO CRAN)
+  * autoformat, xalign, xdigits, xdisplay from Arni Magnusson, added
+    along with help file. Feature request #5686.
+  * New argument 'auto' in xtable(), to call xalign, xdigits, and
+    xdisplay at the time when xtable is created.
+  * Updated xtableGallery vignette, now with TOC and revised examples.
 
 1.7-4 (2014-09-11)
-  * Released to CRAN
   * Changed tags in HTML to be all lower case, to be compatible with
     HTML5, part of feature request. (#5879)
   * Fixed booktabs bug (#2309), more of an enhancement really. Updated
     xtableGallery.snw to illustrate the change.
-  * Moved vignettes from inst/doc to vignettes as now required by CRAN.
-  * Changed email address of David Dahl to dahl@stat.byu.edu in 9 places
 
 1.7-3 (2014-03-06)
-  * Released to CRAN
   * Dealt with format.args bug (#4770). No code changes, but the
     documentation of print.xtable was changed to warn of the problem
     and to give a workaround as an example.
