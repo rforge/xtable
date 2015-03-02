@@ -105,14 +105,14 @@
   \item{NA.string}{String to be used for missing values in table
     entries.
     Default value is \code{""}.}
-  \item{include.rownames}{If \code{TRUE} the rows names is
+  \item{include.rownames}{If \code{TRUE} the rows names are
     printed.
     Default value is \code{TRUE}.}
-  \item{include.colnames}{If \code{TRUE} the columns names is
+  \item{include.colnames}{If \code{TRUE} the columns names are
     printed.
     Default value is \code{TRUE}.}
   \item{only.contents}{If \code{TRUE} only the rows of the
-    table is printed.
+    table are printed.
     Default value is \code{FALSE}. }
   \item{add.to.row}{A list of two components. The first component (which
     should be called 'pos') is a list that contains the position of rows on
