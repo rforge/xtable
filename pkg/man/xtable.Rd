@@ -47,7 +47,7 @@ xtable(x, caption = NULL, label = NULL, align = NULL, digits = NULL,
     one greater than \code{ncol(x)} if \code{x} is a
     \code{data.frame}. Use \code{"l"}, \code{"r"}, and \code{"c"} to
     denote left, right, and center alignment, respectively.  Use
-    \code{"p\{3cm\}"} etc. for a LaTeX column of the specified width. For
+    \code{"p{3cm}"} etc. for a LaTeX column of the specified width. For
     HTML output the \code{"p"} alignment is interpreted as \code{"l"},
     ignoring the width request. Default depends on the class of
     \code{x}. }
