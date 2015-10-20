@@ -6,7 +6,7 @@ Author: David B. Dahl <dahl@stat.byu.edu>
 Maintainer: David Scott <d.scott@auckland.ac.nz>
 Suggests: knitr
 VignetteBuilder: knitr
-Description: Coerce data to LaTeX and HTML tables
+Description: Coerce data to LaTeX and HTML tables.
 URL: http://xtable.r-forge.r-project.org/
 Depends: R (>= 2.10.0)
 License: GPL (>= 2)
