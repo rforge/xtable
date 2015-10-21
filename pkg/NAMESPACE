@@ -2,7 +2,6 @@ importFrom("utils", "toLatex")
 importFrom("stats", "anova", "as.ts", "cycle", "end", "frequency",
            "na.omit", "pchisq", "start", "time")
 importFrom("utils", "packageDescription")
-
 export("caption<-", "caption", "label", "label<-",
    "align<-", "align", "digits<-", "digits", "display<-",
    "display", "xtable", "print.xtable", "toLatex.xtable",
