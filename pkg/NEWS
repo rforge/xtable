@@ -1,4 +1,4 @@
-1.8-0 (NOT YET RELEASED TO CRAN)
+1.8-0
   * autoformat, xalign, xdigits, xdisplay from Arni Magnusson, added
     along with help file. Feature request #5686.
   * New argument 'auto' in xtable(), to call xalign, xdigits, and
