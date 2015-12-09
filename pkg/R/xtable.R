@@ -26,7 +26,7 @@ xtable <- function(x, caption = NULL, label = NULL, align = NULL,
 }
 
 
-## data.frame and matrix objects
+### data.frame and matrix objects
 
 xtable.data.frame <- function(x, caption = NULL, label = NULL, align = NULL,
                               digits = NULL, display = NULL, auto = FALSE,
@@ -63,9 +63,25 @@ xtable.matrix <- function(x, caption = NULL, label = NULL, align = NULL,
                           digits = NULL, display = NULL, auto = FALSE, ...) {
   return(xtable.data.frame(data.frame(x, check.names = FALSE),
                            caption = caption, label = label, align = align,
-                           digits = digits, display = display, auto = auto))
+                           digits = digits, display = display, auto = auto,
+                           ...))
 }
 
+### xtableMatharray object
+### To deal with numeric arrays such as a variance-covariance matrix
+### From a request by James Curran, 16 October 2015
+xtable.xtableMatharray <- function(x, caption = NULL, label = NULL,
+                                   align = NULL, digits = NULL,
+                                   display = NULL, auto = FALSE,
+                                   ...) {
+  class(x) <- c("xtableMatharray","matrix")
+  xtbl <- xtable.matrix(x,
+                        caption = caption, label = label, align = align,
+                        digits = digits, display = display, auto = auto,
+                        ...)
+  class(xtbl) <- c("xtableMatharray","xtable","data.frame")
+  return(xtbl)  
+}
 
 ### table objects (of 1 or 2 dimensions) by Guido Gay, 9 Feb 2007
 ### Fixed to pass R checks by DBD, 9 May 2007
@@ -88,7 +104,7 @@ xtable.table <- function(x, caption = NULL, label = NULL, align = NULL,
 }
 
 
-## anova objects
+### anova objects
 
 xtable.anova <- function(x, caption = NULL, label = NULL, align = NULL,
                          digits = NULL, display = NULL, auto = FALSE, ...) {
@@ -110,7 +126,7 @@ xtable.anova <- function(x, caption = NULL, label = NULL, align = NULL,
 }
 
 
-## aov objects
+### aov objects
 
 xtable.aov <- function(x, caption = NULL, label = NULL, align = NULL,
                        digits = NULL, display = NULL, auto = FALSE, ...) {
@@ -155,7 +171,7 @@ xtable.aovlist <- function(x, caption = NULL, label = NULL, align = NULL,
 
 
 
-## lm objects
+### lm objects
 
 xtable.lm <- function(x, caption = NULL, label = NULL, align = NULL,
                       digits = NULL, display = NULL, auto = FALSE, ...) {
@@ -182,7 +198,7 @@ xtable.summary.lm <- function(x, caption = NULL, label = NULL, align = NULL,
 }
 
 
-## glm objects
+### glm objects
 
 xtable.glm <- function(x, caption = NULL, label = NULL, align = NULL,
                        digits = NULL, display = NULL, auto = FALSE, ...) {
@@ -199,7 +215,7 @@ xtable.summary.glm <- function(x, caption = NULL, label = NULL, align = NULL,
 }
 
 
-## prcomp objects
+### prcomp objects
 
 xtable.prcomp <- function(x, caption = NULL, label = NULL, align = NULL,
                           digits = NULL, display = NULL, auto = FALSE, ...) {
@@ -249,8 +265,7 @@ xtable.coxph <- function (x, caption = NULL, label = NULL, align = NULL,
     tmp <- cbind(beta, exp(beta), se, beta/se, 1 - pchisq((beta/se)^2, 1))
     dimnames(tmp) <- list(names(beta),
       c("coef", "exp(coef)", "se(coef)", "z", "p"))
-  }
-  else {
+  } else {
     tmp <- cbind( beta, exp(beta), se, beta/se,
       signif(1 - pchisq((beta/se)^2, 1), digits - 1))
     dimnames(tmp) <- list(names(beta),
@@ -279,8 +294,7 @@ xtable.ts <- function(x, caption = NULL, label = NULL, align = NULL,
                        "Arg8", "Arg9", "Arg10", "Arg11",
                        paste(tp.1, month.abb[tp.2], sep = " "))
     tmp <- data.frame(x, row.names = ROWNAMES);
-  }
-  else if (inherits(x, "ts") && is.null(ncol(x))) {
+  } else if (inherits(x, "ts") && is.null(ncol(x))) {
     COLNAMES <- switch(frequency(x),
                        "Value",
                        "Arg2", "Arg3",              # Dummy arguments

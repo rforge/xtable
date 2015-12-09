@@ -7,6 +7,7 @@
 %**************************************************************************
 \documentclass{article}
 \usepackage[a4paper,height=24cm]{geometry} % geometry first
+\usepackage{listings}
 \usepackage{array}
 \usepackage{booktabs}
 \usepackage{longtable}
@@ -20,6 +21,13 @@
 \newcommand\code[1]{\texttt{#1}}
 \newcommand\pkg[1]{\textbf{#1}}
 \setcounter{tocdepth}{2}
+
+\lstset{language=R,basicstyle=\ttfamily,
+        keywordstyle=\ttfamily,
+        emphstyle=\itshape,
+        escapeinside = ||,
+        lineskip=0pt}
+
 \begin{document}
 
 \title{The \pkg{xtable} Gallery}
@@ -121,6 +129,36 @@ temp.table <- xtable(temp.ts, digits = 0)
 temp.table
 @
 
+\subsection{Mathematical arrays}
+\label{sec:mathematical-arrays}
+
+Mathematical arrays (as compared to data arrays) can be printed
+correctly by declaring the class as \code{xtableMatharray}.
+<<matharraydata>>=
+V <- matrix(c(1.140380e-03,  3.010497e-05,  7.334879e-05,
+              3.010497e-05,  3.320683e-04, -5.284854e-05,
+              7.334879e-05, -5.284854e-05,  3.520928e-04), nrow = 3)
+V
+class(V) <- c("xtableMatharray")
+class(V)
+xtbl <- print(xtable(V, display = rep("E", 4)))
+@ %def
+
+Then \code{xtbl} can be used in an expression such as
+$V=\left[\Sexpr{xtbl}\right]$, produced by
+\begin{lstlisting}
+V=\left[\Sexp||r{xtbl}\right]. 
+\end{lstlisting}
+
+
+An alternative display can be created using the \texttt{digits}
+argument. If \code{xtbl} is defined instead according to
+
+<<altmatharray, results = 'hide'>>=
+xtbl <- print(xtable(V, digits = 6))
+@ %def 
+then we get\\
+$V=\left[\Sexpr{paste(print(xtable(V, digits = 6)))}\right].$ 
 \newpage
 
 <<include=FALSE>>=
@@ -209,6 +247,7 @@ print(wanttex, sanitize.text.function =
       function(str) gsub("_", "\\_", str, fixed = TRUE))
 @
 
+
 \newpage
 
 \subsection{Markup in tables}
@@ -236,6 +275,8 @@ money <- matrix(c("$1,000","$900","$100"), ncol = 3,
                                   "Profit (US$)")))
 print(xtable(money), sanitize.rownames.function = function(x) {x})
 @
+
+
 
 \section{Format examples}
 \subsection{Adding a centering environment}
@@ -290,6 +331,27 @@ or as a full matrix.
 digits(tli.table) <- matrix(0:4, nrow = 10, ncol = ncol(tli)+1)
 tli.table
 @
+
+\subsection{Minus signs}
+\label{sec:minus-signs}
+
+The standard print functions do not render minus signs properly. They
+are actually hyphens (-) rather than minus signs ($-$). True minus
+signs can be obtained using the \code{math.style.negative} argument.
+
+\p
+Here is the \LaTeX{} which is produced:
+
+<<>>=
+pr1 <- prcomp(USArrests)
+print(xtable(pr1), math.style.negative = TRUE)
+@ 
+
+And here is the resulting table.
+<<results='asis'>>=
+print(xtable(pr1), math.style.negative = TRUE)
+@
+
 
 \newpage
 

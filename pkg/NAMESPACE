@@ -4,10 +4,12 @@ importFrom("stats", "anova", "as.ts", "cycle", "end", "frequency",
 importFrom("utils", "packageDescription")
 export("caption<-", "caption", "label", "label<-",
    "align<-", "align", "digits<-", "digits", "display<-",
-   "display", "xtable", "print.xtable", "toLatex.xtable",
+   "display", "xtable",
+   "print.xtable", "print.xtableMatharray","toLatex.xtable",
    "autoformat", "xalign", "xdigits", "xdisplay")
 
 S3method("print", "xtable")
+S3method("print", "xtableMatharray")
 S3method("toLatex", "xtable")
 
 S3method("caption<-", "xtable")
@@ -23,6 +25,7 @@ S3method("display", "xtable")
 
 S3method("xtable", "data.frame")
 S3method("xtable", "matrix")
+S3method("xtable", "xtableMatharray")
 S3method("xtable", "table")
 S3method("xtable", "anova")
 S3method("xtable", "aov")
