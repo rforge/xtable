@@ -2,39 +2,36 @@ require(xtable)
 V <- matrix(c(1.140380e-03,  3.010497e-05,  7.334879e-05,
               3.010497e-05,  3.320683e-04, -5.284854e-05,
               7.334879e-05, -5.284854e-05,  3.520928e-04), nrow = 3)
-V
+### Simple test of print.xtableMatharray
+print.xtableMatharray(xtable(V, display = rep("E", 4)))
+
 class(V) <- c("xtableMatharray")
 class(V)
 
+### Test without any additional arguments
 mth <- xtable(V)
 str(mth)
-mth
-
-tbl <- xtable(V, display = rep("E", 4))
-str(tbl)
-tbl
-
-V <- matrix(c(1.140380e-03,  3.010497e-05,  7.334879e-05,
-              3.010497e-05,  3.320683e-04, -5.284854e-05,
-              7.334879e-05, -5.284854e-05,  3.520928e-04), nrow = 3)
-V
-mth <- xtable(V, display = rep("E", 4))
-class(mth)
-mth
-class(mth) <- c("xtableMatharray")
-mth
 print(mth)
-print.xtableMatharray(xtable(V, display = rep("E", 4)))
-class(mth) <- c("xtableMatharray")
-mth
 
-V <- matrix(c(1.140380e-03,  3.010497e-05,  7.334879e-05,
-              3.010497e-05,  3.320683e-04, -5.284854e-05,
-              7.334879e-05, -5.284854e-05,  3.520928e-04), nrow = 3)
-V
+### Test with arguments to xtable
+mth <- xtable(V, display = rep("E", 4))
+str(mth)
+print(mth)
 
-print.xtableMatharray(xtable(V),
-                      format.args = list(display = rep("E", 4)))
-print.xtableMatharray(xtable(V),
-                      format.args = list(digits = 6))
+mth <- xtable(V, digits = 6)
+str(mth)
+print(mth)
+
+### Test with additional print.xtableMatharray arguments
+mth <- xtable(V, digits = 6)
+str(mth)
+print(mth, format.args = list(decimal.mark = ","))
+print(mth, scalebox = 0.5)
+print(mth, comment = TRUE)
+print(mth, timestamp = "2000-01-01")
+print(mth, comment = TRUE, timestamp = "2000-01-01")
+
+
+
+
 

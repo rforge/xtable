@@ -7,6 +7,7 @@
 \alias{xtable.glm}
 \alias{xtable.lm}
 \alias{xtable.matrix}
+\alias{xtable.xtableMatharray}
 \alias{xtable.prcomp}
 \alias{xtable.coxph}
 \alias{xtable.summary.aov}

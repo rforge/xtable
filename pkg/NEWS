@@ -1,5 +1,7 @@
 1.8-1 (NOT YET SUBMITTED TO CRAN)
-
+  * added function print.xtableMatharray to enable easy creation of
+    LaTeX code to enable an array to be included in a document.
+  
 1.8-0
   * autoformat, xalign, xdigits, xdisplay from Arni Magnusson, added
     along with help file. Feature request #5686.

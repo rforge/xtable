@@ -1,5 +1,5 @@
 print.xtableMatharray <- function(x,
-           print.results = FALSE,
+           print.results = TRUE,
            format.args = getOption("xtable.format.args", NULL),
            scalebox = getOption("xtable.scalebox", NULL),
            comment = FALSE,

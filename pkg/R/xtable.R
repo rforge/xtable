@@ -80,7 +80,7 @@ xtable.xtableMatharray <- function(x, caption = NULL, label = NULL,
                         digits = digits, display = display, auto = auto,
                         ...)
   class(xtbl) <- c("xtableMatharray","xtable","data.frame")
-  return(xtbl)  
+  return(xtbl)
 }
 
 ### table objects (of 1 or 2 dimensions) by Guido Gay, 9 Feb 2007
