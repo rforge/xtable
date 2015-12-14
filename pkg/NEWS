@@ -1,6 +1,8 @@
 1.8-1 (NOT YET SUBMITTED TO CRAN)
   * added function print.xtableMatharray to enable easy creation of
     LaTeX code to enable an array to be included in a document.
+  * added example to the gallery using sanitizing headings and row
+    names to produce large bold headings and italic row names.
   
 1.8-0
   * autoformat, xalign, xdigits, xdisplay from Arni Magnusson, added
