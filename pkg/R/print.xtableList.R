@@ -1,0 +1,146 @@
+print.xtableList <- function(x,
+  type = getOption("xtable.type", "latex"),
+  file = getOption("xtable.file", ""),
+  append = getOption("xtable.append", FALSE),
+  floating = getOption("xtable.floating", TRUE),
+  floating.environment = getOption("xtable.floating.environment", "table"),
+  table.placement = getOption("xtable.table.placement", "ht"),
+  caption.placement = getOption("xtable.caption.placement", "bottom"),
+  caption.width = getOption("xtable.caption.width", NULL),
+  latex.environments = getOption("xtable.latex.environments", c("center")),
+  tabular.environment = getOption("xtable.tabular.environment", "tabular"),
+  size = getOption("xtable.size", NULL),
+  hline.after = NULL,
+  NA.string = getOption("xtable.NA.string", ""),
+  include.rownames = getOption("xtable.include.rownames", TRUE),
+  include.colnames = getOption("xtable.include.colnames", TRUE),
+  only.contents = getOption("xtable.only.contents", FALSE),
+  add.to.row = NULL,
+  sanitize.text.function = getOption("xtable.sanitize.text.function", NULL),
+  sanitize.rownames.function = getOption("xtable.sanitize.rownames.function",
+                                         sanitize.text.function),
+  sanitize.colnames.function = getOption("xtable.sanitize.colnames.function",
+                                         sanitize.text.function),
+  math.style.negative = getOption("xtable.math.style.negative", FALSE),
+  html.table.attributes = getOption("xtable.html.table.attributes", "border=1"),
+  print.results = getOption("xtable.print.results", TRUE),
+  format.args = getOption("xtable.format.args", NULL),
+  rotate.rownames = getOption("xtable.rotate.rownames", FALSE),
+  rotate.colnames = getOption("xtable.rotate.colnames", FALSE),
+  booktabs = getOption("xtable.booktabs", FALSE),
+  scalebox = getOption("xtable.scalebox", NULL),
+  width = getOption("xtable.width", NULL),
+  comment = getOption("xtable.comment", TRUE),
+  timestamp = getOption("xtable.timestamp", date()),
+  colnames.format = "single",
+  ...)
+{
+  ## Get number of rows for each table in list of tables
+  if (booktabs){
+    tRule <- "\\toprule"
+    mRule <- "\\midrule"
+    bRule <- "\\bottomrule"
+  } else {
+    tRule <- "\\hline"
+    mRule <- "\\hline"
+    bRule <- "\\hline"
+  }
+  nCols <- dim(x[[1]])[2]
+  rowNums <- sapply(x, dim)[1,]
+  combinedRowNums <- cumsum(rowNums)
+  combined <- do.call(rbind, x)
+  if (colnames.format == "single"){
+    add.to.row <- list(pos = NULL, command = NULL)
+    add.to.row$pos <- as.list(c(0, combinedRowNums[-length(x)],
+                                dim(combined)[1]))
+    command <- sapply(x, attr, "subheading")
+
+    add.to.row$command[1:length(x)] <-
+      paste0(mRule,"\n\\multicolumn{", nCols, "}{l}{", command, "}\\\\\n")
+    if ( (booktabs) & length(attr(x, "message") > 0) ){
+      attr(x, "message")[1] <-
+        paste0("\\rule{0em}{2.5ex}", attr(x, "message")[1])
+    }
+    add.to.row$command[length(x) + 1] <-
+      paste0("\n\\multicolumn{", nCols, "}{l}{", attr(x, "message"), "}\\\\\n",
+             collapse = "")
+    add.to.row$command[length(x) + 1] <-
+      paste0(bRule, add.to.row$command[length(x) + 1])
+
+    class(combined) <- c("xtableList", "data.frame")
+    hline.after <- c(-1)
+    include.colnames <- TRUE
+  }
+
+  if (colnames.format == "multiple"){
+    if (is.null(sanitize.colnames.function)) {
+      colHead <- names(x[[1]])
+    } else {
+      colHead <- sanitize.colnames.function(names(x[[1]]))
+    }
+    if (rotate.colnames) {
+      colHead <- paste("\\begin{sideways}", colHead, "\\end{sideways}")
+    }
+    colHead <- paste0(colHead, collapse = " & ")
+    colHead <- paste0(tRule, "\n", colHead, " \\\\", mRule, "\n")
+    add.to.row <- list(pos = NULL, command = NULL)
+    add.to.row$pos <- as.list(c(0, c(combinedRowNums[1:length(x)])))
+    command <- sapply(x, attr, "subheading")
+    add.to.row$command[1] <-
+      paste0("\n\\multicolumn{", nCols, "}{l}{", command[1], "}", " \\\\ \n",
+             colHead)
+    add.to.row$command[2:length(x)] <-
+      paste0(bRule,
+             "\\\\ \n\\multicolumn{", nCols, "}{l}{",
+             command[2:length(x)], "}",
+             "\\\\ \n",
+             colHead)
+    if ( (booktabs) & length(attr(x, "message") > 0) ){
+      attr(x, "message")[1] <-
+        paste0("\\rule{0em}{2.5ex}", attr(x, "message")[1])
+    }
+    add.to.row$command[length(x) + 1] <-
+      paste0("\n\\multicolumn{", nCols, "}{l}{", attr(x, "message"), "}\\\\\n",
+             collapse = "")
+    add.to.row$command[length(x) + 1] <-
+      paste0(bRule, add.to.row$command[length(x) + 1])
+
+    class(combined) <- c("xtableList", "data.frame")
+    hline.after <- NULL
+
+    include.colnames <- FALSE
+  }
+
+  print.xtable(combined,
+               type = type,
+               floating = floating,
+               floating.environment = floating.environment,
+               table.placement = table.placement,
+               caption.placement = caption.placement,
+               caption.width = caption.width,
+               latex.environments = latex.environments,
+               tabular.environment = tabular.environment,
+               size = size,
+               hline.after = hline.after,
+               NA.string = NA.string,
+               include.rownames = include.rownames,
+               include.colnames = include.colnames,
+               only.contents = only.contents,
+               add.to.row = add.to.row,
+               sanitize.text.function = sanitize.text.function,
+               sanitize.rownames.function = sanitize.rownames.function,
+               sanitize.colnames.function = sanitize.colnames.function,
+               math.style.negative = math.style.negative,
+               html.table.attributes = html.table.attributes,
+               print.results = print.results,
+               format.args = format.args,
+               rotate.rownames = rotate.rownames,
+               rotate.colnames = rotate.colnames,
+               booktabs = booktabs,
+               scalebox = scalebox,
+               width = width,
+               comment = comment,
+               timestamp = timestamp,
+               ...)
+
+}
