@@ -72,7 +72,7 @@ Now create a list of \code{xtable} objects.
 
 
 <<xtablelist>>=
-xList <- xtable.xtableList(mtcarsList)
+xList <- xtableList(mtcarsList)
 str(xList)
 @ %def
 
@@ -81,12 +81,12 @@ for \code{digits}.
 
 
 <<xtablelist1>>=
-xList1 <- xtable.xtableList(mtcarsList, digits = c(0,2,0,0,0,1,2))
+xList1 <- xtableList(mtcarsList, digits = c(0,2,0,0,0,1,2))
 str(xList1)
 @ %def
 
 <<xtablelist2>>=
-xList2 <- xtable.xtableList(mtcarsList, digits = c(0,2,0,0,0,1,2),
+xList2 <- xtableList(mtcarsList, digits = c(0,2,0,0,0,1,2),
                             caption = "Caption to List",
                             label = "tbl:xtableList")
 str(xList2)
@@ -197,7 +197,7 @@ library(lsmeans)
 warp.lm <- lm(breaks ~ wool*tension, data = warpbreaks)
 warp.lsm <- lsmeans(warp.lm, ~ tension | wool)
 warp.sum <- summary(warp.lsm, adjust = "mvt")
-warp.xtblList <- xtable.lsmeans(warp.sum, digits = c(0,0,2,2,0,2,2))
+warp.xtblList <- xtablelsmeans(warp.sum, digits = c(0,0,2,2,0,2,2))
 str(warp.xtblList)
 @ %def
 

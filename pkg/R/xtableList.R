@@ -1,3 +1,36 @@
+### Function to create lists of tables
+xtableList <- function(x, caption = NULL, label = NULL, align = NULL,
+                              digits = NULL, display = NULL, ...) {
+  if (is.null(digits)){
+    digitsList <- vector("list", length(x))
+  } else {
+    if (!is.list(digits)){
+      digitsList <- vector("list", length(x))
+      for (i in 1:length(x)) digitsList[[i]] <- digits
+    }
+  }
+  if (is.null(display)){
+    displayList <- vector("list", length(x))
+  } else {
+    if (!is.list(display)){
+      displayList <- vector("list", length(x))
+      for (i in 1:length(x)) displayList[[i]] <- display
+    }
+  }
+  xList <- vector("list", length(x))
+  for (i in 1:length(x)){
+    xList[[i]] <- xtable(x[[i]], caption = caption, label = label,
+                         align = align, digits = digitsList[[i]],
+                         display = displayList[[i]], ...)
+    attr(xList[[i]], 'subheading') <- attr(x, 'subheadings')[[i]]
+  }
+  attr(xList, "message") <- attr(x, "message")
+  attr(xList, "caption") <- caption
+  attr(xList, "label") <- label
+  class(xList) <- c("xtableList", "data.frame")
+  return(xList)
+}
+
 print.xtableList <- function(x,
   type = getOption("xtable.type", "latex"),
   file = getOption("xtable.file", ""),
@@ -143,4 +176,30 @@ print.xtableList <- function(x,
                timestamp = timestamp,
                ...)
 
+}
+
+
+### Uses xtableList
+xtablelsmeans <- function(x, caption = NULL, label = NULL,
+                           align = NULL, digits = NULL,
+                           display = NULL, auto = FALSE,
+                           ...){
+  if (attr(x, "estName") == "lsmean"){
+    xList <- split(x, f = x[, 2])
+    for (i in 1:length(xList)){
+      xList[[i]] <- as.data.frame(xList[[i]][, -2])
+    }
+    attr(xList, "subheadings") <-
+      paste0(dimnames(x)[[2]][2], " = ", levels(x[[2]]))
+    attr(xList, "message") <- c("", attr(x, "mesg"))
+    xList <- xtableList(xList, caption = caption, label = label,
+                        align = align, digits = digits,
+                        display = display, auto = auto, ...)
+  } else {
+    xList <- x
+    xList <- xtable.data.frame(xList, caption = caption, label = label,
+                           align = align, digits = digits,
+                           display = display, auto = auto, ...)
+  }
+  return(xList)
 }

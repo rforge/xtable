@@ -9,21 +9,21 @@ class(V) <- c("xtableMatharray")
 class(V)
 
 ### Test without any additional arguments
-mth <- xtable(V)
+mth <- xtableMatharray(V)
 str(mth)
 print(mth)
 
 ### Test with arguments to xtable
-mth <- xtable(V, display = rep("E", 4))
+mth <- xtableMatharray(V, display = rep("E", 4))
 str(mth)
 print(mth)
 
-mth <- xtable(V, digits = 6)
+mth <- xtableMatharray(V, digits = 6)
 str(mth)
 print(mth)
 
 ### Test with additional print.xtableMatharray arguments
-mth <- xtable(V, digits = 6)
+mth <- xtableMatharray(V, digits = 6)
 str(mth)
 print(mth, format.args = list(decimal.mark = ","))
 print(mth, scalebox = 0.5)

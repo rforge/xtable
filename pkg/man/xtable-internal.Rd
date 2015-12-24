@@ -1,7 +1,8 @@
 \name{xtable-internal}
-\alias{xtable.xtableList}
+\alias{xtableMatharray}
+\alias{xtableList}
 \alias{print.xtableList}
-\alias{xtable.lsmeans}
+\alias{xtablelsmeans}
 
 \title{Internal xtable Functions}
 \description{

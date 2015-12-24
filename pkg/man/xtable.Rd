@@ -18,6 +18,7 @@
 \alias{xtable.ts}
 \alias{xtable.table}
 \alias{xtable.zoo}
+\alias{xtable.xtableList}
 \title{Create Export Tables}
 \description{
   Convert an R object to an \code{xtable} object, which can
@@ -111,9 +112,16 @@ xtable(x, caption = NULL, label = NULL, align = NULL, digits = NULL,
   have attributes \code{caption} and \code{label}, but must have
   attributes \code{align}, \code{digits}, and \code{display}.
 }
-\value{An object of class \code{"xtable"} which inherits the
-  \code{data.frame} class and contains several additional attributes
-  specifying the table formatting options.
+\value{
+  For most \code{xtable} methods, an object of class \code{"xtable"}
+  which inherits the \code{data.frame} class and contains several
+  additional attributes specifying the table formatting options.
+
+  In the case of the \code{xtableMatharray} method, an object of class
+  \code{xtableMatharray}, which the \code{xtable} and \code{data.frame}
+  classes and contains several additional attributes specifying the
+  table formatting options.
+
 }
 \author{David Dahl \email{dahl@stat.byu.edu} with contributions and
   suggestions from many others (see source code).

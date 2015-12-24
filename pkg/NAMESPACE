@@ -4,7 +4,8 @@ importFrom("stats", "anova", "as.ts", "cycle", "end", "frequency",
 importFrom("utils", "packageDescription")
 export("caption<-", "caption", "label", "label<-",
        "align<-", "align", "digits<-", "digits", "display<-",
-       "display", "xtable", "xtable.xtableList", "xtable.lsmeans",
+       "display", "xtable",
+       "xtableMatharray","xtableList", "xtablelsmeans",
        "print.xtable", "print.xtableMatharray", "print.xtableList",
        "toLatex.xtable",
        "autoformat", "xalign", "xdigits", "xdisplay")
@@ -27,8 +28,6 @@ S3method("display", "xtable")
 
 S3method("xtable", "data.frame")
 S3method("xtable", "matrix")
-S3method("xtable", "xtableMatharray")
-S3method("xtable", "xtableList")
 S3method("xtable", "table")
 S3method("xtable", "anova")
 S3method("xtable", "aov")
@@ -44,4 +43,3 @@ S3method("xtable", "summary.prcomp")
 S3method("xtable", "coxph")
 S3method("xtable", "ts")
 S3method("xtable", "zoo")
-S3method("xtable", "lsmeans")
