@@ -3,7 +3,10 @@
     LaTeX code to enable an array to be included in a document.
   * added example to the gallery using sanitizing headings and row
     names to produce large bold headings and italic row names.
-  
+ * added code from Martin Gubri, martin.gubri@framasoft.org, to produce
+   tables from the spatial econometrics packages, spdep, splm, and
+   sphet.
+
 1.8-0
   * autoformat, xalign, xdigits, xdisplay from Arni Magnusson, added
     along with help file. Feature request #5686.

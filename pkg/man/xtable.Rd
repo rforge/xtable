@@ -18,7 +18,19 @@
 \alias{xtable.ts}
 \alias{xtable.table}
 \alias{xtable.zoo}
-\alias{xtable.xtableList}
+\alias{xtable.sarlm}
+\alias{xtable.summary.sarlm}
+\alias{xtable.gmsar}
+\alias{xtable.summary.gmsar}
+\alias{xtable.stsls}
+\alias{xtable.summary.stsls}
+\alias{xtable.splm}
+\alias{xtable.summary.splm}
+\alias{xtable.sphet}
+\alias{xtable.summary.sphet}
+
+
+
 \title{Create Export Tables}
 \description{
   Convert an R object to an \code{xtable} object, which can
