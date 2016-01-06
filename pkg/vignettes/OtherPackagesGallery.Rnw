@@ -1,0 +1,216 @@
+%\VignetteIndexEntry{xtable List of Tables Gallery}
+%\VignetteDepends{xtable, spdep, splm, sphet}
+%\VignetteKeywords{LaTeX, HTML, table}
+%\VignettePackage{xtable}
+% !Rnw weave = knitr
+% \VignetteEngine{knitr::knitr}
+%**************************************************************************
+\documentclass{article}
+\usepackage[a4paper, height=24cm]{geometry} % geometry first
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{parskip}
+\usepackage{rotating}
+\usepackage{tabularx}
+\usepackage{titlesec}
+\usepackage{hyperref} % hyperref last
+\titleformat\subsubsection{\bfseries\itshape}{}{0pt}{}
+\newcommand\p{\vspace{2ex}}
+\newcommand\code[1]{\texttt{#1}}
+\newcommand\pkg[1]{\textbf{#1}}
+\setcounter{tocdepth}{2}
+\begin{document}
+
+\title{\bfseries\Large The Other Packages Gallery}
+\author{\bfseries David J. Scott}
+\maketitle
+
+\tableofcontents
+
+\newpage
+
+\section{Introduction}
+This document represents a test of the functions in \pkg{xtable} which
+deal with other packages
+
+<<set, include=FALSE>>=
+library(knitr)
+opts_chunk$set(fig.path = 'Figures/other', debug = TRUE, echo = TRUE)
+opts_chunk$set(out.width = '0.9\\textwidth')
+@
+
+The first step is to load the package and set some options for this document.
+<<package, results='asis'>>=
+library(xtable)
+options(xtable.floating = FALSE)
+options(xtable.timestamp = "")
+options(width = 60)
+@
+
+\section{The packages \pkg{spdep}, \pkg{splm}, and \pkg{sphet}}
+
+Code for supporting these packages and most of the examples used in
+this section was originally provided by Martin Gubri
+(\url{martin.gubri@framasoft.org}).
+
+\subsection{The package \pkg{spdep}}
+\label{sec:package-pkgspdep}
+
+First load the package and create some objects.
+<<dataspdep>>=
+library(spdep)
+data(oldcol)
+COL.lag.eig <- lagsarlm(CRIME ~ INC + HOVAL, data = COL.OLD, 
+                        nb2listw(COL.nb))
+class(COL.lag.eig)
+COL.errW.GM <- GMerrorsar(CRIME ~ INC + HOVAL, data = COL.OLD,
+                          nb2listw(COL.nb, style = "W"), 
+                          returnHcov = TRUE)
+class(COL.errW.GM)
+COL.lag.stsls <- stsls(CRIME ~ INC + HOVAL, data = COL.OLD, 
+                       nb2listw(COL.nb))
+class(COL.lag.stsls)
+@ %def
+
+
+\subsubsection{\code{sarlm} objects}
+\label{sec:codesarlm-objects}
+
+There is an \code{xtable} method for objects of this type.
+<<xtablesarlm, results = 'asis'>>=
+xtable(COL.lag.eig)
+@ %def 
+
+The method for \code{xtable} actually uses the summary of the object,
+and an identical result is obtained when using the summary of the
+object, even if the summary contains more additional information.
+
+<<xtablesarlmsumm, results = 'asis'>>=
+xtable(summary(COL.lag.eig, correlation = TRUE))
+@ %def
+
+This same pattern applies to the other objects from this group of packages.
+
+Note that additional prettying of the resulting table is possible, as
+for any table produced using \code{xtable}. For example using the
+\pkg{booktabs} package we get:
+
+<<xtablesarlmbooktabs, results = 'asis'>>=
+print(xtable(COL.lag.eig), booktabs = TRUE)
+@ %def
+
+\subsubsection{\code{gmsar} objects}
+\label{sec:codegmsar-objects}
+
+
+<<xtablegmsar, results = 'asis'>>=
+xtable(COL.errW.GM)
+@ %def 
+
+\subsubsection{\code{stsls} objects}
+\label{sec:codestsls-objects}
+
+
+<<xtablestsls, results = 'asis'>>=
+xtable(COL.lag.stsls)
+@ %def 
+
+
+
+\subsubsection{\code{spautolm} objects}
+\label{sec:codespautolm-objects}
+
+The need for an \code{xtable} method for \code{spautolm} was expressed
+by Guido Schulz (\url{schulzgu@student.hu-berlin.de}), who also
+provided an example of an object of this type. The required code was
+implemented by David Scott (\url{d.scott@auckland.ac.nz}).
+
+First create an object of the required type
+
+<<minimalexample, results = 'hide'>>=
+library(spdep)
+example(NY_data)
+spautolmOBJECT <- spautolm(Z ~ PEXPOSURE + PCTAGE65P,data = nydata,
+                           listw = listw_NY, family = "SAR",
+                           method = "eigen", verbose = TRUE)
+summary(spautolmOBJECT, Nagelkerke = TRUE)
+@ %def
+
+\p
+<<spautolmclass>>=
+class(spautolmOBJECT)
+@ %def 
+
+
+<<xtablespautolm, results = 'asis'>>=
+xtable(spautolmOBJECT,
+       display = c("s",rep("f", 3), "e"), digits = 4)
+@ %def 
+
+
+
+\subsection{The package \pkg{splm}}
+\label{sec:package-pkgsplm}
+
+First load the package and create some objects.
+<<datasplm>>=
+library(splm)
+data(Produc, package = "plm")
+data(usaww)
+fm <- log(gsp) ~ log(pcap) + log(pc) + log(emp) + unemp
+fespaterr <- spml(fm, data = Produc, listw = mat2listw(usaww),
+                  model = "within", spatial.error = "b", Hess = FALSE)
+class(fespaterr)
+GM <- spgm(log(gsp) ~ log(pcap) + log(pc) + log(emp) + unemp, data = Produc,
+           listw = usaww, moments = "fullweights", spatial.error = TRUE)
+class(GM)
+@ %def
+
+
+\subsubsection{\code{splm} objects}
+\label{sec:codesplm-objects}
+
+<<xtablesplm, results = 'asis'>>=
+xtable(fespaterr)
+@ %def 
+
+
+\p
+<<xtablesplm1, results = 'asis'>>=
+xtable(GM)
+@ %def 
+
+
+\subsection{The package \pkg{sphet}}
+\label{sec:package-pkgsphet}
+
+First load the package and create some objects.
+<<datasphet>>=
+library(sphet)
+data(columbus)
+listw <- nb2listw(col.gal.nb)
+data(coldis)
+res.stsls <- stslshac(CRIME ~ HOVAL + INC, data = columbus, listw = listw,  
+                      distance = coldis, type = 'Triangular')
+class(res.stsls)
+
+res.gstsls <- gstslshet(CRIME ~ HOVAL + INC, data = columbus, listw = listw)
+class(res.gstsls)
+@ %def
+
+
+\subsubsection{\code{sphet} objects}
+\label{sec:codesphet-objects}
+
+<<xtablesphet, results = 'asis'>>=
+xtable(res.stsls)
+@ %def 
+
+\p
+<<xtablesphet1, results = 'asis'>>=
+xtable(res.gstsls)
+@ %def 
+
+
+\end{document}
