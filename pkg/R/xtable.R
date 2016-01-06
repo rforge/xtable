@@ -305,7 +305,9 @@ xtable.zoo <- function(x, ...) {
   return(xtable(as.ts(x), ...))
 }
 
-
+### Date: Fri, 29 May 2015 11:41:04 +0200
+### From: Martin G. <martin.gubri@framasoft.org>
+### Subject: [xtable] Code for spdep, splm and sphet objects outputs
 ### package spdep
 ### sarlm objects
 xtable.sarlm <- function(x, caption = NULL, label = NULL, align = NULL,
@@ -332,12 +334,32 @@ xtable.summary.sarlm <- function(x, caption = NULL, label = NULL, align = NULL,
   return(x)
 }
 
+### spautolm objects: added by David Scott, 6/1/2016, after suggestion by
+### Guido Schulz
+### Date: Wed, 29 Apr 2015 10:45:16 +0200
+### Guido Schulz <schulzgu@student.hu-berlin.de>
+xtable.spautolm <- function(x, caption = NULL, label = NULL, align = NULL,
+                            digits = NULL, display = NULL, auto = FALSE, ...) {
+  return(xtable.summary.sarlm(summary(x), caption = caption, label = label,
+                              align = align, digits = digits,
+                              display = display, auto = auto))
+}
+
+xtable.summary.spautolm <- function(x, caption = NULL, label = NULL,
+                                    align = NULL, digits = NULL,
+                                    display = NULL, auto = FALSE, ...) {
+  return(xtable.summary.sarlm(summary(x), caption = caption, label = label,
+                              align = align, digits = digits,
+                              display = display, auto = auto))
+}
+
+
 ### gmsar objects
 xtable.gmsar <- function(x, caption = NULL, label = NULL, align = NULL,
                          digits = NULL, display = NULL, auto = FALSE, ...) {
   return(xtable.summary.sarlm(summary(x), caption = caption, label = label,
                               align = align, digits = digits,
-                              display = display, auto = auto))
+                              display = display, auto = auto, ...))
 }
 
 xtable.summary.gmsar <- function(x, caption = NULL, label = NULL, align = NULL,
@@ -353,7 +375,7 @@ xtable.stsls <- function(x, caption = NULL, label = NULL, align = NULL,
                          digits = NULL, display = NULL, auto = FALSE, ...) {
   return(xtable.summary.sarlm(summary(x), caption = caption, label = label,
                               align = align, digits = digits,
-                              display = display, auto = auto))
+                              display = display, auto = auto, ...))
 }
 
 xtable.summary.stsls <- function(x, caption = NULL, label = NULL, align = NULL,

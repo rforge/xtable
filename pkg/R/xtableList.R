@@ -27,7 +27,7 @@ xtableList <- function(x, caption = NULL, label = NULL, align = NULL,
   attr(xList, "message") <- attr(x, "message")
   attr(xList, "caption") <- caption
   attr(xList, "label") <- label
-  class(xList) <- c("xtableList", "data.frame")
+  class(xList) <- c("xtableList")
   return(xList)
 }
 
@@ -180,7 +180,7 @@ print.xtableList <- function(x,
 
 
 ### Uses xtableList
-xtablelsmeans <- function(x, caption = NULL, label = NULL,
+xtableLSMeans <- function(x, caption = NULL, label = NULL,
                            align = NULL, digits = NULL,
                            display = NULL, auto = FALSE,
                            ...){

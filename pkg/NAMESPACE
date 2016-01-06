@@ -5,7 +5,7 @@ importFrom("utils", "packageDescription")
 export("caption<-", "caption", "label", "label<-",
        "align<-", "align", "digits<-", "digits", "display<-",
        "display", "xtable",
-       "xtableMatharray","xtableList", "xtablelsmeans",
+       "xtableMatharray","xtableList", "xtableLSMeans",
        "print.xtable", "print.xtableMatharray", "print.xtableList",
        "toLatex.xtable",
        "autoformat", "xalign", "xdigits", "xdisplay")
@@ -53,4 +53,5 @@ S3method("xtable", "splm")
 S3method("xtable", "summary.splm")
 S3method("xtable", "sphet")
 S3method("xtable", "summary.sphet")
-
+S3method("xtable", "spautolm")
+S3method("xtable", "summary.spautolm")

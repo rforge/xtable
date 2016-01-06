@@ -28,7 +28,8 @@
 \alias{xtable.summary.splm}
 \alias{xtable.sphet}
 \alias{xtable.summary.sphet}
-
+\alias{xtable.spautolm}
+\alias{xtable.summary.spautolm}
 
 
 \title{Create Export Tables}

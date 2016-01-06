@@ -2,7 +2,7 @@
 \alias{xtableMatharray}
 \alias{xtableList}
 \alias{print.xtableList}
-\alias{xtablelsmeans}
+\alias{xtableLSMeans}
 
 \title{Internal xtable Functions}
 \description{

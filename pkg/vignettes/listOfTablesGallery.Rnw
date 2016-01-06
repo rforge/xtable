@@ -22,8 +22,8 @@
 \setcounter{tocdepth}{2}
 \begin{document}
 
-\title{The \code{xtableList} Gallery}
-\author{David J. Scott}
+\title{\bfseries\Large The \code{xtableList} Gallery}
+\author{\bfseries David J. Scott}
 \maketitle
 
 \tableofcontents
@@ -189,7 +189,9 @@ print.xtableList(xList, colnames.format = "multiple",
 \label{sec:lsmeans}
 
 Summaries from the \code{lsmeans} function from the \pkg{lsmeans}
-package can easily be produced.
+package can easily be produced using the function
+\code{xtableLSMeans}. This function produces a list of \pkg{xtable}
+objects.
 
 
 <<lsmeans>>=
@@ -197,7 +199,7 @@ library(lsmeans)
 warp.lm <- lm(breaks ~ wool*tension, data = warpbreaks)
 warp.lsm <- lsmeans(warp.lm, ~ tension | wool)
 warp.sum <- summary(warp.lsm, adjust = "mvt")
-warp.xtblList <- xtablelsmeans(warp.sum, digits = c(0,0,2,2,0,2,2))
+warp.xtblList <- xtableLSMeans(warp.sum, digits = c(0,0,2,2,0,2,2))
 str(warp.xtblList)
 @ %def
 
