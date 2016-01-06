@@ -105,6 +105,7 @@ print.xtableList <- function(x,
     include.colnames <- TRUE
   }
 
+  ## Create headings for columns if multiple headings are needed
   if (colnames.format == "multiple"){
     if (is.null(sanitize.colnames.function)) {
       colHead <- names(x[[1]])
@@ -115,6 +116,9 @@ print.xtableList <- function(x,
       colHead <- paste("\\begin{sideways}", colHead, "\\end{sideways}")
     }
     colHead <- paste0(colHead, collapse = " & ")
+    if (include.rownames) {
+      colHead <- paste0(" & ", colHead)
+    }
     colHead <- paste0(tRule, "\n", colHead, " \\\\", mRule, "\n")
     add.to.row <- list(pos = NULL, command = NULL)
     add.to.row$pos <- as.list(c(0, c(combinedRowNums[1:length(x)])))
