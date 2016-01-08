@@ -8,7 +8,8 @@ export("caption<-", "caption", "label", "label<-",
        "xtableMatharray","xtableList", "xtableLSMeans",
        "print.xtable", "print.xtableMatharray", "print.xtableList",
        "toLatex.xtable",
-       "autoformat", "xalign", "xdigits", "xdisplay")
+       "autoformat", "xalign", "xdigits", "xdisplay",
+       "sanitize", "sanitize.numbers", "sanitize.final")
 
 S3method("print", "xtable")
 S3method("print", "xtableMatharray")

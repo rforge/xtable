@@ -1,11 +1,14 @@
 1.8-1 (NOT YET SUBMITTED TO CRAN)
-  * added function print.xtableMatharray to enable easy creation of
+  * Added function print.xtableMatharray to enable easy creation of
     LaTeX code to enable an array to be included in a document.
-  * added example to the gallery using sanitizing headings and row
+  * Added example to the gallery using sanitizing headings and row
     names to produce large bold headings and italic row names.
- * added code from Martin Gubri, martin.gubri@framasoft.org, to produce
-   tables from the spatial econometrics packages, spdep, splm, and
-   sphet.
+  * Added code from Martin Gubri, martin.gubri@framasoft.org, to produce
+    tables from the spatial econometrics packages, spdep, splm, and
+    sphet.
+  * Extracted sanitize functions from print.xtable as stand-alone
+    functions, and exported them.
+
 
 1.8-0
   * autoformat, xalign, xdigits, xdisplay from Arni Magnusson, added

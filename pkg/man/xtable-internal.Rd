@@ -3,6 +3,9 @@
 \alias{xtableList}
 \alias{print.xtableList}
 \alias{xtableLSMeans}
+\alias{sanitize}
+\alias{sanitize.numbers}
+\alias{sanitize.final}
 
 \title{Internal xtable Functions}
 \description{

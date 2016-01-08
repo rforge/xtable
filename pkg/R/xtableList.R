@@ -1,6 +1,6 @@
 ### Function to create lists of tables
 xtableList <- function(x, caption = NULL, label = NULL, align = NULL,
-                              digits = NULL, display = NULL, ...) {
+                       digits = NULL, display = NULL, ...) {
   if (is.null(digits)){
     digitsList <- vector("list", length(x))
   } else {
@@ -69,125 +69,131 @@ print.xtableList <- function(x,
   ...)
 {
   ## Get number of rows for each table in list of tables
-  if (booktabs){
-    tRule <- "\\toprule"
-    mRule <- "\\midrule"
-    bRule <- "\\bottomrule"
-  } else {
-    tRule <- "\\hline"
-    mRule <- "\\hline"
-    bRule <- "\\hline"
-  }
   nCols <- dim(x[[1]])[2]
   rowNums <- sapply(x, dim)[1,]
   combinedRowNums <- cumsum(rowNums)
   combined <- do.call(rbind, x)
-  if (colnames.format == "single"){
-    add.to.row <- list(pos = NULL, command = NULL)
-    add.to.row$pos <- as.list(c(0, combinedRowNums[-length(x)],
-                                dim(combined)[1]))
-    command <- sapply(x, attr, "subheading")
-
-    add.to.row$command[1:length(x)] <-
-      paste0(mRule,"\n\\multicolumn{", nCols, "}{l}{", command, "}\\\\\n")
-    if ( (booktabs) & length(attr(x, "message") > 0) ){
-      attr(x, "message")[1] <-
-        paste0("\\rule{0em}{2.5ex}", attr(x, "message")[1])
-    }
-    add.to.row$command[length(x) + 1] <-
-      paste0("\n\\multicolumn{", nCols, "}{l}{", attr(x, "message"), "}\\\\\n",
-             collapse = "")
-    add.to.row$command[length(x) + 1] <-
-      paste0(bRule, add.to.row$command[length(x) + 1])
-
-    class(combined) <- c("xtableList", "data.frame")
-    hline.after <- c(-1)
-    include.colnames <- TRUE
-  }
-
-  ## Create headings for columns if multiple headings are needed
-  if (colnames.format == "multiple"){
-    if (is.null(sanitize.colnames.function)) {
-      colHead <- names(x[[1]])
+  if (type == "latex"){
+    ## Special treatment if using booktabs
+    if (booktabs){
+      tRule <- "\\toprule"
+      mRule <- "\\midrule"
+      bRule <- "\\bottomrule"
     } else {
-      colHead <- sanitize.colnames.function(names(x[[1]]))
+      tRule <- "\\hline"
+      mRule <- "\\hline"
+      bRule <- "\\hline"
     }
-    if (rotate.colnames) {
-      colHead <- paste("\\begin{sideways}", colHead, "\\end{sideways}")
+    if (colnames.format == "single"){
+      add.to.row <- list(pos = NULL, command = NULL)
+      add.to.row$pos <- as.list(c(0, combinedRowNums[-length(x)],
+                                  dim(combined)[1]))
+      command <- sapply(x, attr, "subheading")
+      
+      add.to.row$command[1:length(x)] <-
+        paste0(mRule,"\n\\multicolumn{", nCols, "}{l}{", command, "}\\\\\n")
+      if ( (booktabs) & length(attr(x, "message") > 0) ){
+        attr(x, "message")[1] <-
+          paste0("\\rule{0em}{2.5ex}", attr(x, "message")[1])
+      }
+      add.to.row$command[length(x) + 1] <-
+        paste0("\n\\multicolumn{", nCols, "}{l}{",
+               attr(x, "message"), "}\\\\\n",
+               collapse = "")
+      add.to.row$command[length(x) + 1] <-
+        paste0(bRule, add.to.row$command[length(x) + 1])
+      
+      class(combined) <- c("xtableList", "data.frame")
+      hline.after <- c(-1)
+      include.colnames <- TRUE
     }
-    colHead <- paste0(colHead, collapse = " & ")
-    if (include.rownames) {
-      colHead <- paste0(" & ", colHead)
-    }
-    colHead <- paste0(tRule, "\n", colHead, " \\\\", mRule, "\n")
-    add.to.row <- list(pos = NULL, command = NULL)
-    add.to.row$pos <- as.list(c(0, c(combinedRowNums[1:length(x)])))
-    command <- sapply(x, attr, "subheading")
-    add.to.row$command[1] <-
-      paste0("\n\\multicolumn{", nCols, "}{l}{", command[1], "}", " \\\\ \n",
-             colHead)
-    add.to.row$command[2:length(x)] <-
-      paste0(bRule,
-             "\\\\ \n\\multicolumn{", nCols, "}{l}{",
-             command[2:length(x)], "}",
-             "\\\\ \n",
-             colHead)
-    if ( (booktabs) & length(attr(x, "message") > 0) ){
-      attr(x, "message")[1] <-
-        paste0("\\rule{0em}{2.5ex}", attr(x, "message")[1])
-    }
-    add.to.row$command[length(x) + 1] <-
-      paste0("\n\\multicolumn{", nCols, "}{l}{", attr(x, "message"), "}\\\\\n",
-             collapse = "")
-    add.to.row$command[length(x) + 1] <-
-      paste0(bRule, add.to.row$command[length(x) + 1])
 
-    class(combined) <- c("xtableList", "data.frame")
-    hline.after <- NULL
-
-    include.colnames <- FALSE
+    ## Create headings for columns if multiple headings are needed
+    if (colnames.format == "multiple"){
+      if (is.null(sanitize.colnames.function)) {
+        colHead <- names(x[[1]])
+      } else {
+        colHead <- sanitize.colnames.function(names(x[[1]]))
+      }
+      if (rotate.colnames) {
+        colHead <- paste("\\begin{sideways}", colHead, "\\end{sideways}")
+      }
+      colHead <- paste0(colHead, collapse = " & ")
+      if (include.rownames) {
+        colHead <- paste0(" & ", colHead)
+      }
+      colHead <- paste0(tRule, "\n", colHead, " \\\\", mRule, "\n")
+      add.to.row <- list(pos = NULL, command = NULL)
+      add.to.row$pos <- as.list(c(0, c(combinedRowNums[1:length(x)])))
+      command <- sapply(x, attr, "subheading")
+      add.to.row$command[1] <-
+        paste0("\n\\multicolumn{", nCols, "}{l}{", command[1], "}", " \\\\ \n",
+               colHead)
+      add.to.row$command[2:length(x)] <-
+        paste0(bRule,
+               "\\\\ \n\\multicolumn{", nCols, "}{l}{",
+               command[2:length(x)], "}",
+               "\\\\ \n",
+               colHead)
+      if ( (booktabs) & length(attr(x, "message") > 0) ){
+        attr(x, "message")[1] <-
+          paste0("\\rule{0em}{2.5ex}", attr(x, "message")[1])
+      }
+      add.to.row$command[length(x) + 1] <-
+        paste0("\n\\multicolumn{", nCols, "}{l}{",
+               attr(x, "message"), "}\\\\\n",
+               collapse = "")
+      add.to.row$command[length(x) + 1] <-
+        paste0(bRule, add.to.row$command[length(x) + 1])
+      
+      class(combined) <- c("xtableList", "data.frame")
+      hline.after <- NULL
+      
+      include.colnames <- FALSE
+    }
+    
+    print.xtable(combined,
+                 type = type,
+                 floating = floating,
+                 floating.environment = floating.environment,
+                 table.placement = table.placement,
+                 caption.placement = caption.placement,
+                 caption.width = caption.width,
+                 latex.environments = latex.environments,
+                 tabular.environment = tabular.environment,
+                 size = size,
+                 hline.after = hline.after,
+                 NA.string = NA.string,
+                 include.rownames = include.rownames,
+                 include.colnames = include.colnames,
+                 only.contents = only.contents,
+                 add.to.row = add.to.row,
+                 sanitize.text.function = sanitize.text.function,
+                 sanitize.rownames.function = sanitize.rownames.function,
+                 sanitize.colnames.function = sanitize.colnames.function,
+                 math.style.negative = math.style.negative,
+                 html.table.attributes = html.table.attributes,
+                 print.results = print.results,
+                 format.args = format.args,
+                 rotate.rownames = rotate.rownames,
+                 rotate.colnames = rotate.colnames,
+                 booktabs = booktabs,
+                 scalebox = scalebox,
+                 width = width,
+                 comment = comment,
+                 timestamp = timestamp,
+                 ...)
+  } else {
+    stop("print.xtableList not yet implemented for this type")
   }
-
-  print.xtable(combined,
-               type = type,
-               floating = floating,
-               floating.environment = floating.environment,
-               table.placement = table.placement,
-               caption.placement = caption.placement,
-               caption.width = caption.width,
-               latex.environments = latex.environments,
-               tabular.environment = tabular.environment,
-               size = size,
-               hline.after = hline.after,
-               NA.string = NA.string,
-               include.rownames = include.rownames,
-               include.colnames = include.colnames,
-               only.contents = only.contents,
-               add.to.row = add.to.row,
-               sanitize.text.function = sanitize.text.function,
-               sanitize.rownames.function = sanitize.rownames.function,
-               sanitize.colnames.function = sanitize.colnames.function,
-               math.style.negative = math.style.negative,
-               html.table.attributes = html.table.attributes,
-               print.results = print.results,
-               format.args = format.args,
-               rotate.rownames = rotate.rownames,
-               rotate.colnames = rotate.colnames,
-               booktabs = booktabs,
-               scalebox = scalebox,
-               width = width,
-               comment = comment,
-               timestamp = timestamp,
-               ...)
-
 }
 
 
 ### Uses xtableList
 xtableLSMeans <- function(x, caption = NULL, label = NULL,
-                           align = NULL, digits = NULL,
-                           display = NULL, auto = FALSE,
-                           ...){
+                          align = NULL, digits = NULL,
+                          display = NULL, auto = FALSE,
+                          ...){
   if (attr(x, "estName") == "lsmean"){
     xList <- split(x, f = x[, 2])
     for (i in 1:length(xList)){
@@ -202,8 +208,8 @@ xtableLSMeans <- function(x, caption = NULL, label = NULL,
   } else {
     xList <- x
     xList <- xtable.data.frame(xList, caption = caption, label = label,
-                           align = align, digits = digits,
-                           display = display, auto = auto, ...)
+                               align = align, digits = digits,
+                               display = display, auto = auto, ...)
   }
   return(xList)
 }
