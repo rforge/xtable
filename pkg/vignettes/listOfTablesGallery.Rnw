@@ -117,7 +117,7 @@ With digits being specified.
 print.xtableList(xList1, booktabs = TRUE)
 @ %def
 
-Row and column names can be sanitized.
+Row and column names, subheadings, and the message can be sanitized.
 
 <<sanitize>>=
 large <- function(x){
@@ -126,6 +126,12 @@ large <- function(x){
 italic <- function(x){
   paste0('{\\emph{ ', x, '}}')
 }
+bold <- function(x){
+  paste0('{\\bfseries ', x, '}')
+}
+red <- function(x){
+  paste0('{\\color{red} ', x, '}')
+}
 @ %def
 
 
@@ -133,6 +139,8 @@ italic <- function(x){
 print.xtableList(xList,
                  sanitize.rownames.function = italic,
                  sanitize.colnames.function = large,
+                 sanitize.subheadings.function = bold,
+                 sanitize.message.function = red,
                  booktabs = TRUE)
 @ %def
 
@@ -170,6 +178,8 @@ With sanitization.
 print.xtableList(xList, colnames.format = "multiple",
                  sanitize.rownames.function = italic,
                  sanitize.colnames.function = large,
+                 sanitize.subheadings.function = bold,
+                 sanitize.message.function = red,                 
                  booktabs = TRUE)
 @ %def
 

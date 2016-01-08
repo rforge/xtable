@@ -54,6 +54,12 @@ print.xtableList <- function(x,
                                          sanitize.text.function),
   sanitize.colnames.function = getOption("xtable.sanitize.colnames.function",
                                          sanitize.text.function),
+  sanitize.subheadings.function =
+    getOption("xtable.sanitize.subheadings.function",
+              sanitize.text.function),
+  sanitize.message.function =
+    getOption("xtable.sanitize.message.function",
+              sanitize.text.function),
   math.style.negative = getOption("xtable.math.style.negative", FALSE),
   html.table.attributes = getOption("xtable.html.table.attributes", "border=1"),
   print.results = getOption("xtable.print.results", TRUE),
@@ -84,7 +90,21 @@ print.xtableList <- function(x,
       mRule <- "\\hline"
       bRule <- "\\hline"
     }
+    ## Sanitize subheadings if required
+    if (!is.null(sanitize.subheadings.function)) {
+      for (i in 1:length(x)){
+        attr(x[[i]], 'subheading') <-
+          sanitize.subheadings.function(attr(x[[i]], 'subheading'))
+      }
+    }
+    ## Sanitize message if required
+    if (!is.null(sanitize.message.function)) {
+      xMessage <- attr(x, 'message')
+      xMessage <- sapply(xMessage, sanitize.message.function)
+      attr(x, 'message') <- xMessage
+    }    
     if (colnames.format == "single"){
+ 
       add.to.row <- list(pos = NULL, command = NULL)
       add.to.row$pos <- as.list(c(0, combinedRowNums[-length(x)],
                                   dim(combined)[1]))
