@@ -26,28 +26,28 @@ sanitize <- function(str, type) {
 }
 
 
-sanitize.numbers <- function(x, type, math.style.negative){
+sanitize.numbers <- function(str, type, math.style.negative){
   if (type == "latex"){
-    result <- x
+    result <- str
     if ( math.style.negative ) {
-      for(i in 1:length(x)) {
+      for(i in 1:length(str)) {
         result[i] <- gsub("-", "$-$", result[i], fixed = TRUE)
       }
     }
     return(result)
   } else {
-    return(x)
+    return(str)
   }
 }
 
 
-sanitize.final <- function(result, type){
+sanitize.final <- function(str, type){
   if (type == "latex"){
-    return(result)
+    return(str)
   } else {
-    result$text <- gsub("  *", " ",  result$text, fixed = TRUE)
-    result$text <- gsub(' align="left"',  "", result$text,
+    str$text <- gsub("  *", " ",  str$text, fixed = TRUE)
+    str$text <- gsub(' align="left"',  "", str$text,
                         fixed = TRUE)
-    return(result)
+    return(str)
   }
 }

@@ -44,7 +44,7 @@
   ...)}
 \arguments{
   \item{x}{An object of class \code{"xtable"}.}
-  \item{type}{Type of table to produce.  Possible values for \code{type}
+  \item{type}{Type of table to produce. Possible values for \code{type}
     are \code{"latex"} or \code{"html"}.
     Default value is \code{"latex"}.}
   \item{file}{Name of file where the resulting code should be saved.  If
