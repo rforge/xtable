@@ -32,7 +32,7 @@
 
 \section{Introduction}
 This document represents a test of the functions in \pkg{xtable} which
-deal with other packages
+deal with other packages.
 
 <<set, include=FALSE>>=
 library(knitr)
@@ -61,7 +61,7 @@ First load the package and create some objects.
 <<dataspdep>>=
 library(spdep)
 data(oldcol)
-COL.lag.eig <- lagsarlm(CRIME ~ INC + HOVAL, data = COL.OLD, 
+COL.lag.eig <- lagsarlm(CRIME ~ INC + HOVAL, data = COL.OLD[], 
                         nb2listw(COL.nb))
 class(COL.lag.eig)
 COL.errW.GM <- GMerrorsar(CRIME ~ INC + HOVAL, data = COL.OLD,
@@ -71,6 +71,19 @@ class(COL.errW.GM)
 COL.lag.stsls <- stsls(CRIME ~ INC + HOVAL, data = COL.OLD, 
                        nb2listw(COL.nb))
 class(COL.lag.stsls)
+
+p1 <- predict(COL.lag.eig, newdata = COL.OLD[45:49,], 
+              listw = nb2listw(COL.nb))
+class(p1)
+p2 <- predict(COL.lag.eig, newdata = COL.OLD[45:49,], 
+              pred.type = "trend", type = "trend")
+#type option for retrocompatibility with spdep 0.5-92
+class(p2)
+
+imp.exact <- impacts(COL.lag.eig, listw = nb2listw(COL.nb))
+class(imp.exact)
+imp.sim <- impacts(COL.lag.eig, listw = nb2listw(COL.nb), R = 200)
+class(imp.sim)
 @ %def
 
 
@@ -116,6 +129,34 @@ xtable(COL.errW.GM)
 xtable(COL.lag.stsls)
 @ %def 
 
+\subsubsection{\code{sarlm.pred} objects}
+\label{sec:codesarlmpred-objects}
+
+\code{xtable} has a method for predictions of \code{sarlm} models.
+
+<<xtablesarlmpred, results = 'asis'>>=
+xtable(p1)
+@ %def 
+
+This method transforms the \code{sarlm.pred} objects into data frames, allowing any number of attributes vectors which may vary according to predictor types.
+
+<<xtablesarlmpred2, results = 'asis'>>=
+xtable(p2)
+@ %def
+
+\subsubsection{\code{lagImpact} objects}
+\label{sec:codelagimpact-objects}
+
+The \code{xtable} method returns the values of direct, indirect and total impacts for all the variables in the model. The class \code{lagImpact} have two different sets of attributes according to if simulations are used. But the \code{xtable} method always returns the three components of the non-simulation case.
+
+<<xtablelagimpactexact, results = 'asis'>>=
+xtable(imp.exact)
+@ %def 
+
+\p
+<<xtablelagimpactmcmc, results = 'asis'>>=
+xtable(imp.sim)
+@ %def 
 
 
 \subsubsection{\code{spautolm} objects}
@@ -126,7 +167,7 @@ by Guido Schulz (\url{schulzgu@student.hu-berlin.de}), who also
 provided an example of an object of this type. The required code was
 implemented by David Scott (\url{d.scott@auckland.ac.nz}).
 
-First create an object of the required type
+First create an object of the required type.
 
 <<minimalexample, results = 'hide'>>=
 library(spdep)
@@ -159,12 +200,15 @@ library(splm)
 data(Produc, package = "plm")
 data(usaww)
 fm <- log(gsp) ~ log(pcap) + log(pc) + log(emp) + unemp
-fespaterr <- spml(fm, data = Produc, listw = mat2listw(usaww),
-                  model = "within", spatial.error = "b", Hess = FALSE)
-class(fespaterr)
+respatlag <- spml(fm, data = Produc, listw = mat2listw(usaww),
+                   model="random", spatial.error="none", lag=TRUE)
+class(respatlag)
 GM <- spgm(log(gsp) ~ log(pcap) + log(pc) + log(emp) + unemp, data = Produc,
            listw = usaww, moments = "fullweights", spatial.error = TRUE)
 class(GM)
+
+imp.spml <- impacts(respatlag, listw = mat2listw(usaww, style = "W"), time = 17)
+class(imp.spml)
 @ %def
 
 
@@ -172,7 +216,7 @@ class(GM)
 \label{sec:codesplm-objects}
 
 <<xtablesplm, results = 'asis'>>=
-xtable(fespaterr)
+xtable(respatlag)
 @ %def 
 
 
@@ -181,6 +225,11 @@ xtable(fespaterr)
 xtable(GM)
 @ %def 
 
+The \code{xtable} method works the same on impacts of \code{splm} models.
+
+<<xtablesplmimpacts, results = 'asis'>>=
+xtable(imp.spml)
+@ %def 
 
 \subsection{The package \pkg{sphet}}
 \label{sec:package-pkgsphet}
@@ -197,6 +246,9 @@ class(res.stsls)
 
 res.gstsls <- gstslshet(CRIME ~ HOVAL + INC, data = columbus, listw = listw)
 class(res.gstsls)
+
+imp.gstsls <- impacts(res.gstsls, listw = listw)
+class(imp.gstsls)
 @ %def
 
 
@@ -212,5 +264,10 @@ xtable(res.stsls)
 xtable(res.gstsls)
 @ %def 
 
+\code{sphet} also provides a method for computing impacts.
+
+<<xtablesphetimpacts, results = 'asis'>>=
+xtable(imp.gstsls)
+@ %def 
 
 \end{document}

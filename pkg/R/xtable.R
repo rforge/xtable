@@ -386,11 +386,24 @@ xtable.summary.stsls <- function(x, caption = NULL, label = NULL, align = NULL,
                               display = display, auto = auto))
 }
 
+### pred.sarlm objects
+xtable.sarlm.pred <- function(x, ...) {
+  return(xtable(as.data.frame(x), ...))
+}
+ 
+### lagImpact objects
+xtable.lagImpact <- function(x, ...) {
+  xtable(spdep:::lagImpactMat(x), ...)
+}
 
 ### package splm
 ### splm objects
 xtable.splm <- function(x, caption = NULL, label = NULL, align = NULL,
                         digits = NULL, display = NULL, auto = FALSE, ...) {
+  if (!requireNamespace("splm", quietly = TRUE)) {
+    stop("Package splm is needed for this function to work.",
+      call. = FALSE)
+  }  
   return(xtable.summary.splm(summary(x), caption = caption, label = label,
                              align = align, digits = digits,
                              display = display, auto = auto))
@@ -399,6 +412,10 @@ xtable.splm <- function(x, caption = NULL, label = NULL, align = NULL,
 xtable.summary.splm <- function(x, caption = NULL, label = NULL, align = NULL,
                                 digits = NULL, display = NULL, auto = FALSE,
                                 ...) {
+  if (!requireNamespace("splm", quietly = TRUE)) {
+    stop("Package splm is needed for this function to work.",
+      call. = FALSE)
+  }
   x <- data.frame(x$CoefTable, check.names = FALSE)
 
   class(x) <- c("xtable","data.frame")
