@@ -91,7 +91,6 @@ xtable.table <- function(x, caption = NULL, label = NULL, align = NULL,
 
 
 ### anova objects
-
 xtable.anova <- function(x, caption = NULL, label = NULL, align = NULL,
                          digits = NULL, display = NULL, auto = FALSE, ...) {
   suggested.digits <- c(0,rep(2, ncol(x)))
@@ -113,7 +112,6 @@ xtable.anova <- function(x, caption = NULL, label = NULL, align = NULL,
 
 
 ### aov objects
-
 xtable.aov <- function(x, caption = NULL, label = NULL, align = NULL,
                        digits = NULL, display = NULL, auto = FALSE, ...) {
   return(xtable.anova(anova(x, ...), caption = caption, label = label,
@@ -158,7 +156,6 @@ xtable.aovlist <- function(x, caption = NULL, label = NULL, align = NULL,
 
 
 ### lm objects
-
 xtable.lm <- function(x, caption = NULL, label = NULL, align = NULL,
                       digits = NULL, display = NULL, auto = FALSE, ...) {
   return(xtable.summary.lm(summary(x), caption = caption, label = label,
@@ -185,7 +182,6 @@ xtable.summary.lm <- function(x, caption = NULL, label = NULL, align = NULL,
 
 
 ### glm objects
-
 xtable.glm <- function(x, caption = NULL, label = NULL, align = NULL,
                        digits = NULL, display = NULL, auto = FALSE, ...) {
   return(xtable.summary.glm(summary(x), caption = caption,
@@ -202,7 +198,6 @@ xtable.summary.glm <- function(x, caption = NULL, label = NULL, align = NULL,
 
 
 ### prcomp objects
-
 xtable.prcomp <- function(x, caption = NULL, label = NULL, align = NULL,
                           digits = NULL, display = NULL, auto = FALSE, ...) {
   x <- data.frame(x$rotation, check.names = FALSE)
@@ -237,10 +232,10 @@ xtable.summary.prcomp <- function(x, caption = NULL, label = NULL, align = NULL,
 }
 
 
-# Slightly modified version of xtable.coxph contributed on r-help by
-#   Date: Wed, 2 Oct 2002 17:47:56 -0500 (CDT)
-#   From: Jun Yan <jyan@stat.wisc.edu>
-#   Subject: Re: [R] xtable for Cox model output
+### Slightly modified version of xtable.coxph contributed on r-help by
+###   Date: Wed, 2 Oct 2002 17:47:56 -0500 (CDT)
+###   From: Jun Yan <jyan@stat.wisc.edu>
+###   Subject: Re: [R] xtable for Cox model output
 xtable.coxph <- function (x, caption = NULL, label = NULL, align = NULL,
                           digits = NULL, display = NULL, auto = FALSE, ...)
 {
@@ -261,13 +256,13 @@ xtable.coxph <- function (x, caption = NULL, label = NULL, align = NULL,
                 digits = digits, display = display, auto = auto))
 }
 
-# Additional method: xtable.ts
-# Contributed by David Mitchell (davidm@netspeed.com.au)
-# Date: July 2003
+### Additional method: xtable.ts
+### Contributed by David Mitchell (davidm@netspeed.com.au)
+### Date: July 2003
 xtable.ts <- function(x, caption = NULL, label = NULL, align = NULL,
                       digits = NULL, display = NULL, auto = FALSE, ...) {
   if (inherits(x, "ts") && !is.null(ncol(x))) {
-    # COLNAMES <- paste(colnames(x));
+    ## COLNAMES <- paste(colnames(x));
     tp.1 <- trunc(time(x))
     tp.2 <- trunc(cycle(x))
     day.abb <- c("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")
@@ -340,7 +335,7 @@ xtable.summary.sarlm <- function(x, caption = NULL, label = NULL, align = NULL,
 ### Guido Schulz <schulzgu@student.hu-berlin.de>
 xtable.spautolm <- function(x, caption = NULL, label = NULL, align = NULL,
                             digits = NULL, display = NULL, auto = FALSE, ...) {
-  return(xtable.summary.sarlm(summary(x), caption = caption, label = label,
+    return(xtable.summary.sarlm(summary(x), caption = caption, label = label,
                               align = align, digits = digits,
                               display = display, auto = auto))
 }
@@ -348,7 +343,7 @@ xtable.spautolm <- function(x, caption = NULL, label = NULL, align = NULL,
 xtable.summary.spautolm <- function(x, caption = NULL, label = NULL,
                                     align = NULL, digits = NULL,
                                     display = NULL, auto = FALSE, ...) {
-  return(xtable.summary.sarlm(summary(x), caption = caption, label = label,
+    return(xtable.summary.sarlm(summary(x), caption = caption, label = label,
                               align = align, digits = digits,
                               display = display, auto = auto))
 }
@@ -357,7 +352,7 @@ xtable.summary.spautolm <- function(x, caption = NULL, label = NULL,
 ### gmsar objects
 xtable.gmsar <- function(x, caption = NULL, label = NULL, align = NULL,
                          digits = NULL, display = NULL, auto = FALSE, ...) {
-  return(xtable.summary.sarlm(summary(x), caption = caption, label = label,
+    return(xtable.summary.sarlm(summary(x), caption = caption, label = label,
                               align = align, digits = digits,
                               display = display, auto = auto, ...))
 }
@@ -390,7 +385,7 @@ xtable.summary.stsls <- function(x, caption = NULL, label = NULL, align = NULL,
 xtable.sarlm.pred <- function(x, ...) {
   return(xtable(as.data.frame(x), ...))
 }
- 
+
 ### lagImpact objects
 xtable.lagImpact <- function(x, ...) {
   xtable(spdep:::lagImpactMat(x), ...)
@@ -400,10 +395,6 @@ xtable.lagImpact <- function(x, ...) {
 ### splm objects
 xtable.splm <- function(x, caption = NULL, label = NULL, align = NULL,
                         digits = NULL, display = NULL, auto = FALSE, ...) {
-  if (!requireNamespace("splm", quietly = TRUE)) {
-    stop("Package splm is needed for this function to work.",
-      call. = FALSE)
-  }  
   return(xtable.summary.splm(summary(x), caption = caption, label = label,
                              align = align, digits = digits,
                              display = display, auto = auto))
@@ -412,10 +403,6 @@ xtable.splm <- function(x, caption = NULL, label = NULL, align = NULL,
 xtable.summary.splm <- function(x, caption = NULL, label = NULL, align = NULL,
                                 digits = NULL, display = NULL, auto = FALSE,
                                 ...) {
-  if (!requireNamespace("splm", quietly = TRUE)) {
-    stop("Package splm is needed for this function to work.",
-      call. = FALSE)
-  }
   x <- data.frame(x$CoefTable, check.names = FALSE)
 
   class(x) <- c("xtable","data.frame")
