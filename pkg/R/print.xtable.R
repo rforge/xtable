@@ -45,6 +45,7 @@ print.xtable <- function(x,
   sanitize.colnames.function = getOption("xtable.sanitize.colnames.function",
                                          sanitize.text.function),
   math.style.negative = getOption("xtable.math.style.negative", FALSE),
+  math.style.exponents = getOption("xtable.math.style.exponents", FALSE),
   html.table.attributes = getOption("xtable.html.table.attributes", "border=1"),
   print.results = getOption("xtable.print.results", TRUE),
   format.args = getOption("xtable.format.args", NULL),
@@ -537,7 +538,8 @@ print.xtable <- function(x,
     if ( is.numeric.column ) {
       cols[, i+pos] <-
         sanitize.numbers(cols[, i+pos], type = type,
-                         math.style.negative = math.style.negative)
+                         math.style.negative = math.style.negative,
+                         math.style.exponents = math.style.exponents)
     } else {
       if (is.null(sanitize.text.function)) {
         cols[, i+pos] <- sanitize(cols[, i+pos], type = type)

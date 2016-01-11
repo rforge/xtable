@@ -188,6 +188,25 @@ autoformat(x)
 
 \newpage
 
+\subsection{Math-Style Exponents}
+If you prefer $5 \times 10^5$ in your tables to 5e5, the
+\code{math.style.exponents} option to \code{print.xtable} is useful:
+
+<<results='asis'>>=
+print(xtable(data.frame(text=c("foo","bar"),
+                        googols=c(10e10,50e10),
+                        small=c(8e-24,7e-5),
+                        row.names=c("A","B")),
+             display=c("s","s","g","g")),
+      math.style.exponents=TRUE
+      )
+@ 
+
+this option also supports the values \code{ensuremath} which uses
+\code{\char`\\ensuremath} instead of \code{\$\$} and \code{UTF-8}
+which uses UTF-8 to approximate the \LaTeX typesetting.
+
+
 \section{Sanitization}
 <<results='asis'>>=
 insane <- data.frame(Name = c("Ampersand","Greater than","Less than",

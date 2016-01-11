@@ -1,4 +1,4 @@
-1.8-1 (NOT YET SUBMITTED TO CRAN)
+1.8-2 (NOT YET SUBMITTED TO CRAN)
   * Added function print.xtableMatharray to enable easy creation of
     LaTeX code to enable an array to be included in a document.
   * Added example to the gallery using sanitizing headings and row
@@ -8,6 +8,9 @@
     sphet.
   * Extracted sanitize functions from print.xtable as stand-alone
     functions, and exported them.
+  * Added option to produce math style exponents when sanitizing
+    numbers, as suggested by Don Armstrong (don@donarmstrong.com), who
+    also provided code
 
 
 1.8-0

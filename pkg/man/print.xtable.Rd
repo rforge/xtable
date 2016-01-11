@@ -30,6 +30,7 @@
   sanitize.colnames.function = getOption("xtable.sanitize.colnames.function",
                                          sanitize.text.function),
   math.style.negative = getOption("xtable.math.style.negative", FALSE),
+  math.style.exponents = getOption("xtable.math.style.exponents", FALSE),
   html.table.attributes = getOption("xtable.html.table.attributes",
                                     "border=1"),
   print.results = getOption("xtable.print.results", TRUE),
@@ -137,6 +138,12 @@
     The default uses the \code{sanitize.text.function}. }
   \item{math.style.negative}{In a LaTeX table, if \code{TRUE}, then use
     $-$ for the negative sign (as was the behavior prior to version 1.5-3).
+    Default value is \code{FALSE}.}  
+  \item{math.style.exponents}{In a LaTeX table, if \code{TRUE} or
+    \code{"$$"}, then use \verb{$5 \times 10^{5}$} for 5e5. If
+    \code{"ensuremath"}, then use \verb{\\ensuremath{5 \times 10^{5}}}
+    for 5e5. If \code{"UTF-8"} or \code{"UTF-8"}, then use UTF-8 to
+    approximate the LaTeX typsetting for 5e5.
     Default value is \code{FALSE}.}
   \item{html.table.attributes}{In an HTML table, attributes associated
     with the \code{<TABLE>} tag.

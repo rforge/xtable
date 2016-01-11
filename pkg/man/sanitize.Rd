@@ -13,7 +13,8 @@
 }
 \usage{
 sanitize(str, type)
-sanitize.numbers(str, type, math.style.negative)
+sanitize.numbers(str, type, math.style.negative = FALSE,
+                 math.style.exponents = FALSE)
 sanitize.final(str, type)
 }
 
@@ -24,6 +25,12 @@ sanitize.final(str, type)
     Default value is \code{"latex"}.}
   \item{math.style.negative}{In a LaTeX table, if \code{TRUE}, then use
     $-$ for the negative sign (as was the behavior prior to version 1.5-3).
+    Default value is \code{FALSE}.}
+  \item{math.style.exponents}{In a LaTeX table, if \code{TRUE} or
+    \code{"$$"}, then use \verb{$5 \times 10^{5}$} for 5e5. If
+    \code{"ensuremath"}, then use \verb{\ensuremath{5 \times 10^{5}}}
+    for 5e5. If \code{"UTF-8"} or \code{"UTF-8"}, then use UTF-8 to
+    approximate the LaTeX typsetting for 5e5.
     Default value is \code{FALSE}.}
 }
 \details{
@@ -41,6 +48,12 @@ sanitize.final(str, type)
   When \code{math.style.negative} is \code{TRUE}, and \code{type} is
   \code{"latex"}, $-$ is used for the negative sign rather than a
   simple hyphen (-). No effect when \code{type} is \code{"html"}.
+
+  When \code{type} is \code{"latex"}, and \code{math.style.exponents}
+  is \code{TRUE} or \verb{"$$"}, then use \verb{$5 \times 10^{5}$} for
+  5e5. If \code{"ensuremath"}, then use \verb{\ensuremath{5 \times
+  10^{5}}} for 5e5. If \code{"UTF-8"} or \code{"UTF-8"}, then use UTF-8
+  to approximate the LaTeX typsetting for 5e5.
 
   When \code{type} is \code{"latex"} \code{sanitize.final} has no
   effect. When \code{type} is \code{"html"}, multiple spaces are
@@ -72,7 +85,8 @@ names(insane) <- c("Ampersand","Greater than","Less than")
 sanitize(insane, type = "html")
 x <- rnorm(10)
 sanitize.numbers(x, "latex", TRUE)
-sanitize.numbers(x, "html", TRUE)
+sanitize.numbers(x*10^(10), "latex", TRUE, TRUE)
+sanitize.numbers(x, "html", TRUE, TRUE)
 }
 
 \keyword{print }
