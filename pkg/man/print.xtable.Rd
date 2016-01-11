@@ -198,7 +198,7 @@
   \code{sanitize.text.function=function(x){x}}.
 
   From version 1.6-1 the default values for the arguments other than
-  \code{x} are obtainined using \code{getOption()}.  Hence the user can
+  \code{x} are obtained using \code{getOption()}.  Hence the user can
   set the values once with \code{options()} rather than setting them in
   every call to \code{print.xtable()}.
 
