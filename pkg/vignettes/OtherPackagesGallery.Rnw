@@ -60,22 +60,22 @@ this section was originally provided by Martin Gubri
 First load the package and create some objects.
 <<dataspdep>>=
 library(spdep)
-data(oldcol)
-COL.lag.eig <- lagsarlm(CRIME ~ INC + HOVAL, data = COL.OLD[], 
+data("oldcol", package = "spdep")
+COL.lag.eig <- lagsarlm(CRIME ~ INC + HOVAL, data = COL.OLD[],
                         nb2listw(COL.nb))
 class(COL.lag.eig)
 COL.errW.GM <- GMerrorsar(CRIME ~ INC + HOVAL, data = COL.OLD,
-                          nb2listw(COL.nb, style = "W"), 
+                          nb2listw(COL.nb, style = "W"),
                           returnHcov = TRUE)
 class(COL.errW.GM)
-COL.lag.stsls <- stsls(CRIME ~ INC + HOVAL, data = COL.OLD, 
+COL.lag.stsls <- stsls(CRIME ~ INC + HOVAL, data = COL.OLD,
                        nb2listw(COL.nb))
 class(COL.lag.stsls)
 
-p1 <- predict(COL.lag.eig, newdata = COL.OLD[45:49,], 
+p1 <- predict(COL.lag.eig, newdata = COL.OLD[45:49,],
               listw = nb2listw(COL.nb))
 class(p1)
-p2 <- predict(COL.lag.eig, newdata = COL.OLD[45:49,], 
+p2 <- predict(COL.lag.eig, newdata = COL.OLD[45:49,],
               pred.type = "trend", type = "trend")
 #type option for retrocompatibility with spdep 0.5-92
 class(p2)
@@ -93,7 +93,7 @@ class(imp.sim)
 There is an \code{xtable} method for objects of this type.
 <<xtablesarlm, results = 'asis'>>=
 xtable(COL.lag.eig)
-@ %def 
+@ %def
 
 The method for \code{xtable} actually uses the summary of the object,
 and an identical result is obtained when using the summary of the
@@ -119,7 +119,7 @@ print(xtable(COL.lag.eig), booktabs = TRUE)
 
 <<xtablegmsar, results = 'asis'>>=
 xtable(COL.errW.GM)
-@ %def 
+@ %def
 
 \subsubsection{\code{stsls} objects}
 \label{sec:codestsls-objects}
@@ -127,7 +127,7 @@ xtable(COL.errW.GM)
 
 <<xtablestsls, results = 'asis'>>=
 xtable(COL.lag.stsls)
-@ %def 
+@ %def
 
 \subsubsection{\code{sarlm.pred} objects}
 \label{sec:codesarlmpred-objects}
@@ -136,7 +136,7 @@ xtable(COL.lag.stsls)
 
 <<xtablesarlmpred, results = 'asis'>>=
 xtable(p1)
-@ %def 
+@ %def
 
 This method transforms the \code{sarlm.pred} objects into data frames, allowing any number of attributes vectors which may vary according to predictor types.
 
@@ -151,12 +151,12 @@ The \code{xtable} method returns the values of direct, indirect and total impact
 
 <<xtablelagimpactexact, results = 'asis'>>=
 xtable(imp.exact)
-@ %def 
+@ %def
 
 \p
 <<xtablelagimpactmcmc, results = 'asis'>>=
 xtable(imp.sim)
-@ %def 
+@ %def
 
 
 \subsubsection{\code{spautolm} objects}
@@ -181,13 +181,13 @@ summary(spautolmOBJECT, Nagelkerke = TRUE)
 \p
 <<spautolmclass>>=
 class(spautolmOBJECT)
-@ %def 
+@ %def
 
 
 <<xtablespautolm, results = 'asis'>>=
 xtable(spautolmOBJECT,
        display = c("s",rep("f", 3), "e"), digits = 4)
-@ %def 
+@ %def
 
 
 
@@ -197,8 +197,8 @@ xtable(spautolmOBJECT,
 First load the package and create some objects.
 <<datasplm>>=
 library(splm)
-data(Produc, package = "plm")
-data(usaww)
+data("Produc", package = "plm")
+data("usaww",  package = "splm")
 fm <- log(gsp) ~ log(pcap) + log(pc) + log(emp) + unemp
 respatlag <- spml(fm, data = Produc, listw = mat2listw(usaww),
                    model="random", spatial.error="none", lag=TRUE)
@@ -217,19 +217,19 @@ class(imp.spml)
 
 <<xtablesplm, results = 'asis'>>=
 xtable(respatlag)
-@ %def 
+@ %def
 
 
 \p
 <<xtablesplm1, results = 'asis'>>=
 xtable(GM)
-@ %def 
+@ %def
 
 The \code{xtable} method works the same on impacts of \code{splm} models.
 
 <<xtablesplmimpacts, results = 'asis'>>=
 xtable(imp.spml)
-@ %def 
+@ %def
 
 \subsection{The package \pkg{sphet}}
 \label{sec:package-pkgsphet}
@@ -237,10 +237,10 @@ xtable(imp.spml)
 First load the package and create some objects.
 <<datasphet>>=
 library(sphet)
-data(columbus)
+data("columbus", package = "spdep")
 listw <- nb2listw(col.gal.nb)
-data(coldis)
-res.stsls <- stslshac(CRIME ~ HOVAL + INC, data = columbus, listw = listw,  
+data("coldis", package = "sphet")
+res.stsls <- stslshac(CRIME ~ HOVAL + INC, data = columbus, listw = listw,
                       distance = coldis, type = 'Triangular')
 class(res.stsls)
 
@@ -257,17 +257,17 @@ class(imp.gstsls)
 
 <<xtablesphet, results = 'asis'>>=
 xtable(res.stsls)
-@ %def 
+@ %def
 
 \p
 <<xtablesphet1, results = 'asis'>>=
 xtable(res.gstsls)
-@ %def 
+@ %def
 
 \code{sphet} also provides a method for computing impacts.
 
 <<xtablesphetimpacts, results = 'asis'>>=
 xtable(imp.gstsls)
-@ %def 
+@ %def
 
 \end{document}

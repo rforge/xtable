@@ -1,5 +1,4 @@
 \name{xtable-internal}
-\alias{xtableMatharray}
 \alias{xtableList}
 \alias{print.xtableList}
 \alias{xtableLSMeans}

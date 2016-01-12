@@ -56,7 +56,7 @@ sanitize.numbers <- function(str, type,
       } else if (math.style.exponents == "UTF8" ||
                  math.style.exponents == "UTF-8") {
         for(i in 1:length(str)) {
-          ## this code turns 1e5 into 1×10⁵x
+          ## this code turns 1e5 into a UTF-8 representation of 1\times10^5
           if (all(grepl("^\\$?(-?)\\$?([0-9.]+)[eE]\\$?(-?)\\+?\\$?0*(\\d+)$",
                         result[i]))) {
             temp <- strsplit(result[i],"eE",result[i])
