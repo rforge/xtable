@@ -334,8 +334,11 @@ print.xtable <- function(x,
       if(length(grep("^\\\\", size)) == 0){
         size <- paste("\\", size, sep = "")
       }
-      BSIZE <- paste("{", size, "\n", sep = "")
-      ESIZE <- "}\n"
+      ## Change suggested by Claudius Loehnert reported in Bug #6260
+      ## BSIZE <- paste("{", size, "\n", sep = "")
+      ## ESIZE <- "{\n"
+      BSIZE <- paste("\\begingroup", size, "\n", sep = "")
+      ESIZE <- "\\endgroup\n"
     }
     BLABEL <- "\\label{"
     ELABEL <- "}\n"
@@ -386,8 +389,12 @@ print.xtable <- function(x,
       BTD1 <- " <td align=\""
       align.tmp <- attr(x, "align", exact = TRUE)
       align.tmp <- align.tmp[align.tmp!="|"]
-      BTD2 <- matrix(align.tmp[(2-pos):(ncol(x)+1)],
-                     nrow = nrow(x), ncol = ncol(x)+pos, byrow = TRUE)
+      if (nrow(x) == 0) {
+        BTD2 <- matrix(nrow = 0, ncol = ncol(x)+pos)
+      } else {
+        BTD2 <- matrix(align.tmp[(2-pos):(ncol(x)+1)],
+                       nrow = nrow(x), ncol = ncol(x)+pos, byrow = TRUE)
+      }
       ## Based on contribution from Jonathan Swinton <jonathan@swintons.net>
       ## in e-mail dated Wednesday, January 17, 2007
       BTD2[regexpr("^p", BTD2)>0] <- "left"

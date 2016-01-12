@@ -11,6 +11,17 @@
   * Added option to produce math style exponents when sanitizing
     numbers, as suggested by Don Armstrong (don@donarmstrong.com), who
     also provided code
+  * Fixed bug #6907. Warning was created when the data frame as no
+    rows for type is 'html'. Added a test to create the matrix
+    requested specially in that case. Original code was
+    BTD2 <- matrix(align.tmp[(2-pos):(ncol(x)+1)],
+                   nrow = nrow(x), ncol = ncol(x)+pos, byrow = TRUE)
+    which created a matrix with no rows, but gave a warning when
+    there were no rows in the data frame being processed.
+  * Fixed bug #6260. Accepted the change suggested by Claudius
+    Loehnert, which was to replace { and } by \begingroup and
+    \endgroup respectively as the delimiters when size was to changed
+    in a table.
 
 
 1.8-0
