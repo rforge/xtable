@@ -38,6 +38,7 @@ regression check for the package.
 <<include=FALSE>>=
 library(knitr)
 opts_chunk$set(fig.path='figdir/fig', debug=TRUE, echo=TRUE)
+set.seed(1234)
 @
 
 The first step is to load the package and set an option for this document.
@@ -193,13 +194,12 @@ If you prefer $5 \times 10^5$ in your tables to 5e5, the
 \code{math.style.exponents} option to \code{print.xtable} is useful:
 
 <<results='asis'>>=
-print(xtable(data.frame(text=c("foo","bar"),
-                        googols=c(10e10,50e10),
-                        small=c(8e-24,7e-5),
-                        row.names=c("A","B")),
-             display=c("s","s","g","g")),
-      math.style.exponents=TRUE
-      )
+print(xtable(data.frame(text = c("foo","bar"),
+                        googols = c(10e10,50e10),
+                        small = c(8e-24,7e-5),
+                        row.names = c("A","B")),
+             display = c("s","s","g","g")),
+      math.style.exponents = TRUE)
 @ 
 
 this option also supports the values \code{ensuremath} which uses
@@ -450,39 +450,22 @@ x.big <- xtable(x, caption = "A \\code{longtable} spanning several pages")
 print(x.big, hline.after=c(-1, 0), tabular.environment = "longtable")
 @
 
-%% The column name alignment is off in the following example.
-%% It needs some revision before exposing it. - CR, 7/2/2012
-%
-%% Tried to fix this and got some of the way, but \hlines are wrong
-%% and first column is too wide. - DJS 4/10/2014
-%% \subsubsection{Long tables with the header on each page}
-%% The \code{add.to.row} argument can be used to display the header
-%% for a long table on each page, and to add a "continued" footer
-%% on all pages except the last page.
+Extra features of the \pkg{longtable} \LaTeX{} package can typically
+be activated using \code{add.to.row}, as shown below.
 
-%% \newcommand{\head}[1]{\centercell{\bfseries#1}}
+<<results='asis'>>=
+add.to.row <- list(pos = list(0), command = NULL)
+command <- paste0("\\hline\n\\endhead\n",
+                  "\\hline\n",
+                  "\\multicolumn{", dim(x)[2] + 1, "}{l}",
+                  "{\\footnotesize Continued on next page}\n",
+                  "\\endfoot\n",
+                  "\\endlastfoot\n") 
+add.to.row$command <- command
+print(x.big, hline.after=c(-1), add.to.row = add.to.row,
+      tabular.environment = "longtable")
+@
 
-%% <<results='asis'>>=
-%% x <- matrix(rnorm(1000), ncol = 10)
-%% hdr <-  paste(paste("\\multicolumn{1}{c}{",1:9,"} & ", collapse = ""),
-%%               "\\multicolumn{1}{c}{10}\\\\")
-%% addtorow <- list()
-%% addtorow$pos <- list()
-%% addtorow$pos[[1]] <- c(0)
-%% addtorow$command <- c(paste(
-%%     hdr,
-%%     "  \\hline \n",
-%%     "  \\endhead \n",
-%%     "  \\hline \n",
-%%     "  {\\footnotesize Continued on next page} \n",
-%%     "  \\endfoot \n",
-%%     "  \\endlastfoot \n", sep = ""))
-%% x.big2 <- xtable(x, label = "tabbig2", align = "lrrrrrrrrrr",
-%%                  caption = "Example of longtable with the header on each page")
-%% print(x.big2, tabular.environment = "longtable",
-%%       include.rownames = FALSE, include.colnames = FALSE,
-%%       add.to.row = addtorow)
-%% @
 
 \newpage
 
