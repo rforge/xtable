@@ -2,7 +2,7 @@
 ### Feature request #2248, 2/9/2012
 xtableFtable <- function(x, caption = NULL, label = NULL, align = NULL,
                          digits = NULL, display = NULL,
-                         quote = TRUE,
+                         quote = FALSE,
                          method = c("non.compact", "row.compact",
                                     "col.compact", "compact"),
                          lsep = " | ", ...) {
@@ -26,27 +26,29 @@ xtableFtable <- function(x, caption = NULL, label = NULL, align = NULL,
     }
   }
   if (method == "non.compact"){
-    nCharCols <- nRowVars + 1
+    nCharCols <- nRowVars + 2
     nCharRows <- nColVars + 1
   }
   if (method == "row.compact"){
-    nCharCols <- nRowVars + 1
+    nCharCols <- nRowVars + 2
     nCharRows <- nColVars
   }
   if (method == "col.compact"){
-    nCharCols <- nRowVars
+    nCharCols <- nRowVars + 1
     nCharRows <- nColVars + 1
   }
   if (method == "compact"){
-    nCharCols <- nRowVars
+    nCharCols <- nRowVars + 1
     nCharRows <- nColVars
   }
-    
-  if(is.null(align)) align <- c(rep("l", nCharCols), rep("r", xDim[2]))
+
+  if(is.null(align)) {
+    align <- c(rep("l", nCharCols - 1), "l |", rep("r", xDim[2]))
+  }
   if(is.null(display)) {
     display <- c(rep("s", nCharCols), rep("d", xDim[2]))
   }
-     
+
   attr(x, "ftableCaption") <- caption
   attr(x, "ftableLabel") <- label
   attr(x, "ftableAlign") <- align
@@ -95,9 +97,9 @@ print.xtableFtable <- function(x,
   ...) {
   if (type == "latex"){
     caption <- attr(x, "ftableCaption")
-    label <- attr(x, "ftableLabel") 
+    label <- attr(x, "ftableLabel")
     align <- attr(x, "ftableAlign")
-    digits <- attr(x, "ftableDigits")   
+    digits <- attr(x, "ftableDigits")
     quote <- attr(x, "quote")
     digits <- attr(x, "ftabelDigits")
     method <- attr(x, "method")
@@ -110,7 +112,7 @@ print.xtableFtable <- function(x,
     attr(fmtFtbl, "align") <- align
     attr(fmtFtbl, "digits") <- digits
     attr(fmtFtbl, "quote") <- quote
-    attr(fmtFtbl, "display") <- display  
+    attr(fmtFtbl, "display") <- display
     print.xtable(fmtFtbl, hline.after = c(-1, nCharRows, dim(fmtFtbl)[1]),
                  include.rownames = FALSE, include.colnames = FALSE)
   } else {
