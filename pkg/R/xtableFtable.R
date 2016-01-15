@@ -1,19 +1,63 @@
 ### ftable objects, requested by Charles Roosen
 ### Feature request #2248, 2/9/2012
 xtableFtable <- function(x, caption = NULL, label = NULL, align = NULL,
-                         digits = NULL, display = NULL, auto = FALSE,
+                         digits = NULL, display = NULL,
                          quote = TRUE,
                          method = c("non.compact", "row.compact",
                                     "col.compact", "compact"),
                          lsep = " | ", ...) {
-  ftbl <- format.ftable(x, quote = quote, digits = digits,
-                        method = method, lsep = lsep)
-  xftbl <- xtable.matrix(ftbl,
-                         caption = caption, label = label, align = align,
-                         digits = digits, display = display, auto = auto)
-  class(xftbl) <- c("xtableFtable", "data.frame")
-  attributes(xftbl) <- list(attributes(xftbl), attributes(ftbl))
-  return(xftbl)
+  method <- match.arg(method)
+  saveMethod <- method
+  xDim <- dim(x)
+  nRowVars <- length(attr(x, "row.vars"))
+  nColVars <- length(attr(x, "col.vars"))
+  if (nRowVars ==0){
+    if (method =="col.compact"){
+      method <- "non.compact"
+    } else if (method == "compact"){
+      method <- "row.compact"
+    }
+  }
+  if (nColVars ==0){
+    if (method =="row.compact"){
+      method <- "non.compact"
+    } else if (method == "compact"){
+      method <- "col.compact"
+    }
+  }
+  if (method == "non.compact"){
+    nCharCols <- nRowVars + 1
+    nCharRows <- nColVars + 1
+  }
+  if (method == "row.compact"){
+    nCharCols <- nRowVars + 1
+    nCharRows <- nColVars
+  }
+  if (method == "col.compact"){
+    nCharCols <- nRowVars
+    nCharRows <- nColVars + 1
+  }
+  if (method == "compact"){
+    nCharCols <- nRowVars
+    nCharRows <- nColVars
+  }
+    
+  if(is.null(align)) align <- c(rep("l", nCharCols), rep("r", xDim[2]))
+  if(is.null(display)) {
+    display <- c(rep("s", nCharCols), rep("d", xDim[2]))
+  }
+     
+  attr(x, "ftableCaption") <- caption
+  attr(x, "ftableLabel") <- label
+  attr(x, "ftableAlign") <- align
+  attr(x, "ftableDigits") <- digits
+  attr(x, "quote") <- quote
+  attr(x, "ftableDisplay") <- display
+  attr(x, "method") <- method
+  attr(x, "lsep") <- lsep
+  attr(x, "nChars") <- c(nCharRows, nCharCols)
+  class(x) <- c("xtableFtable", "ftable")
+  return(x)
 }
 
 print.xtableFtable <- function(x,
@@ -50,9 +94,26 @@ print.xtableFtable <- function(x,
   timestamp = getOption("xtable.timestamp", date()),
   ...) {
   if (type == "latex"){
-    if (is.null(align) {
-      align <- c(rep("r", nRowVars)
-    } else {
+    caption <- attr(x, "ftableCaption")
+    label <- attr(x, "ftableLabel") 
+    align <- attr(x, "ftableAlign")
+    digits <- attr(x, "ftableDigits")   
+    quote <- attr(x, "quote")
+    digits <- attr(x, "ftabelDigits")
+    method <- attr(x, "method")
+    lsep <- attr(x, "lsep")
+    nCharRows <- attr(x, "nChars")[1]
+    fmtFtbl <- stats:::format.ftable(x, quote = quote, digits = digits,
+                                     method = method, lsep = lsep)
+    attr(fmtFtbl, "caption") <- caption
+    attr(fmtFtbl, "label") <- label
+    attr(fmtFtbl, "align") <- align
+    attr(fmtFtbl, "digits") <- digits
+    attr(fmtFtbl, "quote") <- quote
+    attr(fmtFtbl, "display") <- display  
+    print.xtable(fmtFtbl, hline.after = c(-1, nCharRows, dim(fmtFtbl)[1]),
+                 include.rownames = FALSE, include.colnames = FALSE)
+  } else {
     stop("print.xtableFtable not yet implemented for this type")
   }
 }

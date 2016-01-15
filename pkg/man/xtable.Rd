@@ -132,22 +132,16 @@ xtable(x, caption = NULL, label = NULL, align = NULL, digits = NULL,
   which inherits the \code{data.frame} class and contains several
   additional attributes specifying the table formatting options.
 
-  In the case of the \code{xtableMatharray} method, an object of class
-  \code{xtableMatharray}, which the \code{xtable} and \code{data.frame}
-  classes and contains several additional attributes specifying the
-  table formatting options.
-
 }
 \author{David Dahl \email{dahl@stat.byu.edu} with contributions and
   suggestions from many others (see source code).
 }
-\seealso{
+\seealso{  
   \code{\link{print.xtable}}, \code{\link{caption}},
   \code{\link{label}}, \code{\link{align}}, \code{\link{digits}},
-  \code{\link{display}}
-
-  \code{\link{autoformat}}, \code{\link{xalign}}, \code{\link{xdigits}},
-  \code{\link{xdisplay}}
+  \code{\link{display}}, \code{\link{autoformat}}, \code{\link{xalign}},
+  \code{\link{xdigits}}, \code{\link{xdisplay}},
+  \code{\link{xtableMatharray}}, \codel{\link{xtableList}} 
 }
 \examples{
 
