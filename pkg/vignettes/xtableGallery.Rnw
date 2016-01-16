@@ -134,13 +134,20 @@ enable them to be printed using \pkg{xtable}
 
 <<ftable>>=
 data(mtcars)
+mtcars$cyl <- factor(mtcars$cyl, levels = c("4","6","8"),
+                     labels = c("four","six","eight"))
 tbl <- ftable(mtcars$cyl, mtcars$vs, mtcars$am, mtcars$gear,
               row.vars = c(2, 4),
               dnn = c("Cylinders", "V/S", "Transmission", "Gears"))
 
+
 @ %def
 
 \p
+<<ftablecheck>>=
+xftbl <- xtableFtable(tbl, method = "compact")
+print.xtableFtable(xftbl, booktabs = TRUE)
+@ %def
 <<ftable1, results = 'asis'>>=
 xftbl <- xtableFtable(tbl)
 print.xtableFtable(xftbl)
@@ -149,19 +156,21 @@ print.xtableFtable(xftbl)
 \p
 <<ftable2, results = 'asis'>>=
 xftbl <- xtableFtable(tbl, method = "row.compact")
-print.xtableFtable(xftbl)
+print.xtableFtable(xftbl, rotate.colnames = TRUE)
 @ %def
 
 \p
 <<ftable3, results = 'asis'>>=
 xftbl <- xtableFtable(tbl, method = "col.compact")
-print.xtableFtable(xftbl)
+print.xtableFtable(xftbl, rotate.rownames = TRUE)
 @ %def
 
 \p
+Booktabs is incompatible with vertical lines in tables, so the
+vertical dividing line is removed.
 <<ftable4, results = 'asis'>>=
 xftbl <- xtableFtable(tbl, method = "compact")
-print.xtableFtable(xftbl)
+print.xtableFtable(xftbl, booktabs = TRUE)
 @ %def
 
 \newpage

@@ -11,14 +11,14 @@ xtableFtable <- function(x, caption = NULL, label = NULL, align = NULL,
   xDim <- dim(x)
   nRowVars <- length(attr(x, "row.vars"))
   nColVars <- length(attr(x, "col.vars"))
-  if (nRowVars ==0){
+  if (nRowVars == 0){
     if (method =="col.compact"){
       method <- "non.compact"
     } else if (method == "compact"){
       method <- "row.compact"
     }
   }
-  if (nColVars ==0){
+  if (nColVars == 0){
     if (method =="row.compact"){
       method <- "non.compact"
     } else if (method == "compact"){
@@ -78,6 +78,7 @@ print.xtableFtable <- function(x,
   NA.string = getOption("xtable.NA.string", ""),
   only.contents = getOption("xtable.only.contents", FALSE),
   add.to.row = getOption("xtable.add.to.row", NULL),
+  sanitize.text.function = getOption("xtable.sanitize.text.function", NULL),
   sanitize.rownames.function = getOption("xtable.sanitize.rownames.function",
                                          sanitize.text.function),
   sanitize.colnames.function = getOption("xtable.sanitize.colnames.function",
@@ -96,6 +97,7 @@ print.xtableFtable <- function(x,
   timestamp = getOption("xtable.timestamp", date()),
   ...) {
   if (type == "latex"){
+
     caption <- attr(x, "ftableCaption")
     label <- attr(x, "ftableLabel")
     align <- attr(x, "ftableAlign")
@@ -105,16 +107,51 @@ print.xtableFtable <- function(x,
     method <- attr(x, "method")
     lsep <- attr(x, "lsep")
     nCharRows <- attr(x, "nChars")[1]
+    nCharCols <- attr(x, "nChars")[2]
     fmtFtbl <- stats:::format.ftable(x, quote = quote, digits = digits,
                                      method = method, lsep = lsep)
     attr(fmtFtbl, "caption") <- caption
     attr(fmtFtbl, "label") <- label
+    ## if method is "compact", rotate both if either requested
+    if (method == "compact"){
+      if (rotate.rownames) rotate.colnames <- TRUE
+      if (rotate.colnames) rotate.rownames <- TRUE
+    }
+
+    ## rotations are possible
+    if (rotate.rownames){
+      fmtFtbl[nCharRows, 1:(nCharCols - 1)] <-
+        paste0("\\begin{sideways} ",
+               fmtFtbl[nCharRows, 1:(nCharCols - 1)],
+               "\\end{sideways}")
+    }
+    if (rotate.colnames){
+      fmtFtbl[1:(nCharRows), nCharCols - 1] <-
+        paste0("\\begin{sideways} ",
+               fmtFtbl[1:(nCharRows), nCharCols - 1],
+               "\\end{sideways}")
+    }
+
+
+    ## booktabs is incompatible with vertical lines in tables
+    if (booktabs) align <- gsub("|","", align, fixed = TRUE)
     attr(fmtFtbl, "align") <- align
     attr(fmtFtbl, "digits") <- digits
     attr(fmtFtbl, "quote") <- quote
     attr(fmtFtbl, "display") <- display
+
+    ## labels should be left aligned
+    for (i in 1:nCharRows){
+      fmtFtbl[i, nCharCols:dim(fmtFtbl)[2]] <-
+        paste0("\\multicolumn{1}{l}{ ",
+               fmtFtbl[i, nCharCols:dim(fmtFtbl)[2]], "}")
+    }
+
+
     print.xtable(fmtFtbl, hline.after = c(-1, nCharRows, dim(fmtFtbl)[1]),
-                 include.rownames = FALSE, include.colnames = FALSE)
+                 include.rownames = FALSE, include.colnames = FALSE,
+                 booktabs = booktabs,
+                 sanitize.text.function = function(x){x})
   } else {
     stop("print.xtableFtable not yet implemented for this type")
   }
