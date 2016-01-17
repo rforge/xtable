@@ -156,7 +156,8 @@ print.xtableFtable(xftbl)
 \p
 <<ftable2, results = 'asis'>>=
 xftbl <- xtableFtable(tbl, method = "row.compact")
-print.xtableFtable(xftbl, rotate.colnames = TRUE)
+print.xtableFtable(xftbl, rotate.colnames = TRUE,
+                   rotate.rownames = TRUE)
 @ %def
 
 \p

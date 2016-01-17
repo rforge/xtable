@@ -113,23 +113,30 @@ print.xtableFtable <- function(x,
     attr(fmtFtbl, "caption") <- caption
     attr(fmtFtbl, "label") <- label
     ## if method is "compact", rotate both if either requested
-    if (method == "compact"){
-      if (rotate.rownames) rotate.colnames <- TRUE
-      if (rotate.colnames) rotate.rownames <- TRUE
-    }
+    ## if (method == "compact"){
+    ##   if (rotate.rownames) rotate.colnames <- TRUE
+    ##   if (rotate.colnames) rotate.rownames <- TRUE
+    ## }
 
     ## rotations are possible
     if (rotate.rownames){
-      fmtFtbl[nCharRows, 1:(nCharCols - 1)] <-
+      fmtFtbl[1:dim(fmtFtbl)[1], 1:(nCharCols - 1)] <-
         paste0("\\begin{sideways} ",
-               fmtFtbl[nCharRows, 1:(nCharCols - 1)],
+               fmtFtbl[1:dim(fmtFtbl)[1], 1:(nCharCols - 1)],
                "\\end{sideways}")
     }
     if (rotate.colnames){
-      fmtFtbl[1:(nCharRows), nCharCols - 1] <-
-        paste0("\\begin{sideways} ",
-               fmtFtbl[1:(nCharRows), nCharCols - 1],
-               "\\end{sideways}")
+      if (rotate.rownames){
+        fmtFtbl[1:(nCharRows), (nCharCols):dim(fmtFtbl)[2]] <-
+          paste0("\\begin{sideways} ",
+                 fmtFtbl[1:(nCharRows), (nCharCols):dim(fmtFtbl)[2]],
+                 "\\end{sideways}")
+      } else {
+        fmtFtbl[1:(nCharRows), 1:dim(fmtFtbl)[2]] <-
+          paste0("\\begin{sideways} ",
+                 fmtFtbl[1:(nCharRows), 1:dim(fmtFtbl)[2]],
+                 "\\end{sideways}")
+      }
     }
 
 
