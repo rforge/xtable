@@ -2,8 +2,6 @@
 \alias{xtableList}
 \alias{print.xtableList}
 \alias{xtableLSMeans}
-\alias{xtableFtable}
-\alias{print.xtableFtable}
 
 \title{Internal xtable Functions}
 \description{

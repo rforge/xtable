@@ -1,7 +1,7 @@
 ### ftable objects, requested by Charles Roosen
 ### Feature request #2248, 2/9/2012
 xtableFtable <- function(x, caption = NULL, label = NULL, align = NULL,
-                         digits = NULL, display = NULL,
+                         digits = 0, display = NULL,
                          quote = FALSE,
                          method = c("non.compact", "row.compact",
                                     "col.compact", "compact"),
@@ -155,7 +155,10 @@ print.xtableFtable <- function(x,
     }
 
 
-    print.xtable(fmtFtbl, hline.after = c(-1, nCharRows, dim(fmtFtbl)[1]),
+    if(is.null(hline.after)) {
+      hline.after <- c(-1, nCharRows, dim(fmtFtbl)[1])
+    }
+    print.xtable(fmtFtbl, hline.after = hline.after,
                  include.rownames = FALSE, include.colnames = FALSE,
                  booktabs = booktabs,
                  sanitize.text.function = function(x){x})
