@@ -108,6 +108,8 @@ print.xtableFtable <- function(x,
     lsep <- attr(x, "lsep")
     nCharRows <- attr(x, "nChars")[1]
     nCharCols <- attr(x, "nChars")[2]
+    nRowVars <- length(attr(x, "row.vars"))
+    nColVars <- length(attr(x, "col.vars"))
     fmtFtbl <- stats:::format.ftable(x, quote = quote, digits = digits,
                                      method = method, lsep = lsep)
     attr(fmtFtbl, "caption") <- caption
@@ -118,6 +120,24 @@ print.xtableFtable <- function(x,
     ##   if (rotate.colnames) rotate.rownames <- TRUE
     ## }
 
+    ## sanitization is possible for row names and/or column names
+    ## row names
+    if (is.null(sanitize.rownames.function)) {
+      fmtFtbl[nCharRows, 1:nRowVars] <-
+        sanitize(fmtFtbl[nCharRows, 1:nRowVars], type = type)
+    } else {
+      fmtFtbl[nCharRows, 1:nRowVars] <-
+        sanitize.rownames.function(fmtFtbl[nCharRows, 1:nRowVars])
+    }
+    ## column names
+    if (is.null(sanitize.colnames.function)) {
+      fmtFtbl[1:nColVars, nCharCols - 1] <-
+        sanitize(fmtFtbl[1:nColVars, nCharCols - 1],
+                 type = type)
+    } else {
+      fmtFtbl[1:nColVars, nCharCols - 1] <-
+        sanitize.colnames.function(fmtFtbl[1:nColVars, nCharCols - 1])
+    }    
     ## rotations are possible
     if (rotate.rownames){
       fmtFtbl[1:dim(fmtFtbl)[1], 1:(nCharCols - 1)] <-

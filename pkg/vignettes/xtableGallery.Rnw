@@ -169,40 +169,73 @@ mtcars$cyl <- factor(mtcars$cyl, levels = c("4","6","8"),
 tbl <- ftable(mtcars$cyl, mtcars$vs, mtcars$am, mtcars$gear,
               row.vars = c(2, 4),
               dnn = c("Cylinders", "V/S", "Transmission", "Gears"))
-
-
+tbl
 @ %def
 
-\p
+Here is the \LaTeX{} produced:
+
 <<ftablecheck>>=
 xftbl <- xtableFtable(tbl, method = "compact")
 print.xtableFtable(xftbl, booktabs = TRUE)
 @ %def
+
+And here is a basic flat table:
+
 <<ftable1, results = 'asis'>>=
 xftbl <- xtableFtable(tbl)
 print.xtableFtable(xftbl)
 @ %def
 
-\p
-<<ftable2, results = 'asis'>>=
-xftbl <- xtableFtable(tbl, method = "row.compact")
-print.xtableFtable(xftbl, rotate.colnames = TRUE,
-                   rotate.rownames = TRUE)
-@ %def
+This illustrates the \code{method} argument:
 
-\p
-<<ftable3, results = 'asis'>>=
+<<ftable2, results = 'asis'>>=
 xftbl <- xtableFtable(tbl, method = "col.compact")
 print.xtableFtable(xftbl, rotate.rownames = TRUE)
 @ %def
 
-\p
 Booktabs is incompatible with vertical lines in tables, so the
-vertical dividing line is removed.
-<<ftable4, results = 'asis'>>=
-xftbl <- xtableFtable(tbl, method = "compact")
-print.xtableFtable(xftbl, booktabs = TRUE)
+vertical dividing line is removed. The separator \code{lsep} may require special treatment.
+
+<<ftable3, results = 'asis'>>=
+xftbl <- xtableFtable(tbl, method = "compact", lsep = " $\\vert$ ")
+sanitize.text.function <- function(x){x}
+print.xtableFtable(xftbl, sanitize.text.function = sanitize.text.function,
+                   booktabs = TRUE)
 @ %def
+\p
+
+Row and column variable names can be formatted specially using
+sanitization, and row and column variable names and labels can be
+rotated.
+
+If special formatting is required for row and column labels, that can
+be done as a workaround by redefining the data and associated labels.
+
+<<ftable4, results = 'asis'>>=
+italic <- function(x){
+  paste0('{\\emph{', x, '}}')
+}
+mtcars$cyl <- factor(mtcars$cyl, levels = c("four","six","eight"),
+                     labels = c("four",italic("six"),"eight"))
+large <- function(x){
+  paste0('{\\Large ', x, '}')
+}
+bold <- function(x){
+  paste0('{\\bfseries ', x, '}')
+}
+tbl <- ftable(mtcars$cyl, mtcars$vs, mtcars$am, mtcars$gear,
+              row.vars = c(2, 4),
+              dnn = c("Cylinders", "V/S", "Transmission", "Gears"))
+xftbl <- xtableFtable(tbl, method = "row.compact")
+sanitize.text.function <- function(x){x}
+print.xtableFtable(xftbl, sanitize.text.function = sanitize.text.function,
+                   sanitize.rownames.function = large,
+                   sanitize.colnames.function = bold,
+                   rotate.colnames = TRUE,
+                   rotate.rownames = TRUE)
+@ %def
+
+
 
 \newpage
 
