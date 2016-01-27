@@ -194,13 +194,11 @@ print.xtableFtable(xftbl, rotate.rownames = TRUE)
 @ %def
 
 Booktabs is incompatible with vertical lines in tables, so the
-vertical dividing line is removed. The separator \code{lsep} may require special treatment.
+vertical dividing line is removed.
 
 <<ftable3, results = 'asis'>>=
-xftbl <- xtableFtable(tbl, method = "compact", lsep = " $\\vert$ ")
-sanitize.text.function <- function(x){x}
-print.xtableFtable(xftbl, sanitize.text.function = sanitize.text.function,
-                   booktabs = TRUE)
+xftbl <- xtableFtable(tbl, method = "compact")
+print.xtableFtable(xftbl, booktabs = TRUE)
 @ %def
 \p
 
@@ -227,8 +225,7 @@ tbl <- ftable(mtcars$cyl, mtcars$vs, mtcars$am, mtcars$gear,
               row.vars = c(2, 4),
               dnn = c("Cylinders", "V/S", "Transmission", "Gears"))
 xftbl <- xtableFtable(tbl, method = "row.compact")
-sanitize.text.function <- function(x){x}
-print.xtableFtable(xftbl, sanitize.text.function = sanitize.text.function,
+print.xtableFtable(xftbl,
                    sanitize.rownames.function = large,
                    sanitize.colnames.function = bold,
                    rotate.colnames = TRUE,

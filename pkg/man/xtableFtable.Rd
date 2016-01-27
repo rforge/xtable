@@ -17,7 +17,7 @@ xtableFtable(x, caption = NULL, label = NULL,
              quote = FALSE,
              method = c("non.compact", "row.compact",
                          "col.compact", "compact"),
-             lsep = " | ", ...)
+             lsep = " $\\\\vert$ ", ...)
 
 \method{print}{xtableFtable}(x,
   type = getOption("xtable.type", "latex"),
@@ -35,7 +35,8 @@ xtableFtable(x, caption = NULL, label = NULL,
   NA.string = getOption("xtable.NA.string", ""),
   only.contents = getOption("xtable.only.contents", FALSE),
   add.to.row = getOption("xtable.add.to.row", NULL),
-  sanitize.text.function = getOption("xtable.sanitize.text.function", NULL),
+  sanitize.text.function = getOption("xtable.sanitize.text.function",
+                                     function(x){x}),
   sanitize.rownames.function = getOption("xtable.sanitize.rownames.function",
                                          sanitize.text.function),
   sanitize.colnames.function = getOption("xtable.sanitize.colnames.function",
@@ -81,7 +82,7 @@ xtableFtable(x, caption = NULL, label = NULL,
     denote left, right, and center alignment, respectively.  Use
     \code{"p{3cm}"} etc. for a LaTeX column of the specified width. For
     HTML output the \code{"p"} alignment is interpreted as \code{"l"},
-    ignoring the width request.   
+    ignoring the width request.
     If \code{NULL} all row variable labels will be left aligned,
     separated from the data columns by a vertical line, and all data
     columns will be right aligned. The actual length of \code{align}
@@ -113,10 +114,10 @@ xtableFtable(x, caption = NULL, label = NULL,
   \item{quote}{a character string giving the set of quoting characters
     for \code{format.ftable} used in \code{print.xtableFtable}; to
     disable quoting altogether, use \code{quote=""}.}
-  
+
   \item{method}{string specifying how the \code{"xtableFtable"} object is
     printed in the \code{print} method.  Can be abbreviated.  Available
-    methods are (see the examples in \code{\link{print.ftable}}):   
+    methods are (see the examples in \code{\link{print.ftable}}):
     \describe{
       \item{"non.compact"}{the default representation of an
         \code{"ftable"} object.}
@@ -181,7 +182,7 @@ xtableFtable(x, caption = NULL, label = NULL,
     tabular environment starts. This can be used to set the font size
     and a variety of other table settings. Initial backslashes are
     automatically prefixed, if not supplied by user.
-    Default value is \code{NULL}. } 
+    Default value is \code{NULL}. }
   \item{hline.after}{When \code{type="latex"}, a vector of numbers
     between -1 and \code{nrow(x)}, inclusive, indicating the rows after
     which a horizontal line should appear.  Repeated values are
@@ -217,7 +218,7 @@ xtableFtable(x, caption = NULL, label = NULL,
     The default uses the \code{sanitize.text.function}. }
   \item{math.style.negative}{In a LaTeX table, if \code{TRUE}, then use
     $-$ for the negative sign (as was the behavior prior to version 1.5-3).
-    Default value is \code{FALSE}.}  
+    Default value is \code{FALSE}.}
   \item{math.style.exponents}{In a LaTeX table, if \code{TRUE} or
     \code{"$$"}, then use \verb{$5 \times 10^{5}$} for 5e5. If
     \code{"ensuremath"}, then use \verb{\\ensuremath{5 \times 10^{5}}}
@@ -238,7 +239,7 @@ xtableFtable(x, caption = NULL, label = NULL,
     included in this list.
     Default value is \code{NULL}.}
   \item{rotate.rownames}{If \code{TRUE}, the row names and labels, and
-    column variable names are displayed vertically in LaTeX.    
+    column variable names are displayed vertically in LaTeX.
     Default value is \code{FALSE}.}
   \item{rotate.colnames}{If \code{TRUE}, the column names and labels,
     and row variable names are displayed vertically in LaTeX.
@@ -260,7 +261,8 @@ xtableFtable(x, caption = NULL, label = NULL,
   \item{comment}{If \code{TRUE}, the version and timestamp comment is
     included.  Default value is \code{TRUE}. }
   \item{timestamp}{Timestamp to include in LaTeX comment.  Set this
-    to \code{NULL} to exclude the timestamp. Default value is \code{date()}. }
+    to \code{NULL} to exclude the timestamp. Default value is
+    \code{date()}. }
   \item{...}{Additional arguments.  (Currently ignored.) }
 }
 \details{
@@ -300,17 +302,21 @@ xtableFtable(x, caption = NULL, label = NULL,
 
   For \code{print.xtableFtable} a character string which will produce a
   formatted table when included in a LaTeX document.
-  
+
 }
 \references{
   Fairbairns, Robin (2005) \emph{Tables longer than a single page.} The
   UK List of TeX Frequently Asked Questions on the
-  Web. \url{http://www.tex.ac.uk/cgi-bin/texfaq2html?label=longtab}  
+  Web. \url{http://www.tex.ac.uk/cgi-bin/texfaq2html?label=longtab}
 }
 \author{
   David Scott \email{d.scott@auckland.ac.nz}.
 }
 \note{
+  The functions \code{xtableFtable} and \code{print.xtableFtable} are
+  new and their behaviour may change in the future based on user
+  experience and recommendations.
+
   It is not recommended that users change the values of \code{align},
   \code{digits} or \code{align}. First of all, alternative values have
   not been tested. Secondly, it is most likely that to determine

@@ -1,6 +1,4 @@
 \name{xtable-internal}
-\alias{xtableList}
-\alias{print.xtableList}
 \alias{xtableLSMeans}
 
 \title{Internal xtable Functions}

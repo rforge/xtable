@@ -46,7 +46,7 @@ print.xtableList <- function(x,
   hline.after = NULL,
   NA.string = getOption("xtable.NA.string", ""),
   include.rownames = getOption("xtable.include.rownames", TRUE),
-  include.colnames = getOption("xtable.include.colnames", TRUE),
+  colnames.format = "single",
   only.contents = getOption("xtable.only.contents", FALSE),
   add.to.row = NULL,
   sanitize.text.function = getOption("xtable.sanitize.text.function", NULL),
@@ -72,7 +72,6 @@ print.xtableList <- function(x,
   width = getOption("xtable.width", NULL),
   comment = getOption("xtable.comment", TRUE),
   timestamp = getOption("xtable.timestamp", date()),
-  colnames.format = "single",
   ...)
 {
   ## Get number of rows for each table in list of tables
@@ -103,14 +102,14 @@ print.xtableList <- function(x,
       xMessage <- attr(x, 'message')
       xMessage <- sapply(xMessage, sanitize.message.function)
       attr(x, 'message') <- xMessage
-    }    
+    }
     if (colnames.format == "single"){
- 
+
       add.to.row <- list(pos = NULL, command = NULL)
       add.to.row$pos <- as.list(c(0, combinedRowNums[-length(x)],
                                   dim(combined)[1]))
       command <- sapply(x, attr, "subheading")
-      
+
       add.to.row$command[1:length(x)] <-
         paste0(mRule,"\n\\multicolumn{", nCols, "}{l}{", command, "}\\\\\n")
       if ( (booktabs) & length(attr(x, "message") > 0) ){
@@ -123,7 +122,7 @@ print.xtableList <- function(x,
                collapse = "")
       add.to.row$command[length(x) + 1] <-
         paste0(bRule, add.to.row$command[length(x) + 1])
-      
+
       class(combined) <- c("xtableList", "data.frame")
       hline.after <- c(-1)
       include.colnames <- TRUE
@@ -166,13 +165,13 @@ print.xtableList <- function(x,
                collapse = "")
       add.to.row$command[length(x) + 1] <-
         paste0(bRule, add.to.row$command[length(x) + 1])
-      
+
       class(combined) <- c("xtableList", "data.frame")
       hline.after <- NULL
-      
+
       include.colnames <- FALSE
     }
-    
+
     print.xtable(combined,
                  type = type,
                  floating = floating,

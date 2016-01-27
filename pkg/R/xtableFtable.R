@@ -5,7 +5,7 @@ xtableFtable <- function(x, caption = NULL, label = NULL, align = NULL,
                          quote = FALSE,
                          method = c("non.compact", "row.compact",
                                     "col.compact", "compact"),
-                         lsep = " | ", ...) {
+                         lsep = " $\\vert$ ", ...) {
   method <- match.arg(method)
   saveMethod <- method
   xDim <- dim(x)
@@ -78,7 +78,8 @@ print.xtableFtable <- function(x,
   NA.string = getOption("xtable.NA.string", ""),
   only.contents = getOption("xtable.only.contents", FALSE),
   add.to.row = getOption("xtable.add.to.row", NULL),
-  sanitize.text.function = getOption("xtable.sanitize.text.function", NULL),
+  sanitize.text.function = getOption("xtable.sanitize.text.function",
+                                     function(x){x}),
   sanitize.rownames.function = getOption("xtable.sanitize.rownames.function",
                                          sanitize.text.function),
   sanitize.colnames.function = getOption("xtable.sanitize.colnames.function",
@@ -137,7 +138,7 @@ print.xtableFtable <- function(x,
     } else {
       fmtFtbl[1:nColVars, nCharCols - 1] <-
         sanitize.colnames.function(fmtFtbl[1:nColVars, nCharCols - 1])
-    }    
+    }
     ## rotations are possible
     if (rotate.rownames){
       fmtFtbl[1:dim(fmtFtbl)[1], 1:(nCharCols - 1)] <-

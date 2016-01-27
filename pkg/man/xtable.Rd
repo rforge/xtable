@@ -36,7 +36,7 @@
 
 \title{Create Export Tables}
 \description{
-  Convert an R object to an \code{xtable} object, which can
+  Convert an \R object to an \code{xtable} object, which can
   then be printed as a LaTeX or HTML table.
 }
 \usage{
@@ -44,7 +44,7 @@ xtable(x, caption = NULL, label = NULL, align = NULL, digits = NULL,
        display = NULL, auto = FALSE, ...)
 }
 \arguments{
-  \item{x}{An R object of class found among \code{methods(xtable)}.  See
+  \item{x}{An \R object of class found among \code{methods(xtable)}.  See
     below on how to write additional method functions for \code{xtable}.}
   \item{caption}{Character vector of length 1 or 2 containing the
     table's caption or title.  If length is 2, the second item is the
