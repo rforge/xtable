@@ -395,14 +395,18 @@ xtable.sarlm.pred <- function(x, caption = NULL, label = NULL, align = NULL,
                 display = display, auto = auto, ...))
 }
 
+
+### This method removed because of the need to copy code to pass CRAN checks
+### lagImpactMat is neither exported nor documented in spdep
+
 ### lagImpact objects
-xtable.lagImpact <- function(x, caption = NULL, label = NULL, align = NULL,
-                             digits = NULL, display = NULL,
-                             auto = FALSE, ...) {
-  xtable(spdep:::lagImpactMat(x), caption = caption, label = label,
-         align = align, digits = digits,
-         display = display, auto = auto, ...)
-}
+## xtable.lagImpact <- function(x, caption = NULL, label = NULL, align = NULL,
+##                              digits = NULL, display = NULL,
+##                              auto = FALSE, ...) {
+##   xtable(spdep:::lagImpactMat(x), caption = caption, label = label,
+##          align = align, digits = digits,
+##          display = display, auto = auto, ...)
+## }
 
 ### package splm
 ### splm objects

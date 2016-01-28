@@ -139,25 +139,35 @@ xtable(COL.lag.stsls)
 xtable(p1)
 @ %def
 
-This method transforms the \code{sarlm.pred} objects into data frames, allowing any number of attributes vectors which may vary according to predictor types.
+This method transforms the \code{sarlm.pred} objects into data frames,
+allowing any number of attributes vectors which may vary according to
+predictor types.
 
 <<xtablesarlmpred2, results = 'asis'>>=
 xtable(p2)
 @ %def
 
-\subsubsection{\code{lagImpact} objects}
-\label{sec:codelagimpact-objects}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% xtable.lagImpactMat removed because of problems with unexported function
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The \code{xtable} method returns the values of direct, indirect and total impacts for all the variables in the model. The class \code{lagImpact} have two different sets of attributes according to if simulations are used. But the \code{xtable} method always returns the three components of the non-simulation case.
+%% \subsubsection{\code{lagImpact} objects}
+%% \label{sec:codelagimpact-objects}
 
-<<xtablelagimpactexact, results = 'asis'>>=
-xtable(imp.exact)
-@ %def
+%% The \code{xtable} method returns the values of direct, indirect and
+%% total impacts for all the variables in the model. The class
+%% \code{lagImpact} have two different sets of attributes according to if
+%% simulations are used. But the \code{xtable} method always returns the
+%% three components of the non-simulation case.
 
-\p
-<<xtablelagimpactmcmc, results = 'asis'>>=
-xtable(imp.sim)
-@ %def
+%% <<xtablelagimpactexact, results = 'asis'>>=
+%% xtable(imp.exact)
+%% @ %def
+
+%% \p
+%% <<xtablelagimpactmcmc, results = 'asis'>>=
+%% xtable(imp.sim)
+%% @ %def
 
 
 \subsubsection{\code{spautolm} objects}
@@ -226,11 +236,16 @@ xtable(respatlag)
 xtable(GM)
 @ %def
 
-The \code{xtable} method works the same on impacts of \code{splm} models.
 
-<<xtablesplmimpacts, results = 'asis'>>=
-xtable(imp.spml)
-@ %def
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% xtable.lagImpactMat removed because of problems with unexported function
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% The \code{xtable} method works the same on impacts of \code{splm} models.
+
+%% <<xtablesplmimpacts, results = 'asis'>>=
+%% xtable(imp.spml)
+%% @ %def
 
 \subsection{The package \pkg{sphet}}
 \label{sec:package-pkgsphet}
@@ -265,23 +280,26 @@ xtable(res.stsls)
 xtable(res.gstsls)
 @ %def
 
-\code{sphet} also provides a method for computing impacts.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% xtable.lagImpactMat removed because of problems with unexported function
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% \code{sphet} also provides a method for computing impacts.
 
-<<xtablesphetimpacts, results = 'asis'>>=
-xtable(imp.gstsls)
-@ %def
+%% <<xtablesphetimpacts, results = 'asis'>>=
+%% xtable(imp.gstsls)
+%% @ %def
 
 \section{The \pkg{zoo} package}
 \label{sec:pkgzoo-package}
 
- 
+
 <<zoo, results = 'asis'>>=
 library(zoo)
 xDate <- as.Date("2003-02-01") + c(1, 3, 7, 9, 14) - 1
 as.ts(xDate)
 x <- zoo(rnorm(5), xDate)
 xtable(x)
-@ %def 
+@ %def
 
 
 \p
@@ -293,21 +311,21 @@ tempTable <- xtable(tempTs, digits = 0)
 tempTable
 tempZoo <- as.zoo(tempTs)
 xtable(tempZoo, digits = 0)
-@ %def 
+@ %def
 
 
 \section{The \pkg{survival} package}
 \label{sec:pkgsurvival-package}
 
- 
+
 <<survival, results = 'asis'>>=
 library(survival)
-test1 <- list(time=c(4,3,1,1,2,2,3), 
-              status=c(1,1,1,0,1,1,0), 
-              x=c(0,2,1,1,1,0,0), 
-              sex=c(0,0,0,0,1,1,1)) 
-coxFit <- coxph(Surv(time, status) ~ x + strata(sex), test1) 
+test1 <- list(time=c(4,3,1,1,2,2,3),
+              status=c(1,1,1,0,1,1,0),
+              x=c(0,2,1,1,1,0,0),
+              sex=c(0,0,0,0,1,1,1))
+coxFit <- coxph(Surv(time, status) ~ x + strata(sex), test1)
 xtable(coxFit)
-@ %def 
+@ %def
 
 \end{document}

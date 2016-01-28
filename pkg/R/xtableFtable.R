@@ -110,8 +110,8 @@ print.xtableFtable <- function(x,
     nCharCols <- attr(x, "nChars")[2]
     nRowVars <- length(attr(x, "row.vars"))
     nColVars <- length(attr(x, "col.vars"))
-    fmtFtbl <- stats:::format.ftable(x, quote = quote, digits = digits,
-                                     method = method, lsep = lsep)
+    fmtFtbl <- format.ftable(x, quote = quote, digits = digits,
+                             method = method, lsep = lsep)
     attr(fmtFtbl, "caption") <- caption
     attr(fmtFtbl, "label") <- label
     ## if method is "compact", rotate both if either requested
