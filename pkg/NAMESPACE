@@ -10,7 +10,7 @@ export("caption<-", "caption", "label", "label<-",
        "xtableFtable", "print.xtableFtable",
        "toLatex.xtable",
        "autoformat", "xalign", "xdigits", "xdisplay",
-       "sanitize", "sanitize.numbers", "sanitize.final")
+       "sanitize", "sanitize.numbers", "sanitize.final", "as.is", "as.math")
 
 S3method("print", "xtable")
 S3method("print", "xtableMatharray")

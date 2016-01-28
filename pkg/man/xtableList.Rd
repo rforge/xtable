@@ -60,8 +60,13 @@ xtableList(x, caption = NULL, label = NULL,
   ...)
 }
 \arguments{
-  \item{x}{For \code{xtableList}, a list of \R objects all of the same
-    class, being a class found among \code{methods(xtable)}.
+  \item{x}{
+    For \code{xtableList}, a list of \R objects all of the same class,
+    being a class found among \code{methods(xtable)}. The list may also
+    have attributes \code{"subheadings"} and \code{"message"}. The
+    attribute \code{"subheadings"} should be a character vector of the
+    same length as the list \code{x}. The attribute \code{"message"}
+    should be a character vector of any length.
     For \code{print.xtableList}, an object of class \code{xtableList}
     produced by a call to \code{xtableList}.}
   \item{caption}{Character vector of length 1 or 2 containing the
@@ -247,14 +252,54 @@ xtableList(x, caption = NULL, label = NULL,
   \item{\dots}{Additional arguments.  (Currently ignored.)}
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+  \code{xtableList} produces an object suitable for printing using
+  \code{print.xtableList}.
+
+  The elements of the list \code{x} supplied to \code{xtableList} must
+  all have the same structure. When these list items are submitted to
+  \code{xtable} the resulting table must have the same number of columns
+  with the same column names and type of data.
+
+  The values supplied to arguments \code{digits} and \code{display},
+  must be composed of elements as specified in those same arguments for
+  the function \code{\link{xtable}}. See the help for
+  \code{\link{xtable}} for details.
+
+  \code{print.xtableList} produces tables in two different formats
+  depending on the value of \code{col.names.format}. If
+  \code{col.names.format = "single"}, the resulting table has only a
+  single heading row. If \code{col.names.format = "multiple"} there is a
+  heading row for each of the subtables making up the complete table.
+
+  By default if \code{col.names.format = "single"}, there are horizontal
+  lines above and below the heading row, and at the end of each
+  subtable. If \code{col.names.format = "multiple"}, there are
+  horizontal lines above and below each appearance of the heading row,
+  and at the end of each subtable.
+
+  If \code{"subheadings"} is not \code{NULL}, the individual elements of
+  this vector (which can include newlines \verb{\\n}) produce a heading
+  line or lines for the subtables. When \code{col.names.format =
+    "multiple"} these subheadings appear \emph{above} the heading rows.
+
+  If \code{"message"} is not \code{NULL} the vector produces a line or
+  lines at the end of the table.
+
+  Consult the vignette \sQuote{The \code{xtableList} Gallery} to see
+  the behaviour of these functions.
+
+  Note that at present there is no code for \code{type = "html"}.
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+  \code{xtableList} produces an object of class
+  \code{"xtableList"}. An object of this class is a list of
+  \code{"xtable"} objects with some additional attributes. Each element
+  of the list can have a \code{"subheading"} attribute. The list can
+  also have a \code{"message"} attribute.
+
+  \code{print.xtableList} produces a character string containing LaTeX
+  markup which produces a nicely formatted table comprised of subtables,
+  when included in a LaTeX document.
 }
 \author{
   David Scott \email{d.scott@auckland.ac.nz}.
@@ -269,8 +314,18 @@ xtableList(x, caption = NULL, label = NULL,
 \seealso{
   \code{\link{xtable}}, \code{\link{caption}}, \code{\link{label}},
   \code{\link{align}}, \code{\link{digits}}, \code{\link{display}},
-  \code{\link{formatC}}
+  \code{\link{formatC}}, \code{\link{print.xtable}}.
 }
 \examples{
+data(mtcars)
+mtcars <- mtcars[, 1:6]
+mtcarsList <- split(mtcars, f = mtcars$cyl)
+attr(mtcarsList, "subheadings") <- paste0("Number of cylinders = ",
+                                          names(mtcarsList))
+attr(mtcarsList, "message") <- c("Line 1 of Message",
+                                 "Line 2 of Message")
+xList <- xtableList(mtcarsList)
+print.xtableList(xList)
+print.xtableList(xList, colnames.format = "multiple")
 }
 \keyword{ print }

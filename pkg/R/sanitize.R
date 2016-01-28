@@ -87,3 +87,11 @@ sanitize.final <- function(str, type){
     return(str)
   }
 }
+
+### Some trivial helper functions
+### Suggested by Stefan Edwards, sme@iysik.com
+### Helper function for disabling sanitizing
+as.is <- function(str) {str}
+
+### Helper function for embedding names in a math environment
+as.math <- function(str, ...) { paste0('$',str,'$', ...) }

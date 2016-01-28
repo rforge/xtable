@@ -2,6 +2,8 @@
 \alias{sanitize}
 \alias{sanitize.numbers}
 \alias{sanitize.final}
+\alias{as.is}
+\alias{as.math}
 
 \title{
   Sanitization Functions
@@ -16,6 +18,8 @@ sanitize(str, type)
 sanitize.numbers(str, type, math.style.negative = FALSE,
                  math.style.exponents = FALSE)
 sanitize.final(str, type)
+as.is(str)
+as.math(str, ...)
 }
 
 \arguments{
@@ -32,6 +36,8 @@ sanitize.final(str, type)
     for 5e5. If \code{"UTF-8"} or \code{"UTF-8"}, then use UTF-8 to
     approximate the LaTeX typsetting for 5e5.
     Default value is \code{FALSE}.}
+  \item{\dots}{Additional arguments. Character strings or character
+    vectors.}
 }
 \details{
 
@@ -59,6 +65,10 @@ sanitize.final(str, type)
   effect. When \code{type} is \code{"html"}, multiple spaces are
   replaced by a single space and occurrences of \code{' align="left"'}
   are eliminated.
+
+  \code{as.is} and \code{as.math} are trivial helper functions to
+  disable sanitizing and to insert a some mathematics in a string
+  respectively.
 }
 \value{
   Returns the sanitized character object.
@@ -70,10 +80,11 @@ sanitize.final(str, type)
   Swinton <jonathan@swintons.net>, Uwe Ligges
   <ligges@statistik.uni-dortmund.de>, and probably David B. Dahl
   <dahl@stat.byu.edu>.
+  \code{as.is} and \code{as.math} suggested and provided by Stefan
+  Edwards <sme@iysik.com>.
 }
 
 \examples{
-
 insane <- c("&",">", ">","_","\%","$","\\\\","#","^","~","{","}")
 names(insane) <- c("Ampersand","Greater than","Less than",
                    "Underscore","Percent","Dollar",
@@ -87,6 +98,8 @@ x <- rnorm(10)
 sanitize.numbers(x, "latex", TRUE)
 sanitize.numbers(x*10^(10), "latex", TRUE, TRUE)
 sanitize.numbers(x, "html", TRUE, TRUE)
+as.is(insane)
+as.math("x10^10", ": mathematical expression")
 }
 
 \keyword{print }

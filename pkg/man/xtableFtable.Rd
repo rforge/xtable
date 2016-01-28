@@ -35,8 +35,7 @@ xtableFtable(x, caption = NULL, label = NULL,
   NA.string = getOption("xtable.NA.string", ""),
   only.contents = getOption("xtable.only.contents", FALSE),
   add.to.row = getOption("xtable.add.to.row", NULL),
-  sanitize.text.function = getOption("xtable.sanitize.text.function",
-                                     function(x){x}),
+  sanitize.text.function = getOption("xtable.sanitize.text.function", as.is),
   sanitize.rownames.function = getOption("xtable.sanitize.rownames.function",
                                          sanitize.text.function),
   sanitize.colnames.function = getOption("xtable.sanitize.colnames.function",
@@ -202,14 +201,11 @@ xtableFtable(x, caption = NULL, label = NULL,
     of the same length as the first component, which contains the command
     that should be added at the end of the specified rows.
     Default value is \code{NULL}, i.e. do not add commands.}
-  \item{sanitize.text.function}{All non-numeric entries (except row and
-    column names) are sanitized in an attempt to remove characters which
-    have special meaning for the output format. If
-    \code{sanitize.text.function} is not \code{NULL}, it should
-    be a function taking a character vector and returning one, and will
-    be used for the sanitization instead of the default internal
-    function.
-    Default value is \code{NULL}.}
+  \item{sanitize.text.function}{Since the table entries are counts no
+    sanitization is necessary. The default is \code{as.is}, which is the
+    function which makes no changes. This also applies to the labels for
+    the row and column variables since these are also part of the table
+    which is printed using a call to \code{print.xtable}.}
   \item{sanitize.rownames.function}{Like the
     \code{sanitize.text.function}, but applicable to row names.
     The default uses the \code{sanitize.text.function}. }

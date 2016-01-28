@@ -78,8 +78,7 @@ print.xtableFtable <- function(x,
   NA.string = getOption("xtable.NA.string", ""),
   only.contents = getOption("xtable.only.contents", FALSE),
   add.to.row = getOption("xtable.add.to.row", NULL),
-  sanitize.text.function = getOption("xtable.sanitize.text.function",
-                                     function(x){x}),
+  sanitize.text.function = getOption("xtable.sanitize.text.function", as.is),
   sanitize.rownames.function = getOption("xtable.sanitize.rownames.function",
                                          sanitize.text.function),
   sanitize.colnames.function = getOption("xtable.sanitize.colnames.function",
@@ -182,7 +181,7 @@ print.xtableFtable <- function(x,
     print.xtable(fmtFtbl, hline.after = hline.after,
                  include.rownames = FALSE, include.colnames = FALSE,
                  booktabs = booktabs,
-                 sanitize.text.function = function(x){x})
+                 sanitize.text.function = as.is)
   } else {
     stop("print.xtableFtable not yet implemented for this type")
   }
