@@ -274,9 +274,12 @@ xtableFtable(x, caption = NULL, label = NULL,
 
     \code{print.xtableFtable} uses the attributes attached to an object
     of class \code{c("xtableFtable", "ftable")} to create a suitable
-    character matrix object for subsequent printing via a call to
-    \code{stats:::format.ftable}. This matrix object is then printed via
-    a call to \code{print.xtable}.
+    character matrix object for subsequent printing. Formatting is
+    carried out by changing the class of the \code{c("xtableFtable",
+    "ftable")} to \code{"ftable"} then using the generic \code{format}
+    to invoke \code{format.ftable}, from the \pkg{stats} package. The
+    matrix object produced is then printed via a call to
+    \code{print.xtable}.
 
     Note that at present there is no code for \code{type = "html"}.
 }

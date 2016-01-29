@@ -32,7 +32,7 @@
     xtableList and print.xtableList; and 'The Other Packages Gallery'
     to illustrate methods for classes of objects from other packages.
 
-1.8-0
+1.8-0 (2015-11-02)
   * autoformat, xalign, xdigits, xdisplay from Arni Magnusson, added
     along with help file. Feature request #5686.
   * New argument 'auto' in xtable(), to call xalign, xdigits, and

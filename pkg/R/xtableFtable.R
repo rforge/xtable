@@ -97,7 +97,7 @@ print.xtableFtable <- function(x,
   timestamp = getOption("xtable.timestamp", date()),
   ...) {
   if (type == "latex"){
-
+    ## extract the information in the attributes
     caption <- attr(x, "ftableCaption")
     label <- attr(x, "ftableLabel")
     align <- attr(x, "ftableAlign")
@@ -110,15 +110,14 @@ print.xtableFtable <- function(x,
     nCharCols <- attr(x, "nChars")[2]
     nRowVars <- length(attr(x, "row.vars"))
     nColVars <- length(attr(x, "col.vars"))
-    fmtFtbl <- format.ftable(x, quote = quote, digits = digits,
-                             method = method, lsep = lsep)
+    
+    ## change class so format method will find format.ftable
+    ## even though format.ftable is not exported from 'stats'
+    class(x) <- "ftable"
+    fmtFtbl <- format(x, quote = quote, digits = digits,
+                      method = method, lsep = lsep)
     attr(fmtFtbl, "caption") <- caption
     attr(fmtFtbl, "label") <- label
-    ## if method is "compact", rotate both if either requested
-    ## if (method == "compact"){
-    ##   if (rotate.rownames) rotate.colnames <- TRUE
-    ##   if (rotate.colnames) rotate.rownames <- TRUE
-    ## }
 
     ## sanitization is possible for row names and/or column names
     ## row names
@@ -187,3 +186,12 @@ print.xtableFtable <- function(x,
   }
 }
 
+## format.xtableFtable <- function(x, quote = TRUE, digits = getOption("digits"),
+##                                 method = c("non.compact", "row.compact",
+##                                            "col.compact", "compact"),
+##                                 lsep = " | ", ...){
+##   class(x) <- "ftable"
+  
+##   format(x, quote = quote, digits = digits,
+##          method = method, lsep = lsep, ...)
+## }

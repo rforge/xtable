@@ -10,8 +10,7 @@ export("caption<-", "caption", "label", "label<-",
        "xtableFtable", "print.xtableFtable",
        "toLatex.xtable",
        "autoformat", "xalign", "xdigits", "xdisplay",
-       "sanitize", "sanitize.numbers", "sanitize.final", "as.is", "as.math",
-       "format.ftable")
+       "sanitize", "sanitize.numbers", "sanitize.final", "as.is", "as.math")
 
 S3method("print", "xtable")
 S3method("print", "xtableMatharray")
@@ -29,8 +28,6 @@ S3method("digits", "xtable")
 S3method("digits<-", "xtable")
 S3method("display<-", "xtable")
 S3method("display", "xtable")
-
-S3method("format", "ftable")
 
 S3method("xtable", "data.frame")
 S3method("xtable", "matrix")
