@@ -147,27 +147,23 @@ predictor types.
 xtable(p2)
 @ %def
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% xtable.lagImpactMat removed because of problems with unexported function
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{\code{lagImpact} objects}
+\label{sec:codelagimpact-objects}
 
-%% \subsubsection{\code{lagImpact} objects}
-%% \label{sec:codelagimpact-objects}
+The \code{xtable} method returns the values of direct, indirect and
+total impacts for all the variables in the model. The class
+\code{lagImpact} has two different sets of attributes according to if
+simulations are used. But the \code{xtable} method always returns the
+three components of the non-simulation case.
 
-%% The \code{xtable} method returns the values of direct, indirect and
-%% total impacts for all the variables in the model. The class
-%% \code{lagImpact} have two different sets of attributes according to if
-%% simulations are used. But the \code{xtable} method always returns the
-%% three components of the non-simulation case.
+<<xtablelagimpactexact, results = 'asis'>>=
+xtable(imp.exact)
+@ %def
 
-%% <<xtablelagimpactexact, results = 'asis'>>=
-%% xtable(imp.exact)
-%% @ %def
-
-%% \p
-%% <<xtablelagimpactmcmc, results = 'asis'>>=
-%% xtable(imp.sim)
-%% @ %def
+\p
+<<xtablelagimpactmcmc, results = 'asis'>>=
+xtable(imp.sim)
+@ %def
 
 
 \subsubsection{\code{spautolm} objects}
@@ -237,15 +233,12 @@ xtable(GM)
 @ %def
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% xtable.lagImpactMat removed because of problems with unexported function
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%% The \code{xtable} method works the same on impacts of \code{splm} models.
+The \code{xtable} method works the same on impacts of \code{splm} models.
 
-%% <<xtablesplmimpacts, results = 'asis'>>=
-%% xtable(imp.spml)
-%% @ %def
+<<xtablesplmimpacts, results = 'asis'>>=
+xtable(imp.spml)
+@ %def
 
 \subsection{The package \pkg{sphet}}
 \label{sec:package-pkgsphet}
@@ -280,14 +273,12 @@ xtable(res.stsls)
 xtable(res.gstsls)
 @ %def
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% xtable.lagImpactMat removed because of problems with unexported function
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% \code{sphet} also provides a method for computing impacts.
 
-%% <<xtablesphetimpacts, results = 'asis'>>=
-%% xtable(imp.gstsls)
-%% @ %def
+\code{sphet} also provides a method for computing impacts.
+
+<<xtablesphetimpacts, results = 'asis'>>=
+xtable(imp.gstsls)
+@ %def
 
 \section{The \pkg{zoo} package}
 \label{sec:pkgzoo-package}
