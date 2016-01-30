@@ -1,4 +1,4 @@
-sanitize <- function(str, type) {
+sanitize <- function(str, type = "latex") {
   if(type == "latex"){
     result <- str
     result <- gsub("\\\\", "SANITIZE.BACKSLASH", result)

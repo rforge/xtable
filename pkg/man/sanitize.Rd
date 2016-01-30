@@ -14,7 +14,7 @@
   meaning in the output format.
 }
 \usage{
-sanitize(str, type)
+sanitize(str, type = "latex")
 sanitize.numbers(str, type, math.style.negative = FALSE,
                  math.style.exponents = FALSE)
 sanitize.final(str, type)
