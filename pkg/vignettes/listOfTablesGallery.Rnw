@@ -92,6 +92,20 @@ xList2 <- xtableList(mtcarsList, digits = c(0,2,0,0,0,1,2),
 str(xList2)
 @ %def
 
+Further versions with no subheadings, and no message
+
+<<xtablelist3>>=
+attr(mtcarsList, "subheadings") <- NULL
+xList3 <- xtableList(mtcarsList)
+str(xList3)
+@ %def
+
+<<xtablelist4>>=
+attr(mtcarsList, "message") <- NULL
+xList4 <- xtableList(mtcarsList)
+str(xList4)
+@ %def
+
 \newpage
 
 \section{Single Column Names}
@@ -154,6 +168,17 @@ Rotated column names?
 print.xtableList(xList, rotate.colnames = TRUE)
 @ %def
 
+No subheadings?
+<<nosubheadings, results='asis'>>=
+print.xtableList(xList3)
+@ %def
+
+No message?
+<<nomessage, results='asis'>>=
+print.xtableList(xList4)
+@ %def
+
+
 \section{Multiple Column Names}
 \label{sec:multiple-column-names}
 
@@ -193,6 +218,16 @@ Rotated column names?
 <<multiplerotated, results='asis'>>=
 print.xtableList(xList, colnames.format = "multiple",
                  rotate.colnames = TRUE)
+@ %def
+
+No subheadings?
+<<multiplenosubheadings, results='asis'>>=
+print.xtableList(xList3, colnames.format = "multiple")
+@ %def
+
+No message?
+<<multiplenomessage, results='asis'>>=
+print.xtableList(xList4, colnames.format = "multiple")
 @ %def
 
 \section{lsmeans}

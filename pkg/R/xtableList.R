@@ -110,8 +110,20 @@ print.xtableList <- function(x,
                                   dim(combined)[1]))
       command <- sapply(x, attr, "subheading")
 
-      add.to.row$command[1:length(x)] <-
-        paste0(mRule,"\n\\multicolumn{", nCols, "}{l}{", command, "}\\\\\n")
+      for (i in 1:length(x)){
+        if( !is.null(command[[i]]) ){
+          add.to.row$command[i] <-
+            paste0(mRule,"\n\\multicolumn{", nCols, "}{l}{",
+                   command[[i]],
+                   "}\\\\\n")
+        } else {
+          add.to.row$command[i] <- paste0(mRule, "\n")
+        }
+      }
+      ## Changed at request of Russ Lenth
+      ## add.to.row$command[1:length(x)] <-
+      ##   paste0(mRule,"\n\\multicolumn{", nCols, "}{l}{", command, "}\\\\\n")
+      
       if ( (booktabs) & length(attr(x, "message") > 0) ){
         attr(x, "message")[1] <-
           paste0("\\rule{0em}{2.5ex}", attr(x, "message")[1])
@@ -146,15 +158,42 @@ print.xtableList <- function(x,
       add.to.row <- list(pos = NULL, command = NULL)
       add.to.row$pos <- as.list(c(0, c(combinedRowNums[1:length(x)])))
       command <- sapply(x, attr, "subheading")
+
+
       add.to.row$command[1] <-
-        paste0("\n\\multicolumn{", nCols, "}{l}{", command[1], "}", " \\\\ \n",
-               colHead)
-      add.to.row$command[2:length(x)] <-
-        paste0(bRule,
-               "\\\\ \n\\multicolumn{", nCols, "}{l}{",
-               command[2:length(x)], "}",
-               "\\\\ \n",
-               colHead)
+        if( !is.null(command[[1]]) ){
+          add.to.row$command[1] <-
+            paste0("\n\\multicolumn{", nCols, "}{l}{",
+                   command[[1]],
+                   "}\\\\ \n", colHead, "\n")
+        } else {
+          add.to.row$command[1] <- colHead
+        }
+
+      for (i in 2:length(x)) {
+        add.to.row$command[i] <-
+          if( !is.null(command[[i]]) ) {
+            paste0(bRule,
+                   "\\\\ \n\\multicolumn{", nCols, "}{l}{",
+                   command[[i]], "}",
+                   "\\\\ \n",
+                   colHead)
+          } else {
+            add.to.row$command[i] <- paste0("\n", colHead)
+          }
+      }
+      
+      ## Changed at request of Russ Lenth
+      ## add.to.row$command[1] <-
+      ##   paste0("\n\\multicolumn{", nCols, "}{l}{", command[1],
+      ##          "}", " \\\\ \n",
+      ##          colHead)
+      ## add.to.row$command[2:length(x)] <-
+      ##   paste0(bRule,
+      ##          "\\\\ \n\\multicolumn{", nCols, "}{l}{",
+      ##          command[2:length(x)], "}",
+      ##          "\\\\ \n",
+      ##          colHead)
       if ( (booktabs) & length(attr(x, "message") > 0) ){
         attr(x, "message")[1] <-
           paste0("\\rule{0em}{2.5ex}", attr(x, "message")[1])
