@@ -1,4 +1,9 @@
-1.8-2 (NOT YET SUBMITTED TO CRAN)
+1.8-3 (NOT YET SUBMITTED TO CRAN)
+  * Corrected call to print.xtable inside print.xtableFtable included
+    arguments from call to print.xtableFtable. Absence of size
+    argumnet was advised by Lluis Ramon, email March 4, 2016
+  
+1.8-2 (2016-02-05)
   * Added function print.xtableMatharray to enable easy creation of
     LaTeX code to enable an array to be included in a document.
   * Added example to the gallery using sanitizing headings and row
