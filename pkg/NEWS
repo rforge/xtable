@@ -1,7 +1,12 @@
 1.8-3 (NOT YET SUBMITTED TO CRAN)
   * Corrected call to print.xtable inside print.xtableFtable included
     arguments from call to print.xtableFtable. Absence of size
-    argumnet was advised by Lluis Ramon, email March 4, 2016
+    argument was advised by Lluis Ramon, email March 4, 2016    
+  * Added patch from Martin Gubri, martin.gubri@framasoft.org to
+    enable use of lagImpactMat from spdep in xtable method lagImpact.
+  * Added patch to code in OtherPackagesGallery.Rnw supplied by Martin
+    Gubri to avoid warnings in the spdep package example. Also fixed the
+    vignette index entry.
   
 1.8-2 (2016-02-05)
   * Added function print.xtableMatharray to enable easy creation of
