@@ -1,4 +1,8 @@
 1.8-3 (NOT YET SUBMITTED TO CRAN)
+  * Changed error messages to extract actual value of nrow(x),
+    suggestion by Michael Chirico <michaelchirico4@gmail.com> 
+  * Corrected author field to properly represent author contributions,
+    code supplied by Arni Magnusson <arnima@hafro.is> 
   * Corrected call to print.xtable inside print.xtableFtable included
     arguments from call to print.xtableFtable. Absence of size
     argument was advised by Lluis Ramon, email March 4, 2016    
