@@ -11,6 +11,9 @@
   * Added patch to code in OtherPackagesGallery.Rnw supplied by Martin
     Gubri to avoid warnings in the spdep package example. Also fixed the
     vignette index entry.
+  * Fixed number of columns in \multicolumn command in print.xtableList to
+    deal with inclusion of row names. Previously was only appropriate for
+    row names not included.   
   
 1.8-2 (2016-02-05)
   * Added function print.xtableMatharray to enable easy creation of
