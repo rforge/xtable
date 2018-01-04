@@ -1,4 +1,4 @@
-1.8-3 (NOT YET SUBMITTED TO CRAN)
+1.8-3 (2018-01-04)
   * Changed error messages to extract actual value of nrow(x),
     suggestion by Michael Chirico <michaelchirico4@gmail.com>
   * Corrected author field to properly represent author contributions,
