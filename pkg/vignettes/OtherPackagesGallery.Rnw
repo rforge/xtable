@@ -258,12 +258,6 @@ data("coldis", package = "sphet")
 res.stsls <- stslshac(CRIME ~ HOVAL + INC, data = columbus, listw = listw,
                       distance = coldis, type = 'Triangular')
 class(res.stsls)
-
-res.gstsls <- gstslshet(CRIME ~ HOVAL + INC, data = columbus, listw = listw)
-class(res.gstsls)
-
-imp.gstsls <- impacts(res.gstsls, listw = listw)
-class(imp.gstsls)
 @ %def
 
 
@@ -274,17 +268,7 @@ class(imp.gstsls)
 xtable(res.stsls)
 @ %def
 
-\p
-<<xtablesphet1, results = 'asis'>>=
-xtable(res.gstsls)
-@ %def
 
-
-\code{sphet} also provides a method for computing impacts.
-
-<<xtablesphetimpacts, results = 'asis'>>=
-xtable(imp.gstsls)
-@ %def
 
 \section{The \pkg{zoo} package}
 \label{sec:pkgzoo-package}
