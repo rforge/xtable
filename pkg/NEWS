@@ -1,4 +1,12 @@
-1.8-3 (2018-01-04)
+1.8-3 (2018-08-29)
+
+  * Changed listOfTablesGallery vignette to exclude references to
+    lsmeans since Russell Lenth has deprecated lsmeans, replacing it
+    with emmeans which has support for tables using xtable based on
+    listOfTables. lsmeans removed from Suggests in DESCRIPTION also. 
+  * Changed OtherPackagesGallery vignette example using the function
+    impacts from spdep due to a change in the package spdep causing a
+    failure ofr the example using gstslshet from sphet
   * Changed error messages to extract actual value of nrow(x),
     suggestion by Michael Chirico <michaelchirico4@gmail.com>
   * Corrected author field to properly represent author contributions,
