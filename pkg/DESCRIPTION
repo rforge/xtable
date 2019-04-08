@@ -1,5 +1,5 @@
 Package: xtable
-Version: 1.8-3
+Version: 1.8-4
 Date: 2018-08-29
 Title: Export Tables to LaTeX or HTML
 Authors@R: c(person("David B.", "Dahl", role="aut"),
