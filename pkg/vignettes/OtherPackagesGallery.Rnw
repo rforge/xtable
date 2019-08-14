@@ -1,5 +1,5 @@
 %\VignetteIndexEntry{xtable Other Packages Gallery}
-%\VignetteDepends{xtable, spdep, splm, sphet}
+%\VignetteDepends{xtable}
 %\VignetteKeywords{LaTeX, HTML, table}
 %\VignettePackage{xtable}
 % !Rnw weave = knitr
@@ -49,7 +49,7 @@ options(width = 60)
 set.seed(1234)
 @
 
-\section{The packages \pkg{spdep}, \pkg{splm}, and \pkg{sphet}}
+\section{The packages \pkg{spatialreg}, \pkg{spdep}, \pkg{splm}, and \pkg{sphet}}
 
 Code for supporting these packages and most of the examples used in
 this section was originally provided by Martin Gubri
@@ -61,6 +61,7 @@ this section was originally provided by Martin Gubri
 First load the package and create some objects.
 <<dataspdep>>=
 library(spdep)
+library(spatialreg, warn.conflicts = FALSE)
 data("oldcol", package = "spdep")
 
 data.in.sample <- COL.OLD[1:44,]
@@ -213,15 +214,25 @@ library(splm)
 data("Produc", package = "plm")
 data("usaww",  package = "splm")
 fm <- log(gsp) ~ log(pcap) + log(pc) + log(emp) + unemp
+## the two standard specifications (SEM and SAR) one with FE
+## and the other with RE:
+## fixed effects panel with spatial errors
+fespaterr <- spml(fm, data = Produc, listw = mat2listw(usaww),
+                   model="within", spatial.error="b", Hess = FALSE)
+summary(fespaterr)
+## random effects panel with spatial lag
 respatlag <- spml(fm, data = Produc, listw = mat2listw(usaww),
                    model="random", spatial.error="none", lag=TRUE)
-class(respatlag)
+summary(respatlag)
+## calculate impact measures
+impac1 <- splm:::impacts.splm(respatlag, 
+                              listw = mat2listw(usaww, style = "W"), 
+                              time = 17)
+summary(impac1, zstats = TRUE, short = TRUE)
+
 GM <- spgm(log(gsp) ~ log(pcap) + log(pc) + log(emp) + unemp, data = Produc,
            listw = usaww, moments = "fullweights", spatial.error = TRUE)
 class(GM)
-
-imp.spml <- impacts(respatlag, listw = mat2listw(usaww, style = "W"), time = 17)
-class(imp.spml)
 @ %def
 
 
@@ -234,7 +245,7 @@ xtable(respatlag)
 
 
 \p
-<<xtablesplm1, results = 'asis'>>=
+<<xtablegm, results = 'asis'>>=
 xtable(GM)
 @ %def
 
@@ -243,7 +254,7 @@ xtable(GM)
 The \code{xtable} method works the same on impacts of \code{splm} models.
 
 <<xtablesplmimpacts, results = 'asis'>>=
-xtable(imp.spml)
+xtable(impac1)
 @ %def
 
 \subsection{The package \pkg{sphet}}

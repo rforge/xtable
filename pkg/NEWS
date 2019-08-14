@@ -1,10 +1,18 @@
+1.8-5 (2019-04-24)
+
+  * Fix provided by Martin Gubri to vignette problem
+
 1.8-4 (2019-04-8)
-  * Changes to spdep broke vignette Other Packages Gallery, reported by CRAN
+
+  * Changes to spdep broke vignette Other Packages Gallery, reported
+    by CRAN. Had to remove spdep, splm and sphet suggests and xtable
+    functions, and references in OtherPackagesGallery
+  
     
 1.8-3 (2018-08-29)
 
   * Changed listOfTablesGallery vignette to exclude references to
-    lsmeans since Russell Lenth has deprecated lsmeans, replacing it
+    lsmeans since Russell Lenth has deprecated lsmeans  replacing it
     with emmeans which has support for tables using xtable based on
     listOfTables. lsmeans removed from Suggests in DESCRIPTION also. 
   * Changed OtherPackagesGallery vignette example using the function

@@ -406,8 +406,8 @@ xtable.lagImpact <- function(x, caption = NULL, label = NULL, align = NULL,
          display = display, auto = auto, ...)
 }
 
-### package splm
-### splm objects
+## package splm
+## splm objects
 xtable.splm <- function(x, caption = NULL, label = NULL, align = NULL,
                         digits = NULL, display = NULL, auto = FALSE, ...) {
   return(xtable.summary.splm(summary(x), caption = caption, label = label,
@@ -432,8 +432,8 @@ xtable.summary.splm <- function(x, caption = NULL, label = NULL, align = NULL,
   return(x)
 }
 
-### package sphet
-### sphet objects
+## package sphet
+## sphet objects
 xtable.sphet <- function(x, caption = NULL, label = NULL, align = NULL,
                          digits = NULL, display = NULL, auto = FALSE, ...) {
   return(xtable.summary.splm(summary(x), caption = caption, label = label,
