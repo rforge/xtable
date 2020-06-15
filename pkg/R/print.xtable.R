@@ -621,6 +621,10 @@ print.xtable <- function(x,
   return(x)
 }
 
+".+.glue" <- function(x, ...){
+  "+.string"(as.character(x), ...)
+}
+
 print.string <- function(x, ...) {
   cat(x$text, file = x$file, append = x$append)
   return(invisible())

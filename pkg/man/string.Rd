@@ -4,6 +4,7 @@
 \alias{is.string}
 \alias{as.string}
 \alias{+.string}
+%\alias{.+.glue}
 \title{String handling functions}
 \description{Private functions for conveniently working with strings.}
 \usage{
@@ -12,6 +13,7 @@
   \method{+}{string}(x,y)
   as.string(x,file="",append=FALSE)
   is.string(x)
+  %\method{+}{glue}(x, ...)
 }
 \arguments{
   \item{text}{A character object.}

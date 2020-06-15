@@ -46,6 +46,7 @@ print.xtableList <- function(x,
   hline.after = NULL,
   NA.string = getOption("xtable.NA.string", ""),
   include.rownames = getOption("xtable.include.rownames", TRUE),
+  include.colnames = getOption("xtable.include.colnames", TRUE),
   colnames.format = "single",
   only.contents = getOption("xtable.only.contents", FALSE),
   add.to.row = NULL,
@@ -139,7 +140,9 @@ print.xtableList <- function(x,
 
       class(combined) <- c("xtableList", "data.frame")
       hline.after <- c(-1)
-      include.colnames <- TRUE
+      ## Allow use of own colnames, support request from
+      ## Seunghoon Lee, 26 May 2020
+      ##include.colnames <- TRUE
     }
 
     ## Create headings for columns if multiple headings are needed
