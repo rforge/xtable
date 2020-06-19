@@ -1,4 +1,23 @@
-1.8-5 (2019-04-24)
+1.8-6 (2020-06-18)
+
+  * Fixed broken link to TeX FAQ concerning longtable in references section
+    of print.xtable.Rd and xtableFtable.Rd
+
+  * Surrounded caption in '+ caption +' parts of expressions where captions
+    are constructed with as.string, thus '+ as.string(caption) +' to allow
+    the use of glue in captions. Also 'as.string' modified as in diff provided
+    by Jeffrey Arnold, bug report #6564. Use of glue also requested by
+    James Curran. Added example of the use of glue in a caption to the
+    xtable Gallery.
+    
+  * Added include.colnames argument to allow multirow headings following
+    request by Seunghoon Lee <scottlee@uchicago.edu>. Added example to
+    listOfTablesGallery vignette.
+
+  * Changed testing of class to use is (addding methods to suggests, and is()
+    to imports) to implement diff provided by Jeffrey Arnold, bug report #6563
+  
+1.8-5 (2019-04-24): not submitted to CRAN
 
   * Fix provided by Martin Gubri to vignette problem
 
